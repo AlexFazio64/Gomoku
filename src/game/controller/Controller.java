@@ -1,6 +1,6 @@
 package game.controller;
 
-import game.model.Gomoku;
+import game.model.GomokuLogic;
 import game.settings.GS;
 import javafx.geometry.Point2D;
 import javafx.scene.canvas.Canvas;
@@ -10,6 +10,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class Controller {
 	public Canvas table;
@@ -17,12 +18,10 @@ public class Controller {
 	public Label player1info;
 	public Label player2info;
 	
-	private Gomoku game;
+	private GomokuLogic game;
 	public GraphicsContext gc;
 	
 	private boolean player;
-	private int p1_lines = 0;
-	private int p2_lines = 0;
 	
 	public void initialize() {
 		//set fonts
@@ -31,7 +30,7 @@ public class Controller {
 		player2info.setFont(GS.FONT);
 		
 		//initialize game
-		game = new Gomoku();
+		game = new GomokuLogic();
 		gc = table.getGraphicsContext2D();
 		table.setWidth(GS.DIMENSION);
 		table.setHeight(GS.DIMENSION);
@@ -41,27 +40,32 @@ public class Controller {
 		gc.setStroke(Color.web("black"));
 		gc.setLineWidth(GS.LINESIZE);
 		
-		for (int i = 0; i < GS.DIMENSION; i += GS.CELLSIZE) {
+		for (int i = 0; i <= GS.DIMENSION; i += GS.CELLSIZE) {
 			gc.strokeLine(i, 0, i, GS.DIMENSION);
 			gc.strokeLine(0, i, GS.DIMENSION, i);
 		}
+
+//		//testing
+		if ( GS.DBG_FILL ) {
+			fill();
+			return;
+		}
 		
 		//choose who goes first
-		player = ( Math.random() * 10 ) % 2 == 0;
+		player = Math.random() > 0.5;
 		pass();
-		
-		//testing
-		if ( GS.FILL ) {
-			fill();
-		}
 	}
 	
 	private void fill() {
+		int p = 0;
 		for (int i = GS.CELLSIZE; i < GS.DIMENSION; i += GS.CELLSIZE) {
 			for (int j = GS.CELLSIZE; j < GS.DIMENSION; j += GS.CELLSIZE) {
-				gc.setFill(Color.web(player ? "black" : "white"));
-				gc.fillOval(i - GS.OFFSET, j - GS.OFFSET, GS.PAWNSIZE, GS.PAWNSIZE);
-				markSpot(i / GS.CELLSIZE, j / GS.CELLSIZE);
+				gc.setFill(Color.web(( ( ++p % 2 ) == 0 ) ? "black" : "white"));
+				System.out.println(p + " " + ( ( p % GS.GRIDSIZE % 2 ) == 0 ));
+				gc.fillOval(j - GS.OFFSET, i - GS.OFFSET, GS.PAWNSIZE, GS.PAWNSIZE);
+			}
+			if ( GS.GRIDSIZE % 2 != 0 ) {
+				++p;
 			}
 		}
 	}
@@ -149,32 +153,36 @@ public class Controller {
 	
 	private void markSpot(int cx, int cy) {
 		//set cell with corresponding pawn
-		//and check for score
+		//and check for winning move
 		ArrayList<Point2D[]> strokes = game.setCell(cy, cx, player ? 1 : 2);
-		for (Point2D[] stroke: strokes) {
-			//if player scored a 5
-			if ( stroke != null ) {
-				double startX = stroke[0].getX();
-				double startY = stroke[0].getY();
-				double endX = stroke[1].getX();
-				double endY = stroke[1].getY();
-				
-				gc.setStroke(Color.web("red"));
-				gc.strokeLine(( startY + 1 ) * GS.CELLSIZE, ( startX + 1 ) * GS.CELLSIZE, ( endY + 1 ) * GS.CELLSIZE, ( endX + 1 ) * GS.CELLSIZE);
-				
-				//update score
-				if ( player ) {
-					++p1_lines;
-					player1info.setText("P1: " + p1_lines);
-				} else {
-					++p2_lines;
-					player2info.setText("P2: " + p2_lines);
-				}
-			}
+		strokes.removeIf(Objects::isNull);
+		Point2D[] stroke;
+		
+		//if player scored a five-in-a-row
+		if ( !strokes.isEmpty() ) {
+			stroke = strokes.get(0);
+			
+			double startX = stroke[0].getX();
+			double startY = stroke[0].getY();
+			double endX = stroke[1].getX();
+			double endY = stroke[1].getY();
+			
+			//mark line
+			gc.setStroke(Color.web("red"));
+			gc.strokeLine(( startY + 1 ) * GS.CELLSIZE, ( startX + 1 ) * GS.CELLSIZE, ( endY + 1 ) * GS.CELLSIZE, ( endX + 1 ) * GS.CELLSIZE);
+			
+			//Player has won, stop current game
+			StopGame(player);
+			return;
 		}
 		
 		//switch player
 		pass();
+	}
+	
+	private void StopGame(boolean player) {
+		table.setOnMouseClicked(null);
+		info.setText(( player ? "Player 1" : "AI" ) + " won");
 	}
 	
 	private int intersects(Point2D point, Point2D... intersections) {

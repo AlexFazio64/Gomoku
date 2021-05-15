@@ -12,6 +12,7 @@ public class Main extends Application {
 		Parent root = FXMLLoader.load(getClass().getResource("view/board.fxml"));
 		primaryStage.setTitle("五目並べ - Go moku narabe");
 		primaryStage.setScene(new Scene(root));
+		primaryStage.setResizable(false);
 		primaryStage.show();
 	}
 	

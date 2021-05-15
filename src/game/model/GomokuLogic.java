@@ -5,10 +5,10 @@ import javafx.geometry.Point2D;
 
 import java.util.ArrayList;
 
-public final class Gomoku {
+public final class GomokuLogic {
 	private final int[][] game_table;
 	
-	public Gomoku() {
+	public GomokuLogic() {
 		this.game_table = new int[GS.GRIDSIZE - 1][GS.GRIDSIZE - 1];
 	}
 	
