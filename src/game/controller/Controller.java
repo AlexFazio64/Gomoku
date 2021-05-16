@@ -2,6 +2,7 @@ package game.controller;
 
 import game.model.GomokuLogic;
 import game.settings.GS;
+import javafx.concurrent.Task;
 import javafx.geometry.Point2D;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -44,10 +45,17 @@ public class Controller {
 			gc.strokeLine(i, 0, i, GS.DIMENSION);
 			gc.strokeLine(0, i, GS.DIMENSION, i);
 		}
-
-//		//testing
+		
+		//testing
 		if ( GS.DBG_FILL ) {
-			fill();
+			Task<Void> fill = new Task<Void>() {
+				@Override
+				protected Void call() {
+					fill();
+					return null;
+				}
+			};
+			new Thread(fill).start();
 			return;
 		}
 		
@@ -61,8 +69,12 @@ public class Controller {
 		for (int i = GS.CELLSIZE; i < GS.DIMENSION; i += GS.CELLSIZE) {
 			for (int j = GS.CELLSIZE; j < GS.DIMENSION; j += GS.CELLSIZE) {
 				gc.setFill(Color.web(( ( ++p % 2 ) == 0 ) ? "black" : "white"));
-				System.out.println(p + " " + ( ( p % GS.GRIDSIZE % 2 ) == 0 ));
 				gc.fillOval(j - GS.OFFSET, i - GS.OFFSET, GS.PAWNSIZE, GS.PAWNSIZE);
+				try {
+					Thread.sleep(50);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
 			}
 			if ( GS.GRIDSIZE % 2 != 0 ) {
 				++p;
@@ -96,24 +108,28 @@ public class Controller {
 		
 		switch (intersects(p, ul, dl, ur, dr)) {
 			case 0:
-				if ( ny > 0 && nx > 0 ) {
-					target = ul;
+				if ( nx == 0 || ny == 0 ) {
+					break;
 				}
+				target = ul;
 				break;
 			case 1:
-				if ( ny > 0 && nx < GS.GRIDSIZE - 1 ) {
-					target = dl;
+				if ( ny == GS.GRIDSIZE - 1 || nx == 0 ) {
+					break;
 				}
+				target = dl;
 				break;
 			case 2:
-				if ( ny < GS.GRIDSIZE - 1 && nx > 0 ) {
-					target = ur;
+				if ( ny == 0 || nx == GS.GRIDSIZE - 1 ) {
+					break;
 				}
+				target = ur;
 				break;
 			case 3:
-				if ( ny < GS.GRIDSIZE - 1 && nx < GS.GRIDSIZE - 1 ) {
-					target = dr;
+				if ( ny == GS.GRIDSIZE - 1 || nx == GS.GRIDSIZE - 1 ) {
+					break;
 				}
+				target = dr;
 				break;
 			default:
 				return;
@@ -141,6 +157,11 @@ public class Controller {
 	private void pass() {
 		player = !player;
 		info.setText(player ? "<----" : "---->");
+		
+		//Tie
+		if ( !game.hasEmptyCell() ) {
+			StopGame(0);
+		}
 		
 		if ( player ) {
 			player1info.setTextFill(Color.RED);
@@ -171,8 +192,8 @@ public class Controller {
 			gc.setStroke(Color.web("red"));
 			gc.strokeLine(( startY + 1 ) * GS.CELLSIZE, ( startX + 1 ) * GS.CELLSIZE, ( endY + 1 ) * GS.CELLSIZE, ( endX + 1 ) * GS.CELLSIZE);
 			
-			//Player has won, stop current game
-			StopGame(player);
+			//someone has won, stop current game
+			StopGame(player ? 1 : 2);
 			return;
 		}
 		
@@ -180,9 +201,20 @@ public class Controller {
 		pass();
 	}
 	
-	private void StopGame(boolean player) {
+	private void StopGame(int player) {
+		String winner = null;
+		switch (player) {
+			case 1:
+				winner = "Player 1";
+				break;
+			case 2:
+				winner = "DLV2";
+				break;
+			default:
+				winner = "Nobody";
+		}
 		table.setOnMouseClicked(null);
-		info.setText(( player ? "Player 1" : "AI" ) + " won");
+		info.setText(winner + " won");
 	}
 	
 	private int intersects(Point2D point, Point2D... intersections) {

@@ -14,5 +14,5 @@ public abstract class GS {
 	public static final Image BOARD = new Image(Main.getRes("board.jpg"), DIMENSION, DIMENSION, true, true);
 	public static final Font FONT = new Font("Arial", 24);
 	
-	public static final boolean DBG_FILL = true;
+	public static final boolean DBG_FILL = false;
 }
