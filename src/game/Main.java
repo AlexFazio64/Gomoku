@@ -10,7 +10,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class Main extends Application {
-	public static Handler handler = new DesktopHandler(new DLV2DesktopService("lib/dlv2.exe"));
+	public static Handler handler = new DesktopHandler(new DLV2DesktopService("lib/dlv2"));
 	
 	@Override
 	public void start(Stage primaryStage) throws Exception {
