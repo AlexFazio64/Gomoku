@@ -7,6 +7,7 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="lib" level="project" />
+    <orderEntry type="library" exported="" name="embASP" level="project" />
+    <orderEntry type="library" exported="" name="antlr-4.9.2-complete" level="project" />
   </component>
 </module>

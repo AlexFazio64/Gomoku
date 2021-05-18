@@ -1,5 +1,8 @@
 package game;
 
+import it.unical.mat.embasp.base.Handler;
+import it.unical.mat.embasp.platforms.desktop.DesktopHandler;
+import it.unical.mat.embasp.specializations.dlv2.desktop.DLV2DesktopService;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -7,6 +10,8 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class Main extends Application {
+	public static Handler handler = new DesktopHandler(new DLV2DesktopService("lib/dlv2.exe"));
+	
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		Parent root = FXMLLoader.load(getClass().getResource("view/board.fxml"));

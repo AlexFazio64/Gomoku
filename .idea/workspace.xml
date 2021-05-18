@@ -4,16 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/lib.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+    <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="Tied game handled, fixed mouse input, added dlv libs">
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Embasp.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/antlr_4_9_2_complete.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/lib.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Gomoku.iml" beforeDir="false" afterPath="$PROJECT_DIR$/Gomoku.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/antlr-4.7-complete.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/dlv2.exe" beforeDir="false" afterPath="$PROJECT_DIR$/lib/dlv2.exe" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/game/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/game/controller/Controller.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/controller/Controller.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/game/model/Gomoku.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/model/GomokuLogic.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/game/settings/GS.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/settings/GS.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/game/view/board.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/view/board.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -113,13 +113,13 @@
     <property name="aspect.path.notification.shown" value="true" />
     <property name="dynamic.classpath" value="false" />
     <property name="extract.method.default.visibility" value="private" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/lib" />
-    <property name="project.structure.last.edited" value="Libraries" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/lib/antlr-4.9.2-complete.jar" />
+    <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
-    <property name="project.structure.side.proportion" value="0.2" />
+    <property name="project.structure.side.proportion" value="0.2046285" />
     <property name="recentsLimit" value="5" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
-    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+    <property name="settings.editor.selected.configurable" value="experimentalPlugin" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
@@ -234,8 +234,26 @@
       <workItem from="1609957350243" duration="101000" />
       <workItem from="1615483297143" duration="112000" />
       <workItem from="1615483425733" duration="1482000" />
-      <workItem from="1621094083666" duration="10395000" />
+      <workItem from="1621094083666" duration="10486000" />
+      <workItem from="1621183848863" duration="12333000" />
+      <workItem from="1621344338262" duration="5213000" />
+      <workItem from="1621349671745" duration="2937000" />
     </task>
+    <task id="LOCAL-00001" summary="Debugging corrected, winning condition set">
+      <created>1621104575336</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1621104575336</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Tied game handled, fixed mouse input, added dlv libs">
+      <created>1621199725416</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1621199725416</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -251,10 +269,17 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
     <option name="OFFER_MOVE_TO_ANOTHER_CHANGELIST_ON_PARTIAL_COMMIT" value="true" />
     <option name="INCLUDE_TEXT_INTO_SHELF" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="" />
+    <MESSAGE value="Debugging corrected, winning condition set" />
+    <MESSAGE value="Tied game handled, fixed mouse input, added dlv libs" />
+    <option name="LAST_COMMIT_MESSAGE" value="Tied game handled, fixed mouse input, added dlv libs" />
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
 </project>

@@ -1,12 +1,20 @@
 package game.controller;
 
+import game.Main;
 import game.model.GomokuLogic;
 import game.settings.GS;
+import it.unical.mat.embasp.base.Handler;
+import it.unical.mat.embasp.base.InputProgram;
+import it.unical.mat.embasp.base.OptionDescriptor;
+import it.unical.mat.embasp.languages.asp.AnswerSet;
+import it.unical.mat.embasp.languages.asp.AnswerSets;
+import it.unical.mat.embasp.languages.datalog.DatalogInputProgram;
 import javafx.concurrent.Task;
 import javafx.geometry.Point2D;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Label;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 
@@ -24,7 +32,16 @@ public class Controller {
 	
 	private boolean player;
 	
+	private Handler handler;
+	
 	public void initialize() {
+		handler = Main.handler;
+		InputProgram p = new DatalogInputProgram();
+		p.addFilesPath("encodings/gomoku");
+		handler.addProgram(p);
+		OptionDescriptor all = new OptionDescriptor("-n 0");
+		handler.addOption(all);
+		
 		//set fonts
 		info.setFont(GS.FONT);
 		player1info.setFont(GS.FONT);
@@ -83,6 +100,13 @@ public class Controller {
 	}
 	
 	public void place(MouseEvent e) {
+		if ( e.getButton().equals(MouseButton.MIDDLE) ) {
+			AnswerSets as = (AnswerSets) handler.startSync();
+			for (AnswerSet a: as.getAnswersets()) {
+				System.out.println(a);
+			}
+			return;
+		}
 		//capture click position
 		double x = e.getX();
 		double y = e.getY();
