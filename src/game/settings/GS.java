@@ -6,7 +6,7 @@ import javafx.scene.text.Font;
 
 public abstract class GS {
 	public static final int GRIDSIZE = 10;
-	public static final int CELLSIZE = 50;
+	public static final int CELLSIZE = 40;
 	public static final double PAWNSIZE = CELLSIZE * 0.8;
 	public static final double OFFSET = PAWNSIZE / 2;
 	public static final int DIMENSION = GRIDSIZE * CELLSIZE;

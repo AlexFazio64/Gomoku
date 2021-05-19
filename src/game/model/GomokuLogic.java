@@ -251,6 +251,7 @@ public final class GomokuLogic {
 	}
 	
 	public boolean isLegalMove(int cx, int cy, int player) {
+//		System.out.println("checking with " + cx + " " + cy);
 		return getCell(cx - 1, cy - 1) == 0;
 	}
 }

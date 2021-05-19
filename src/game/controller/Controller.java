@@ -2,19 +2,20 @@ package game.controller;
 
 import game.Main;
 import game.model.GomokuLogic;
+import game.model.Pawn;
+import game.model.Placed;
 import game.settings.GS;
 import it.unical.mat.embasp.base.Handler;
 import it.unical.mat.embasp.base.InputProgram;
 import it.unical.mat.embasp.base.OptionDescriptor;
+import it.unical.mat.embasp.languages.asp.ASPInputProgram;
 import it.unical.mat.embasp.languages.asp.AnswerSet;
 import it.unical.mat.embasp.languages.asp.AnswerSets;
-import it.unical.mat.embasp.languages.datalog.DatalogInputProgram;
 import javafx.concurrent.Task;
 import javafx.geometry.Point2D;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Label;
-import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 
@@ -36,11 +37,6 @@ public class Controller {
 	
 	public void initialize() {
 		handler = Main.handler;
-		InputProgram p = new DatalogInputProgram();
-		p.addFilesPath("encodings/gomoku");
-		handler.addProgram(p);
-		OptionDescriptor all = new OptionDescriptor("-n 0");
-		handler.addOption(all);
 		
 		//set fonts
 		info.setFont(GS.FONT);
@@ -77,7 +73,8 @@ public class Controller {
 		}
 		
 		//choose who goes first
-		player = Math.random() > 0.5;
+//		player = Math.random() > 0.5;
+		player = false;
 		pass();
 	}
 	
@@ -99,14 +96,10 @@ public class Controller {
 		}
 	}
 	
+	/**
+	 * only for human players
+	 */
 	public void place(MouseEvent e) {
-		if ( e.getButton().equals(MouseButton.MIDDLE) ) {
-			AnswerSets as = (AnswerSets) handler.startSync();
-			for (AnswerSet a: as.getAnswersets()) {
-				System.out.println(a);
-			}
-			return;
-		}
 		//capture click position
 		double x = e.getX();
 		double y = e.getY();
@@ -167,6 +160,8 @@ public class Controller {
 		//position tracked down
 		cx = target.getX() / GS.CELLSIZE;
 		cy = target.getY() / GS.CELLSIZE;
+
+//		System.out.println(cx + " " + cy);
 		
 		//assert legality of move
 		if ( game.isLegalMove((int) cx, (int) cy, player ? 1 : 2) ) {
@@ -176,6 +171,30 @@ public class Controller {
 			//draw a pawn on the board and check score
 			markSpot((int) cx, (int) cy);
 		}
+	}
+	
+	private void addFacts() {
+		int[][] cells = game.getGame_Table();
+		InputProgram extended = new ASPInputProgram();
+		
+		for (int x = 0; x < cells.length; x++) {
+			for (int y = 0; y < cells.length; y++) {
+				if ( cells[x][y] == 0 ) {
+					continue;
+				}
+				try {
+					Pawn p = new Pawn(x, y, cells[x][y]);
+					System.out.println("Adding: " + p);
+					extended.addObjectInput(p);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		
+		extended.addProgram("player(" + ( player ? 1 : 2 ) + ").");
+		extended.addProgram("size(" + GS.GRIDSIZE + ").");
+		handler.addProgram(extended);
 	}
 	
 	private void pass() {
@@ -194,6 +213,54 @@ public class Controller {
 			player2info.setTextFill(Color.RED);
 			player1info.setTextFill(Color.BLACK);
 		}
+		
+		if ( !player ) {
+			placeAI();
+		}
+	}
+	
+	/**
+	 * only for robot players
+	 */
+	private void placeAI() {
+		OptionDescriptor all = new OptionDescriptor("-n 0");
+//		OptionDescriptor fil = new OptionDescriptor("--filter=placed/3,pawn/3");
+		OptionDescriptor fil = new OptionDescriptor("--filter=placed/3");
+		handler.addOption(fil);
+		
+		InputProgram p = new ASPInputProgram();
+		p.addFilesPath("encodings/gomoku");
+		handler.addProgram(p);
+		addFacts();
+		
+		AnswerSets as = (AnswerSets) handler.startSync();
+		AnswerSet a = as.getAnswersets().get(0);
+		
+		try {
+			for (Object atom: a.getAtoms()) {
+				if ( ( atom instanceof Placed ) ) {
+					Placed pawn = (Placed) atom;
+					System.out.println(pawn);
+					
+					int cx, cy;
+					cx = pawn.getX() + 1;
+					cy = pawn.getY() + 1;
+					
+					if ( game.isLegalMove(cx, cy, pawn.getP()) ) {
+//						System.out.println("legal");
+						gc.setFill(Color.web(player ? "black" : "white"));
+						gc.fillOval(cx * GS.CELLSIZE - GS.OFFSET, cy * GS.CELLSIZE - GS.OFFSET, GS.PAWNSIZE, GS.PAWNSIZE);
+						
+						//draw a pawn on the board and check score
+						markSpot(cx, cy);
+					}
+				}
+			}
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+		
+		handler.removeAll();
 	}
 	
 	private void markSpot(int cx, int cy) {
