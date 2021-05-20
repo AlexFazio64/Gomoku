@@ -6,41 +6,41 @@ import it.unical.mat.embasp.languages.Param;
 @Id("placed")
 public class Placed {
 	@Param(0)
-	private int x;
+	private int row;
 	@Param(1)
-	private int y;
+	private int col;
 	@Param(2)
-	private int p;
+	private int val;
 	
 	public Placed() {
 	}
 	
-	public int getX() {
-		return x;
+	public int getRow() {
+		return row;
 	}
 	
-	public void setX(int x) {
-		this.x = x;
+	public void setRow(int row) {
+		this.row = row;
 	}
 	
-	public int getY() {
-		return y;
+	public int getCol() {
+		return col;
 	}
 	
-	public void setY(int y) {
-		this.y = y;
+	public void setCol(int col) {
+		this.col = col;
 	}
 	
-	public int getP() {
-		return p;
+	public int getVal() {
+		return val;
 	}
 	
-	public void setP(int p) {
-		this.p = p;
+	public void setVal(int val) {
+		this.val = val;
 	}
 	
 	@Override
 	public String toString() {
-		return "Placed{" + "x=" + x + ", y=" + y + ", p=" + p + '}';
+		return "placed(" + row + "," + col + "," + val + ')';
 	}
 }

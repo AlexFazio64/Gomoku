@@ -5,7 +5,7 @@
 %existing pawns
 
 %data
-lines(X):- size(Y), X=Y-1.
+lines(X):- size(Y), X=Y-2.
 lines(X):- lines(Y), X>0, X=Y-1.
 cross(X, Y):- lines(X), lines(Y).
 

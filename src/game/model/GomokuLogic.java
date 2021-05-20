@@ -28,15 +28,15 @@ public final class GomokuLogic {
 		if ( col < 0 || col >= GS.GRIDSIZE ) {
 			return 1;
 		}
-		return game_table[col][row];
+
+//		System.out.println(row + " " + col + " :" + game_table[row][col]);
+		return game_table[row][col];
 	}
 	
 	public ArrayList<Point2D[]> setCell(int row, int col, int p) {
-		--row;
-		--col;
-		
 		game_table[row][col] = p;
 		--pawns;
+//		System.out.println("new " + row + " " + col + " :" + game_table[row][col]);
 		
 		return checkVictory(row, col);
 	}
@@ -251,7 +251,7 @@ public final class GomokuLogic {
 	}
 	
 	public boolean isLegalMove(int cx, int cy, int player) {
-//		System.out.println("checking with " + cx + " " + cy);
-		return getCell(cx - 1, cy - 1) == 0;
+//		System.out.println("is " + cx + " " + cy + " free?");
+		return getCell(cx, cy) == 0;
 	}
 }

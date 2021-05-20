@@ -73,8 +73,7 @@ public class Controller {
 		}
 		
 		//choose who goes first
-//		player = Math.random() > 0.5;
-		player = false;
+		player = Math.random() > 0.5;
 		pass();
 	}
 	
@@ -90,9 +89,9 @@ public class Controller {
 					e.printStackTrace();
 				}
 			}
-			if ( GS.GRIDSIZE % 2 != 0 ) {
-				++p;
-			}
+//			if ( GS.GRIDSIZE % 2 != 0 ) {
+//				++p;
+//			}
 		}
 	}
 	
@@ -107,6 +106,8 @@ public class Controller {
 		//normalize to matrix coords
 		int nx = (int) ( x / GS.CELLSIZE );
 		int ny = (int) ( y / GS.CELLSIZE );
+
+//		System.out.println(nx +" "+ ny);
 		
 		//create candidate pawn
 		Point2D p = new Point2D(x, y);
@@ -119,8 +120,8 @@ public class Controller {
 		
 		//choose where the pawn should go
 		//between the possible positions
-		double cx;
-		double cy;
+		int col_from_X;
+		int row_from_Y;
 		Point2D target = null;
 		
 		switch (intersects(p, ul, dl, ur, dr)) {
@@ -158,18 +159,18 @@ public class Controller {
 		}
 		
 		//position tracked down
-		cx = target.getX() / GS.CELLSIZE;
-		cy = target.getY() / GS.CELLSIZE;
+		row_from_Y = (int) ( target.getY() / GS.CELLSIZE ) - 1;
+		col_from_X = (int) ( target.getX() / GS.CELLSIZE ) - 1;
 
-//		System.out.println(cx + " " + cy);
+//		System.out.println("touched " + row_from_Y + " " + col_from_X);
 		
 		//assert legality of move
-		if ( game.isLegalMove((int) cx, (int) cy, player ? 1 : 2) ) {
+		if ( game.isLegalMove(row_from_Y, col_from_X, player ? 1 : 2) ) {
 			gc.setFill(Color.web(player ? "black" : "white"));
-			gc.fillOval(cx * GS.CELLSIZE - GS.OFFSET, cy * GS.CELLSIZE - GS.OFFSET, GS.PAWNSIZE, GS.PAWNSIZE);
+			gc.fillOval(( col_from_X + 1 ) * GS.CELLSIZE - GS.OFFSET, ( row_from_Y + 1 ) * GS.CELLSIZE - GS.OFFSET, GS.PAWNSIZE, GS.PAWNSIZE);
 			
 			//draw a pawn on the board and check score
-			markSpot((int) cx, (int) cy);
+			markSpot(row_from_Y, col_from_X);
 		}
 	}
 	
@@ -225,8 +226,8 @@ public class Controller {
 	private void placeAI() {
 		OptionDescriptor all = new OptionDescriptor("-n 0");
 //		OptionDescriptor fil = new OptionDescriptor("--filter=placed/3,pawn/3");
-		OptionDescriptor fil = new OptionDescriptor("--filter=placed/3");
-		handler.addOption(fil);
+//		OptionDescriptor fil = new OptionDescriptor("--filter=placed/3");
+//		handler.addOption(fil);
 		
 		InputProgram p = new ASPInputProgram();
 		p.addFilesPath("encodings/gomoku");
@@ -242,17 +243,16 @@ public class Controller {
 					Placed pawn = (Placed) atom;
 					System.out.println(pawn);
 					
-					int cx, cy;
-					cx = pawn.getX() + 1;
-					cy = pawn.getY() + 1;
+					int guessed_row_Y, guessed_col_X;
+					guessed_row_Y = pawn.getRow();
+					guessed_col_X = pawn.getCol();
 					
-					if ( game.isLegalMove(cx, cy, pawn.getP()) ) {
-//						System.out.println("legal");
+					if ( game.isLegalMove(guessed_row_Y, guessed_col_X, pawn.getVal()) ) {
 						gc.setFill(Color.web(player ? "black" : "white"));
-						gc.fillOval(cx * GS.CELLSIZE - GS.OFFSET, cy * GS.CELLSIZE - GS.OFFSET, GS.PAWNSIZE, GS.PAWNSIZE);
+						gc.fillOval(( guessed_col_X + 1 ) * GS.CELLSIZE - GS.OFFSET, ( guessed_row_Y + 1 ) * GS.CELLSIZE - GS.OFFSET, GS.PAWNSIZE, GS.PAWNSIZE);
 						
 						//draw a pawn on the board and check score
-						markSpot(cx, cy);
+						markSpot(guessed_row_Y, guessed_col_X);
 					}
 				}
 			}
@@ -263,10 +263,10 @@ public class Controller {
 		handler.removeAll();
 	}
 	
-	private void markSpot(int cx, int cy) {
+	private void markSpot(int game_row, int game_column) {
 		//set cell with corresponding pawn
 		//and check for winning move
-		ArrayList<Point2D[]> strokes = game.setCell(cy, cx, player ? 1 : 2);
+		ArrayList<Point2D[]> strokes = game.setCell(game_row, game_column, player ? 1 : 2);
 		strokes.removeIf(Objects::isNull);
 		Point2D[] stroke;
 		
@@ -293,7 +293,7 @@ public class Controller {
 	}
 	
 	private void StopGame(int player) {
-		String winner = null;
+		String winner;
 		switch (player) {
 			case 1:
 				winner = "Player 1";
