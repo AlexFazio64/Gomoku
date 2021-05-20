@@ -14,14 +14,29 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
 	public static Handler handler;
+	private static Stage stage;
 	
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		Parent root = FXMLLoader.load(getClass().getResource("view/board.fxml"));
-		primaryStage.setTitle("五目並べ - Gomoku narabe");
-		primaryStage.setScene(new Scene(root));
-		primaryStage.setResizable(false);
-		primaryStage.show();
+		stage = primaryStage;
+		stage.setTitle("五目並べ - Gomoku narabe");
+		stage.setResizable(false);
+		
+		Parent menu = FXMLLoader.load(getClass().getResource("view/menu.fxml"));
+		stage.setScene(new Scene(menu));
+		stage.show();
+	}
+	
+	public static void play() {
+		stage.hide();
+		
+		try {
+			Parent board = FXMLLoader.load(Main.class.getResource("view/board.fxml"));
+			stage.setScene(new Scene(board));
+		} catch (Exception ignored) {
+		}
+		
+		stage.show();
 	}
 	
 	public static String getRes(String s) {
