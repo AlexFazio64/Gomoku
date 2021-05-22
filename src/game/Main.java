@@ -19,7 +19,7 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		stage = primaryStage;
-		stage.setTitle("五目並べ - Gomoku narabe");
+		stage.setTitle("Gomoku narabe");
 		stage.setResizable(false);
 		
 		Parent menu = FXMLLoader.load(getClass().getResource("view/menu.fxml"));

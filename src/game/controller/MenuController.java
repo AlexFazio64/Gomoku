@@ -1,6 +1,7 @@
 package game.controller;
 
 import game.Main;
+import game.model.RuleChecker;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
@@ -36,10 +37,25 @@ public class MenuController {
 		p2option.getItems().add("Human");
 		p2option.getItems().add("AI (Normal)");
 		p2option.getItems().add("AI (Hard)");
+		
+		RuleChecker.getInstance().submit(r1, "size-omok");
+		RuleChecker.getInstance().submit(r2, "size");
+		RuleChecker.getInstance().submit(r4, "advantage");
+		RuleChecker.getInstance().submit(r5, "advantage");
+		RuleChecker.getInstance().submit(r6, "style");
+		RuleChecker.getInstance().submit(r7, "style");
+		RuleChecker.getInstance().submit(r8, "style-omok");
+		RuleChecker.getInstance().submit(r9, "style");
+		
+		RuleChecker.getInstance().registerIncompatibility("size", r1, r2);
+		RuleChecker.getInstance().registerIncompatibility("omok", r1, r8);
+		RuleChecker.getInstance().registerIncompatibility("advantage", r4, r5);
+		RuleChecker.getInstance().registerIncompatibility("style", r6, r7, r8, r9);
 	}
 	
 	public void ruleChange(ActionEvent actionEvent) {
-		//rule compatibility code
+		CheckBox rule = (CheckBox) actionEvent.getSource();
+		RuleChecker.getInstance().update(rule);
 	}
 	
 	public void play(ActionEvent actionEvent) {
