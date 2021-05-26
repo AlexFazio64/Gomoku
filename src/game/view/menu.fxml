@@ -94,8 +94,9 @@
 									<Insets left="30.0"/>
 								</padding>
 							</BorderPane>
-							<CheckBox fx:id="r1" mnemonicParsing="false" onAction="#ruleChange" GridPane.columnIndex="1"
-							          GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER"/>
+							<CheckBox fx:id="three_and_three" mnemonicParsing="false" onAction="#ruleChange"
+							          GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1"
+							          GridPane.valignment="CENTER"/>
 							<BorderPane style="-fx-background-color: rgba(0,0,0,0.4); -fx-background-radius: 5px;"
 							            GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="CENTER">
 								<GridPane.margin>
@@ -112,8 +113,9 @@
 									<Insets left="30.0"/>
 								</padding>
 							</BorderPane>
-							<CheckBox fx:id="r2" mnemonicParsing="false" onAction="#ruleChange" GridPane.columnIndex="1"
-							          GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER"/>
+							<CheckBox fx:id="four_and_four" mnemonicParsing="false" onAction="#ruleChange"
+							          GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2"
+							          GridPane.valignment="CENTER"/>
 							<BorderPane style="-fx-background-color: rgba(0,0,0,0.4); -fx-background-radius: 5px;"
 							            GridPane.halignment="LEFT" GridPane.rowIndex="3" GridPane.valignment="CENTER">
 								<GridPane.margin>
@@ -130,8 +132,9 @@
 									<Insets left="30.0"/>
 								</padding>
 							</BorderPane>
-							<CheckBox fx:id="r3" mnemonicParsing="false" onAction="#ruleChange" GridPane.columnIndex="1"
-							          GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER"/>
+							<CheckBox fx:id="handicap" mnemonicParsing="false" onAction="#ruleChange"
+							          GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3"
+							          GridPane.valignment="CENTER"/>
 							<BorderPane style="-fx-background-color: rgba(0,0,0,0.4); -fx-background-radius: 5px;"
 							            GridPane.halignment="LEFT" GridPane.rowIndex="4" GridPane.valignment="CENTER">
 								<GridPane.margin>
@@ -148,8 +151,9 @@
 									<Insets left="30.0"/>
 								</padding>
 							</BorderPane>
-							<CheckBox fx:id="r4" mnemonicParsing="false" onAction="#ruleChange" GridPane.columnIndex="1"
-							          GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="CENTER"/>
+							<CheckBox fx:id="swap" mnemonicParsing="false" onAction="#ruleChange"
+							          GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="4"
+							          GridPane.valignment="CENTER"/>
 							<BorderPane style="-fx-background-color: rgba(0,0,0,0.4); -fx-background-radius: 5px;"
 							            GridPane.halignment="LEFT" GridPane.rowIndex="5" GridPane.valignment="CENTER">
 								<GridPane.margin>
@@ -166,8 +170,9 @@
 									<Insets left="30.0"/>
 								</padding>
 							</BorderPane>
-							<CheckBox fx:id="r5" mnemonicParsing="false" onAction="#ruleChange" GridPane.columnIndex="1"
-							          GridPane.halignment="CENTER" GridPane.rowIndex="5" GridPane.valignment="CENTER"/>
+							<CheckBox fx:id="g_pro" mnemonicParsing="false" onAction="#ruleChange"
+							          GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="5"
+							          GridPane.valignment="CENTER"/>
 							<BorderPane style="-fx-background-color: rgba(0,0,0,0.4); -fx-background-radius: 5px;"
 							            GridPane.halignment="LEFT" GridPane.rowIndex="6" GridPane.valignment="CENTER">
 								<GridPane.margin>
@@ -184,8 +189,9 @@
 									<Insets left="30.0"/>
 								</padding>
 							</BorderPane>
-							<CheckBox fx:id="r6" mnemonicParsing="false" onAction="#ruleChange" GridPane.columnIndex="1"
-							          GridPane.halignment="CENTER" GridPane.rowIndex="6" GridPane.valignment="CENTER"/>
+							<CheckBox fx:id="freestyle" mnemonicParsing="false" onAction="#ruleChange"
+							          GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="6"
+							          GridPane.valignment="CENTER"/>
 							<BorderPane style="-fx-background-color: rgba(0,0,0,0.4); -fx-background-radius: 5px;"
 							            GridPane.halignment="LEFT" GridPane.rowIndex="7" GridPane.valignment="CENTER">
 								<GridPane.margin>
@@ -202,8 +208,9 @@
 									<Insets left="30.0"/>
 								</padding>
 							</BorderPane>
-							<CheckBox fx:id="r7" mnemonicParsing="false" onAction="#ruleChange" GridPane.columnIndex="1"
-							          GridPane.halignment="CENTER" GridPane.rowIndex="7" GridPane.valignment="CENTER"/>
+							<CheckBox fx:id="renju" mnemonicParsing="false" onAction="#ruleChange"
+							          GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="7"
+							          GridPane.valignment="CENTER"/>
 							<BorderPane style="-fx-background-color: rgba(0,0,0,0.4); -fx-background-radius: 5px;"
 							            GridPane.halignment="LEFT" GridPane.rowIndex="8" GridPane.valignment="CENTER">
 								<GridPane.margin>
@@ -220,8 +227,9 @@
 									<Insets left="30.0"/>
 								</padding>
 							</BorderPane>
-							<CheckBox fx:id="r8" mnemonicParsing="false" onAction="#ruleChange" GridPane.columnIndex="1"
-							          GridPane.halignment="CENTER" GridPane.rowIndex="8" GridPane.valignment="CENTER"/>
+							<CheckBox fx:id="omok" mnemonicParsing="false" onAction="#ruleChange"
+							          GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="8"
+							          GridPane.valignment="CENTER"/>
 							<BorderPane style="-fx-background-color: rgba(0,0,0,0.4); -fx-background-radius: 5px;"
 							            GridPane.halignment="LEFT" GridPane.rowIndex="9" GridPane.valignment="CENTER">
 								<GridPane.margin>
@@ -238,8 +246,9 @@
 									<Insets left="30.0"/>
 								</padding>
 							</BorderPane>
-							<CheckBox fx:id="r9" mnemonicParsing="false" onAction="#ruleChange" GridPane.columnIndex="1"
-							          GridPane.halignment="CENTER" GridPane.rowIndex="9" GridPane.valignment="CENTER"/>
+							<CheckBox fx:id="g_plus" mnemonicParsing="false" onAction="#ruleChange"
+							          GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="9"
+							          GridPane.valignment="CENTER"/>
 							<Label text="Rules:" textFill="WHITE">
 								<font>
 									<Font name="System Bold" size="18.0"/>

@@ -11,7 +11,6 @@ import it.unical.mat.embasp.base.OptionDescriptor;
 import it.unical.mat.embasp.languages.asp.ASPInputProgram;
 import it.unical.mat.embasp.languages.asp.AnswerSet;
 import it.unical.mat.embasp.languages.asp.AnswerSets;
-import javafx.concurrent.Task;
 import javafx.geometry.Point2D;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -28,29 +27,28 @@ public class Controller {
 	public Label player1info;
 	public Label player2info;
 	
-	private GomokuLogic game;
 	public GraphicsContext gc;
 	
 	private boolean player;
 	
 	private Handler handler;
+	private GomokuLogic game;
 	
 	public void initialize() {
 		handler = Main.handler;
+		game = Main.logic;
 		
 		//set fonts
 		info.setFont(GS.FONT);
 		player1info.setFont(GS.FONT);
 		player2info.setFont(GS.FONT);
 		
-		//initialize game
-		game = new GomokuLogic();
+		//draw background board
 		gc = table.getGraphicsContext2D();
 		table.setWidth(GS.DIMENSION);
 		table.setHeight(GS.DIMENSION);
 		
-		//draw background board
-		gc.drawImage(GS.BOARD, 0, 0);
+		gc.drawImage(GS.getBOARD(), 0, 0);
 		gc.setStroke(Color.web("black"));
 		gc.setLineWidth(GS.LINESIZE);
 		
@@ -59,40 +57,9 @@ public class Controller {
 			gc.strokeLine(0, i, GS.DIMENSION, i);
 		}
 		
-		//testing
-		if ( GS.DBG_FILL ) {
-			Task<Void> fill = new Task<Void>() {
-				@Override
-				protected Void call() {
-					fill();
-					return null;
-				}
-			};
-			new Thread(fill).start();
-			return;
-		}
-		
 		//choose who goes first
 		player = Math.random() > 0.5;
 		pass();
-	}
-	
-	private void fill() {
-		int p = 0;
-		for (int i = GS.CELLSIZE; i < GS.DIMENSION; i += GS.CELLSIZE) {
-			for (int j = GS.CELLSIZE; j < GS.DIMENSION; j += GS.CELLSIZE) {
-				gc.setFill(Color.web(( ( ++p % 2 ) == 0 ) ? "black" : "white"));
-				gc.fillOval(j - GS.OFFSET, i - GS.OFFSET, GS.PAWNSIZE, GS.PAWNSIZE);
-				try {
-					Thread.sleep(50);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-			}
-//			if ( GS.GRIDSIZE % 2 != 0 ) {
-//				++p;
-//			}
-		}
 	}
 	
 	/**

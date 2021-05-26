@@ -8,9 +8,13 @@ import java.util.ArrayList;
 public final class GomokuLogic {
 	private final int[][] game_table;
 	private int pawns = ( GS.GRIDSIZE - 1 ) * ( GS.GRIDSIZE - 1 );
+	private final Player p1;
+	private final Player p2;
 	
-	public GomokuLogic() {
+	public GomokuLogic(Player p1, Player p2) {
 		this.game_table = new int[GS.GRIDSIZE - 1][GS.GRIDSIZE - 1];
+		this.p1 = p1;
+		this.p2 = p2;
 	}
 	
 	public int[][] getGame_Table() {

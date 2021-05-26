@@ -1,7 +1,6 @@
 package game;
 
-import game.model.Pawn;
-import game.model.Placed;
+import game.model.*;
 import it.unical.mat.embasp.base.Handler;
 import it.unical.mat.embasp.languages.asp.ASPMapper;
 import it.unical.mat.embasp.platforms.desktop.DesktopHandler;
@@ -13,8 +12,11 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class Main extends Application {
-	public static Handler handler;
 	private static Stage stage;
+	
+	public static Handler handler;
+	public static GomokuLogic logic;
+	public static Referee referee;
 	
 	@Override
 	public void start(Stage primaryStage) throws Exception {
@@ -27,8 +29,13 @@ public class Main extends Application {
 		stage.show();
 	}
 	
-	public static void play() {
+	public static void play(Player p1, Player p2) {
 		stage.hide();
+		
+		logic = new GomokuLogic(p1, p2);
+		referee = new Referee(logic);
+//		handler = new DesktopHandler(new DLV2DesktopService("lib/dlv2.exe"));
+		handler = new DesktopHandler(new DLV2DesktopService("lib/dlv2linux"));
 		
 		try {
 			Parent board = FXMLLoader.load(Main.class.getResource("view/board.fxml"));
@@ -44,8 +51,6 @@ public class Main extends Application {
 	}
 	
 	public static void main(String[] args) throws Exception {
-//		handler = new DesktopHandler(new DLV2DesktopService("lib/dlv2.exe"));
-		handler = new DesktopHandler(new DLV2DesktopService("lib/dlv2linux"));
 		ASPMapper.getInstance().registerClass(Pawn.class);
 		ASPMapper.getInstance().registerClass(Placed.class);
 		launch(args);
