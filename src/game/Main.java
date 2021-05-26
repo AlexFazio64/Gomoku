@@ -32,8 +32,8 @@ public class Main extends Application {
 	public static void play(Player p1, Player p2) {
 		stage.hide();
 		
-		logic = new GomokuLogic(p1, p2);
-		referee = new Referee(logic);
+		logic = new GomokuLogic();
+		referee = new Referee(logic, p1, p2);
 //		handler = new DesktopHandler(new DLV2DesktopService("lib/dlv2.exe"));
 		handler = new DesktopHandler(new DLV2DesktopService("lib/dlv2linux"));
 		

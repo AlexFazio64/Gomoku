@@ -5,10 +5,16 @@ import game.settings.GS;
 public class Referee {
 	private final int[][] board;
 	private final int[][] banned;
+	private Player p1, p2;
+	private Player next;
 	
-	public Referee(GomokuLogic logic) {
-		board = logic.getGame_Table();
-		banned = logic.getGame_Table();
+	public Referee(GomokuLogic logic, Player p1, Player p2) {
+		this.board = logic.getGame_Table();
+		this.banned = new int[GS.GRIDSIZE - 1][GS.GRIDSIZE - 1];
+		
+		this.p1 = p1;
+		this.p2 = p2;
+		next = p1;
 		
 		for (int[] rows: banned) {
 			for (int col: rows) {
@@ -21,7 +27,6 @@ public class Referee {
 	}
 	
 	public int judgeMove(int row, int col) {
-		
 		return 0;
 	}
 	

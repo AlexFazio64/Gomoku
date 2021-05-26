@@ -30,10 +30,6 @@ public final class RuleChecker {
 	}
 	
 	public void update(CheckBox k) {
-		if ( rules.get(k) == null ) {
-			return;
-		}
-		
 		String[] rule_set = rules.get(k).split("-");
 		for (String s: rule_set) {
 			for (CheckBox r: incompatibilities.get(s)) {

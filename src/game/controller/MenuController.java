@@ -37,24 +37,28 @@ public class MenuController {
 		p1option.getItems().add("Human");
 		p1option.getItems().add("AI (Normal)");
 		p1option.getItems().add("AI (Hard)");
+		p1option.setValue("Human");
 		
 		p2option.getItems().add("Human");
 		p2option.getItems().add("AI (Normal)");
 		p2option.getItems().add("AI (Hard)");
+		p2option.setValue("Human");
 		
-		RuleChecker.getInstance().submit(three_and_three, "size-omok");
-		RuleChecker.getInstance().submit(four_and_four, "size");
-		RuleChecker.getInstance().submit(swap, "advantage");
-		RuleChecker.getInstance().submit(g_pro, "advantage");
-		RuleChecker.getInstance().submit(freestyle, "style");
-		RuleChecker.getInstance().submit(renju, "style");
-		RuleChecker.getInstance().submit(omok, "style-omok");
-		RuleChecker.getInstance().submit(g_plus, "style");
+		RuleChecker checker = RuleChecker.getInstance();
+		checker.submit(three_and_three, "size-omok");
+		checker.submit(four_and_four, "size");
+		checker.submit(handicap, "size");
+		checker.submit(swap, "advantage");
+		checker.submit(g_pro, "advantage");
+		checker.submit(freestyle, "style");
+		checker.submit(renju, "style");
+		checker.submit(omok, "style-omok");
+		checker.submit(g_plus, "style");
 		
-		RuleChecker.getInstance().registerIncompatibility("size", three_and_three, four_and_four);
-		RuleChecker.getInstance().registerIncompatibility("omok", three_and_three, omok);
-		RuleChecker.getInstance().registerIncompatibility("advantage", swap, g_pro);
-		RuleChecker.getInstance().registerIncompatibility("style", freestyle, renju, omok, g_plus);
+		checker.registerIncompatibility("size", three_and_three, four_and_four, handicap);
+		checker.registerIncompatibility("omok", three_and_three, omok);
+		checker.registerIncompatibility("advantage", swap, g_pro);
+		checker.registerIncompatibility("style", freestyle, renju, omok, g_plus);
 	}
 	
 	public void ruleChange(ActionEvent actionEvent) {
@@ -63,11 +67,6 @@ public class MenuController {
 	}
 	
 	public void play(ActionEvent actionEvent) {
-		//Game customization
-		if ( p1option.getValue() == null || p2option.getValue() == null ) {
-			return;
-		}
-		
 		Player p1, p2;
 		p1 = p2 = null;
 		
@@ -94,6 +93,8 @@ public class MenuController {
 				p2 = new AI(2, true);
 				break;
 		}
+		
+		//Game customization
 		GS.RULES.THREE = three_and_three.isSelected();
 		GS.RULES.FOUR = four_and_four.isSelected();
 		GS.RULES.HANDICAP = handicap.isSelected();
@@ -104,8 +105,9 @@ public class MenuController {
 		GS.RULES.OMOK = omok.isSelected();
 		GS.RULES.PLUS = g_plus.isSelected();
 		
-		if ( GS.RULES.FREESTYLE ) {
-			GS.GRIDSIZE = 20;
+		if ( GS.RULES.RENJU ) {
+			GS.GRIDSIZE = 16;
+			GS.DIM = GS.GRIDSIZE * GS.CELLSIZE;
 		}
 		
 		Main.play(p1, p2);

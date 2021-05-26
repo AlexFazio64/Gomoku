@@ -45,16 +45,16 @@ public class Controller {
 		
 		//draw background board
 		gc = table.getGraphicsContext2D();
-		table.setWidth(GS.DIMENSION);
-		table.setHeight(GS.DIMENSION);
+		table.setWidth(GS.DIM);
+		table.setHeight(GS.DIM);
 		
 		gc.drawImage(GS.getBOARD(), 0, 0);
 		gc.setStroke(Color.web("black"));
 		gc.setLineWidth(GS.LINESIZE);
 		
-		for (int i = 0; i <= GS.DIMENSION; i += GS.CELLSIZE) {
-			gc.strokeLine(i, 0, i, GS.DIMENSION);
-			gc.strokeLine(0, i, GS.DIMENSION, i);
+		for (int i = 0; i <= GS.DIM; i += GS.CELLSIZE) {
+			gc.strokeLine(i, 0, i, GS.DIM);
+			gc.strokeLine(0, i, GS.DIM, i);
 		}
 		
 		//choose who goes first
@@ -167,8 +167,7 @@ public class Controller {
 	
 	private void pass() {
 		player = !player;
-		info.setText(player ? "<----" : "---->");
-		
+		info.setText(player ? "<(ﾟヮﾟ<)" : "(>ﾟヮﾟ)>");
 		//Tie
 		if ( !game.hasEmptyCell() ) {
 			StopGame(0);

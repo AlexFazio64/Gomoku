@@ -6,15 +6,15 @@ import javafx.scene.text.Font;
 
 public abstract class GS {
 	public static int GRIDSIZE = 20;
-	public static int CELLSIZE = 30;
-	public static double PAWNSIZE = CELLSIZE * 0.8;
-	public static double OFFSET = PAWNSIZE / 2;
-	public static int DIMENSION = GRIDSIZE * CELLSIZE;
-	public static double LINESIZE = 1;
-	public static final Font FONT = new Font("Arial", 24);
+	public static final int CELLSIZE = 35;
+	public static int DIM = GRIDSIZE * CELLSIZE;
+	public static final double PAWNSIZE = CELLSIZE * 0.8;
+	public static final double OFFSET = PAWNSIZE / 2;
+	public static final double LINESIZE = 2;
+	public static final Font FONT = new Font("Arial", 22);
 	
 	public static Image getBOARD() {
-		return new Image(Main.getRes("board.jpg"), DIMENSION, DIMENSION, true, true);
+		return new Image(Main.getRes("board.jpg"), DIM, DIM, true, true);
 	}
 	
 	public static class RULES {

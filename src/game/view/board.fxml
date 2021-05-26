@@ -5,7 +5,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.*?>
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:controller="game.controller.Controller">
-	<VBox alignment="CENTER" spacing="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+	<VBox alignment="CENTER" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
 	      AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
 		<BorderPane VBox.vgrow="ALWAYS">
 			<center>
@@ -24,7 +24,7 @@
 		</BorderPane>
 		<Canvas fx:id="table" onMouseClicked="#place"/>
 		<padding>
-			<Insets top="20.0"/>
+			<Insets top="10.0"/>
 		</padding>
 	</VBox>
 </AnchorPane>
