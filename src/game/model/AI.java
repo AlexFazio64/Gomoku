@@ -1,17 +1,18 @@
 package game.model;
 
-import javafx.util.Pair;
-
 public class AI extends Player {
 	private final boolean pro;
 	
 	public AI(int id, boolean pro) {
 		super(id);
 		this.pro = pro;
+		this.r = this.c = 0;
 	}
 	
 	@Override
-	public Pair<Integer, Integer> place() {
-		return null;
+	public void place() {
+		System.out.println("I should be choosing something now...");
+		//dlv code
+		//remember to set r, c so that gameloop can fetch them
 	}
 }

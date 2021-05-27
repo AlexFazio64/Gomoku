@@ -1,9 +1,7 @@
 package game.controller;
 
 import game.Main;
-import game.model.GomokuLogic;
-import game.model.Pawn;
-import game.model.Placed;
+import game.model.*;
 import game.settings.GS;
 import it.unical.mat.embasp.base.Handler;
 import it.unical.mat.embasp.base.InputProgram;
@@ -21,7 +19,7 @@ import javafx.scene.paint.Color;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class Controller {
+public class GameController {
 	public Canvas table;
 	public Label info;
 	public Label player1info;
@@ -33,10 +31,15 @@ public class Controller {
 	
 	private Handler handler;
 	private GomokuLogic game;
+	private GameLoop loop;
+	private Referee referee;
+	private Thread gameThread;
 	
 	public void initialize() {
 		handler = Main.handler;
 		game = Main.logic;
+		referee = Main.referee;
+		loop = new GameLoop(this, game, referee);
 		
 		//set fonts
 		info.setFont(GS.FONT);
@@ -59,7 +62,10 @@ public class Controller {
 		
 		//choose who goes first
 		player = Math.random() > 0.5;
-		pass();
+//		pass();
+		
+		gameThread = new Thread(loop);
+		gameThread.start();
 	}
 	
 	/**
@@ -73,8 +79,6 @@ public class Controller {
 		//normalize to matrix coords
 		int nx = (int) ( x / GS.CELLSIZE );
 		int ny = (int) ( y / GS.CELLSIZE );
-
-//		System.out.println(nx +" "+ ny);
 		
 		//create candidate pawn
 		Point2D p = new Point2D(x, y);
@@ -128,17 +132,8 @@ public class Controller {
 		//position tracked down
 		row_from_Y = (int) ( target.getY() / GS.CELLSIZE ) - 1;
 		col_from_X = (int) ( target.getX() / GS.CELLSIZE ) - 1;
-
-//		System.out.println("touched " + row_from_Y + " " + col_from_X);
 		
-		//assert legality of move
-		if ( game.isLegalMove(row_from_Y, col_from_X, player ? 1 : 2) ) {
-			gc.setFill(Color.web(player ? "black" : "white"));
-			gc.fillOval(( col_from_X + 1 ) * GS.CELLSIZE - GS.OFFSET, ( row_from_Y + 1 ) * GS.CELLSIZE - GS.OFFSET, GS.PAWNSIZE, GS.PAWNSIZE);
-			
-			//draw a pawn on the board and check score
-			markSpot(row_from_Y, col_from_X);
-		}
+		( (Human) referee.getCurrentPlayer() ).setChoice(row_from_Y, col_from_X);
 	}
 	
 	private void addFacts() {
@@ -229,9 +224,12 @@ public class Controller {
 		handler.removeAll();
 	}
 	
-	private void markSpot(int game_row, int game_column) {
+	public void markSpot(int game_row, int game_column) {
 		//set cell with corresponding pawn
 		//and check for winning move
+		gc.setFill(Color.web(player ? "black" : "white"));
+		gc.fillOval(( game_column + 1 ) * GS.CELLSIZE - GS.OFFSET, ( game_row + 1 ) * GS.CELLSIZE - GS.OFFSET, GS.PAWNSIZE, GS.PAWNSIZE);
+		
 		ArrayList<Point2D[]> strokes = game.setCell(game_row, game_column, player ? 1 : 2);
 		strokes.removeIf(Objects::isNull);
 		Point2D[] stroke;
@@ -255,7 +253,7 @@ public class Controller {
 		}
 		
 		//switch player
-		pass();
+//		pass();
 	}
 	
 	private void StopGame(int player) {
