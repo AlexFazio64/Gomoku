@@ -9,10 +9,8 @@ public class GameLoop extends Task<Integer> {
 	private final GomokuLogic game;
 	private final Referee referee;
 	
-	private static final int INTERRUPTED = -1;
-	private static final int STALLED = 0;
-	private static final int PLAYER1 = 1;
-	private static final int PLAYER2 = 2;
+	public static final int INTERRUPTED = -1;
+	public static final int STALLED = 0;
 	
 	public GameLoop(GameController ctrl, GomokuLogic logic, Referee ref) {
 		this.board = ctrl;
@@ -21,11 +19,13 @@ public class GameLoop extends Task<Integer> {
 	}
 	
 	@Override
-	protected Integer call() throws Exception {
+	protected Integer call() {
+		//TODO make it work?
 		int state = INTERRUPTED;
 		
 		while (true) {
 			Player p = referee.getNextPlayer();
+			board.pass(p.id);
 			p.place();
 			
 			//player is choosing...
@@ -48,9 +48,9 @@ public class GameLoop extends Task<Integer> {
 					System.out.println("rule 2");
 					break;
 				default:
-//					game.setCell(row, col, p.getId());
-					board.markSpot(row, col);
+					board.markSpot(row, col, p.color);
 					System.out.println("referee responded");
+					game.setCell(row, col, p.getId());
 			}
 			
 			if ( !game.hasEmptyCell() ) {
@@ -60,10 +60,12 @@ public class GameLoop extends Task<Integer> {
 			
 			if ( referee.isWinningMove(row, col) ) {
 				state = p.getId();
+				board.markStroke(referee.getWinningLine());
 				break;
 			}
 		}
 		
+		board.stopGame(state);
 		return state;
 	}
 }

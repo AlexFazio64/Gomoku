@@ -1,9 +1,10 @@
 package game.model;
 
 import game.settings.GS;
+import javafx.geometry.Point2D;
 
 public class Referee {
-	private final int[][] board;
+	private final GomokuLogic game;
 	private final int[][] banned;
 	private Player p1, p2;
 	private Player next;
@@ -12,11 +13,12 @@ public class Referee {
 	//implement player switching logic somehow
 	
 	public Referee(GomokuLogic logic, Player p1, Player p2) {
-		this.board = logic.getGame_Table();
+		this.game = logic;
 		this.banned = new int[GS.GRIDSIZE - 1][GS.GRIDSIZE - 1];
 		
 		this.p1 = p1;
 		this.p2 = p2;
+		
 		current = p2;
 		next = p1;
 		
@@ -42,6 +44,7 @@ public class Referee {
 		return -1;
 	}
 	
+	//TODO implement rule checking
 	private boolean ThreeAndThree(int r, int c) {
 		return false;
 	}
@@ -50,11 +53,15 @@ public class Referee {
 		return false;
 	}
 	
+	public Player getCurrentPlayer() {
+		return current;
+	}
+	
 	public boolean isWinningMove(int last_row, int last_col) {
 		return false;
 	}
 	
-	public Player getCurrentPlayer() {
-		return current;
+	public Point2D[] getWinningLine() {
+		return null;
 	}
 }

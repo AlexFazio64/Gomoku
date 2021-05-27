@@ -4,7 +4,7 @@ import javafx.scene.paint.Color;
 import javafx.util.Pair;
 
 public abstract class Player {
-	private final int id;
+	protected final int id;
 	protected int r, c;
 	public final Color color;
 	

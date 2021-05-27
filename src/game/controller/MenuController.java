@@ -7,7 +7,7 @@ import game.model.Player;
 import game.model.RuleChecker;
 import game.settings.GS;
 import javafx.event.ActionEvent;
-import javafx.scene.control.Button;
+import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.image.Image;
@@ -17,21 +17,33 @@ import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BorderPane;
 
 public class MenuController {
-	public ChoiceBox<String> p1option;
-	public ChoiceBox<String> p2option;
-	public BorderPane pane;
-	public CheckBox three_and_three;
-	public CheckBox four_and_four;
-	public CheckBox handicap;
-	public CheckBox swap;
-	public CheckBox g_pro;
-	public CheckBox freestyle;
-	public CheckBox renju;
-	public CheckBox omok;
-	public CheckBox g_plus;
-	public Button play;
+	@FXML
+	private ChoiceBox<String> p1option;
+	@FXML
+	private ChoiceBox<String> p2option;
+	@FXML
+	private BorderPane pane;
+	@FXML
+	private CheckBox three_and_three;
+	@FXML
+	private CheckBox four_and_four;
+	@FXML
+	private CheckBox handicap;
+	@FXML
+	private CheckBox swap;
+	@FXML
+	private CheckBox g_pro;
+	@FXML
+	private CheckBox freestyle;
+	@FXML
+	private CheckBox renju;
+	@FXML
+	private CheckBox omok;
+	@FXML
+	private CheckBox g_plus;
 	
-	public void initialize() {
+	@FXML
+	private void initialize() {
 		pane.setBackground(new Background(new BackgroundImage(new Image(Main.getRes("bg_blur.jpg")), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, null, null)));
 		
 		p1option.getItems().add("Human");
@@ -61,12 +73,14 @@ public class MenuController {
 		checker.registerIncompatibility("style", freestyle, renju, omok, g_plus);
 	}
 	
-	public void ruleChange(ActionEvent actionEvent) {
+	@FXML
+	private void ruleChange(ActionEvent actionEvent) {
 		CheckBox rule = (CheckBox) actionEvent.getSource();
 		RuleChecker.getInstance().update(rule);
 	}
 	
-	public void play(ActionEvent actionEvent) {
+	@FXML
+	private void play(ActionEvent actionEvent) {
 		Player p1, p2;
 		p1 = p2 = null;
 		

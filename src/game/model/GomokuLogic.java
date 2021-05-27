@@ -6,6 +6,7 @@ import javafx.geometry.Point2D;
 import java.util.ArrayList;
 
 public final class GomokuLogic {
+	//TODO separate logic with Referee?
 	private final int[][] game_table;
 	private int pawns = ( GS.GRIDSIZE - 1 ) * ( GS.GRIDSIZE - 1 );
 	
@@ -28,17 +29,13 @@ public final class GomokuLogic {
 		if ( col < 0 || col >= GS.GRIDSIZE ) {
 			return 1;
 		}
-
-//		System.out.println(row + " " + col + " :" + game_table[row][col]);
+		
 		return game_table[row][col];
 	}
 	
-	public ArrayList<Point2D[]> setCell(int row, int col, int p) {
+	public void setCell(int row, int col, int p) {
 		game_table[row][col] = p;
 		--pawns;
-//		System.out.println("new " + row + " " + col + " :" + game_table[row][col]);
-		
-		return checkVictory(row, col);
 	}
 	
 	public ArrayList<Point2D[]> checkVictory(int row, int col) {
@@ -248,10 +245,5 @@ public final class GomokuLogic {
 			}
 		}
 		return count == 5 ? new Point2D[]{start, end} : null;
-	}
-	
-	public boolean isLegalMove(int cx, int cy, int player) {
-//		System.out.println("is " + cx + " " + cy + " free?");
-		return getCell(cx, cy) == 0;
 	}
 }

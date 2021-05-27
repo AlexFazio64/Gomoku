@@ -51,6 +51,7 @@ public class Main extends Application {
 	}
 	
 	public static void main(String[] args) throws Exception {
+		//TODO move dlv code to another class ffs
 		ASPMapper.getInstance().registerClass(Pawn.class);
 		ASPMapper.getInstance().registerClass(Placed.class);
 		launch(args);
