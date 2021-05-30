@@ -51,6 +51,7 @@ public class GameLoop extends Task<Integer> {
 					board.markSpot(row, col, p.color);
 					System.out.println("referee responded");
 					game.setCell(row, col, p.getId());
+					AI.Engine.getInstance().updateProgram(new Pawn(row, col, p.getId()));
 			}
 			
 			if ( !game.hasEmptyCell() ) {

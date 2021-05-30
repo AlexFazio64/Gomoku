@@ -1,10 +1,8 @@
 package game;
 
-import game.model.*;
-import it.unical.mat.embasp.base.Handler;
-import it.unical.mat.embasp.languages.asp.ASPMapper;
-import it.unical.mat.embasp.platforms.desktop.DesktopHandler;
-import it.unical.mat.embasp.specializations.dlv2.desktop.DLV2DesktopService;
+import game.model.GomokuLogic;
+import game.model.Player;
+import game.model.Referee;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -14,7 +12,6 @@ import javafx.stage.Stage;
 public class Main extends Application {
 	private static Stage stage;
 	
-	public static Handler handler;
 	public static GomokuLogic logic;
 	public static Referee referee;
 	
@@ -34,8 +31,6 @@ public class Main extends Application {
 		
 		logic = new GomokuLogic();
 		referee = new Referee(logic, p1, p2);
-//		handler = new DesktopHandler(new DLV2DesktopService("lib/dlv2.exe"));
-		handler = new DesktopHandler(new DLV2DesktopService("lib/dlv2linux"));
 		
 		try {
 			Parent board = FXMLLoader.load(Main.class.getResource("view/board.fxml"));
@@ -51,9 +46,6 @@ public class Main extends Application {
 	}
 	
 	public static void main(String[] args) throws Exception {
-		//TODO move dlv code to another class ffs
-		ASPMapper.getInstance().registerClass(Pawn.class);
-		ASPMapper.getInstance().registerClass(Placed.class);
 		launch(args);
 	}
 }

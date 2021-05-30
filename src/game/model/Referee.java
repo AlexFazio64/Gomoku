@@ -6,7 +6,6 @@ import javafx.geometry.Point2D;
 public class Referee {
 	private final GomokuLogic game;
 	private final int[][] banned;
-	private Player p1, p2;
 	private Player next;
 	private Player current;
 	
@@ -15,9 +14,6 @@ public class Referee {
 	public Referee(GomokuLogic logic, Player p1, Player p2) {
 		this.game = logic;
 		this.banned = new int[GS.GRIDSIZE - 1][GS.GRIDSIZE - 1];
-		
-		this.p1 = p1;
-		this.p2 = p2;
 		
 		current = p2;
 		next = p1;
