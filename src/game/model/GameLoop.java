@@ -2,9 +2,13 @@ package game.model;
 
 import game.controller.GameController;
 import javafx.concurrent.Task;
+import javafx.geometry.Point2D;
 import javafx.util.Pair;
 
-public class GameLoop extends Task<Integer> {
+import java.util.ArrayList;
+import java.util.function.Predicate;
+
+public class GameLoop extends Task<Void> {
 	private final GameController board;
 	private final GomokuLogic game;
 	private final Referee referee;
@@ -19,15 +23,15 @@ public class GameLoop extends Task<Integer> {
 	}
 	
 	@Override
-	protected Integer call() {
+	protected Void call() {
 		//TODO make it work?
 		int state = INTERRUPTED;
+		ArrayList<Point2D[]> lines;
 		
 		while (true) {
-			Player p = referee.getNextPlayer();
+			Player p = referee.getCurrentPlayer();
 			board.pass(p.id);
-			p.place();
-			
+			p.choose();
 			//player is choosing...
 			
 			Pair<Integer, Integer> position = p.getChoice();
@@ -35,23 +39,32 @@ public class GameLoop extends Task<Integer> {
 			int col = position.getValue();
 			
 			switch (referee.judgeMove(row, col)) {
-				case 0:
-					//broke rule n0
-					System.out.println("rule 0");
-					break;
-				case 1:
+				case -1:
 					//broke rule n1
-					System.out.println("rule 1");
-					break;
+					System.out.println("not available, retry...");
+					continue;
+				
 				case 2:
 					//broke rule n2
 					System.out.println("rule 2");
 					break;
+				
+				case 3:
+					//broke rule n3
+					System.out.println("rule 3 and 3");
+					break;
+				
+				case 4:
+					//broke rule n4
+					System.out.println("rule 4 and 4");
+					continue;
+				
 				default:
 					board.markSpot(row, col, p.color);
 					System.out.println("referee responded");
 					game.setCell(row, col, p.getId());
-					AI.Engine.getInstance().updateProgram(new Pawn(row, col, p.getId()));
+					referee.switchPlayer();
+					AI.Engine.getInstance().updateProgram(referee.getCurrentPlayer(), new Pawn(row, col, p.getId()));
 			}
 			
 			if ( !game.hasEmptyCell() ) {
@@ -59,14 +72,17 @@ public class GameLoop extends Task<Integer> {
 				break;
 			}
 			
-			if ( referee.isWinningMove(row, col) ) {
+			lines = game.checkVictory(row, col);
+			lines.removeIf(Predicate.isEqual(null));
+			
+			if ( !lines.isEmpty() ) {
 				state = p.getId();
-				board.markStroke(referee.getWinningLine());
+				board.markStroke(lines.get(0));
 				break;
 			}
 		}
 		
 		board.stopGame(state);
-		return state;
+		return null;
 	}
 }

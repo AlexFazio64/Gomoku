@@ -3,7 +3,9 @@ package game.controller;
 import game.Main;
 import game.model.GameLoop;
 import game.model.Human;
+import game.model.Player;
 import game.settings.GS;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.geometry.Point2D;
 import javafx.scene.canvas.Canvas;
@@ -11,21 +13,17 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 
 public class GameController {
-	//TODO minor touch-ups?
-	
 	@FXML
 	private Canvas table;
+	private GraphicsContext gc;
 	@FXML
 	private Label turnLbl;
 	@FXML
 	private Label p1Lbl;
 	@FXML
 	private Label p2Lbl;
-	
-	private GraphicsContext gc;
 	
 	@FXML
 	private void initialize() {
@@ -54,6 +52,12 @@ public class GameController {
 	}
 	
 	public void place(MouseEvent e) {
+		Player player = Main.referee.getCurrentPlayer();
+		//current player is not human
+		if ( !( player instanceof Human ) ) {
+			return;
+		}
+		
 		//capture click position
 		double x = e.getX();
 		double y = e.getY();
@@ -115,15 +119,11 @@ public class GameController {
 		row_from_Y = (int) ( target.getY() / GS.CELLSIZE ) - 1;
 		col_from_X = (int) ( target.getX() / GS.CELLSIZE ) - 1;
 		
-		( (Human) Main.referee.getCurrentPlayer() ).setChoice(row_from_Y, col_from_X);
+		( (Human) player ).setChoice(row_from_Y, col_from_X);
 	}
 	
 	public void pass(int id) {
-		turnLbl.setText(id == 1 ? "<(ﾟヮﾟ<)" : "(>ﾟヮﾟ)>");
-		
-		Paint swap = p1Lbl.getTextFill();
-		p1Lbl.setTextFill(p2Lbl.getTextFill());
-		p2Lbl.setTextFill(swap);
+		Platform.runLater(() -> turnLbl.setText(id == 1 ? "<(ﾟヮﾟ<)" : "(>ﾟヮﾟ)>"));
 	}
 	
 	public void markSpot(int game_row, int game_column, Color col) {
@@ -155,8 +155,11 @@ public class GameController {
 			default:
 				winner += state;
 		}
-		table.setOnMouseClicked(null);
-		turnLbl.setText(winner + " won");
+		table.setOnMouseClicked(event -> Main.restart());
+		
+		String finalWinner = winner;
+		Platform.runLater(() -> turnLbl.setText(finalWinner + " won"));
+		System.out.println(winner);
 	}
 	
 	private int intersects(Point2D point, Point2D... intersections) {

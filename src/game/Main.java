@@ -37,7 +37,23 @@ public class Main extends Application {
 			stage.setScene(new Scene(board));
 		} catch (Exception ignored) {
 		}
+		stage.show();
+	}
+	
+	public static void restart() {
+		stage.hide();
+		stage.setTitle("Gomoku narabe");
+		stage.setResizable(false);
 		
+		Parent menu;
+		
+		try {
+			menu = FXMLLoader.load(Main.class.getResource("view/menu.fxml"));
+		} catch (Exception ignored) {
+			return;
+		}
+		
+		stage.setScene(new Scene(menu));
 		stage.show();
 	}
 	
@@ -45,7 +61,7 @@ public class Main extends Application {
 		return Main.class.getResource("resources/" + s).toString();
 	}
 	
-	public static void main(String[] args) throws Exception {
+	public static void main(String[] args) {
 		launch(args);
 	}
 }

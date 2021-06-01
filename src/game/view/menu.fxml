@@ -266,7 +266,7 @@
 			</BorderPane>
 			<BorderPane GridPane.columnSpan="3" GridPane.rowIndex="1">
 				<center>
-					<Button fx:id="play" mnemonicParsing="false" onAction="#play" prefHeight="30.0" prefWidth="110.0"
+					<Button mnemonicParsing="false" onAction="#play" prefHeight="30.0" prefWidth="110.0"
 					        text="Play">
 						<font>
 							<Font size="16.0"/>

@@ -9,13 +9,18 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="Major code cleanup&#10;- Controllers only contain view logic now&#10;- TODOs&#10;- Ai code is now in AI class (still needs adjustments...)&#10;- Logic code for Referee&#10;- Visibility for many classes corrected">
+    <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="Moved all DLV code to AI class">
       <change afterPath="$PROJECT_DIR$/src/game/resources/description.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/game/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/game/controller/GameController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/controller/GameController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/game/model/AI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/model/AI.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/game/model/GameLoop.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/model/GameLoop.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/game/model/Human.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/model/Human.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/game/model/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/model/Player.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/game/model/Referee.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/model/Referee.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/game/view/board.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/view/board.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/game/view/menu.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/view/menu.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -184,13 +189,15 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
+    <configuration default="true" type="ArquillianTestNG" factoryName="" nameIsGenerated="true">
       <option name="arquillianRunConfiguration">
         <value>
           <option name="containerStateName" value="" />
         </value>
       </option>
-      <option name="TEST_OBJECT" value="class" />
+      <option name="TEST_OBJECT" value="CLASS" />
+      <properties />
+      <listeners />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -254,7 +261,10 @@
       <workItem from="1622062424985" duration="6192000" />
       <workItem from="1622126920810" duration="12013000" />
       <workItem from="1622141318139" duration="11756000" />
-      <workItem from="1622379009614" duration="8737000" />
+      <workItem from="1622379009614" duration="8810000" />
+      <workItem from="1622452045764" duration="108000" />
+      <workItem from="1622477126734" duration="9583000" />
+      <workItem from="1622543177837" duration="2005000" />
     </task>
     <task id="LOCAL-00001" summary="Debugging corrected, winning condition set">
       <created>1621104575336</created>
@@ -340,7 +350,14 @@
       <option name="project" value="LOCAL" />
       <updated>1622158596357</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="Moved all DLV code to AI class">
+      <created>1622397117808</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1622397117808</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -374,7 +391,18 @@
     <MESSAGE value="Minor cleanup, moved players to referee, graphics adjustments" />
     <MESSAGE value="Reworked player switching system (only humans for now), also broke all previous working code for the moment" />
     <MESSAGE value="Major code cleanup&#10;- Controllers only contain view logic now&#10;- TODOs&#10;- Ai code is now in AI class (still needs adjustments...)&#10;- Logic code for Referee&#10;- Visibility for many classes corrected" />
-    <option name="LAST_COMMIT_MESSAGE" value="Major code cleanup&#10;- Controllers only contain view logic now&#10;- TODOs&#10;- Ai code is now in AI class (still needs adjustments...)&#10;- Logic code for Referee&#10;- Visibility for many classes corrected" />
+    <MESSAGE value="Moved all DLV code to AI class" />
+    <option name="LAST_COMMIT_MESSAGE" value="Moved all DLV code to AI class" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <breakpoint type="java-exception">
+          <properties class="java.lang.IllegalStateException" package="java.lang" />
+          <option name="timeStamp" value="1" />
+        </breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

@@ -13,7 +13,7 @@ public abstract class Player {
 		this.color = id == 1 ? Color.BLACK : Color.WHITE;
 	}
 	
-	public abstract void place();
+	public abstract void choose();
 	
 	public int getId() {
 		return id;

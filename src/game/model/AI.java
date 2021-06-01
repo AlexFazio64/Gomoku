@@ -1,6 +1,5 @@
 package game.model;
 
-import game.Main;
 import game.settings.GS;
 import it.unical.mat.embasp.base.Handler;
 import it.unical.mat.embasp.base.InputProgram;
@@ -20,8 +19,12 @@ public class AI extends Player {
 		handler = Engine.getInstance().getHandler(pro, id);
 	}
 	
+	public Handler getHandler() {
+		return handler;
+	}
+	
 	@Override
-	public void place() {
+	public void choose() {
 		Placed move = Engine.getInstance().guessMove(handler);
 		r = move.getRow();
 		r = move.getCol();
@@ -29,10 +32,8 @@ public class AI extends Player {
 	
 	public static class Engine {
 		private static Engine instance = null;
-		private static InputProgram variable;
 		
 		private Engine() {
-			variable = new ASPInputProgram();
 			//register Beans for mapper
 			try {
 				ASPMapper.getInstance().registerClass(Pawn.class);
@@ -49,11 +50,13 @@ public class AI extends Player {
 			return instance;
 		}
 		
-		public void updateProgram(Pawn last) {
-			try {
-				variable.addObjectInput(last);
-			} catch (Exception e) {
-				e.printStackTrace();
+		public void updateProgram(Player p, Pawn last) {
+			if ( p instanceof AI ) {
+				try {
+					( (AI) p ).getHandler().addProgram(new ASPInputProgram(last));
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
 		}
 		
@@ -90,8 +93,6 @@ public class AI extends Player {
 			h.addProgram(fixed);
 			h.addProgram(new InputProgram("player(" + id + ")."));
 			h.addProgram(new InputProgram("size(" + GS.GRIDSIZE + ")."));
-			
-			h.addProgram(variable);
 			
 			return h;
 		}

@@ -8,7 +8,7 @@ public class Human extends Player {
 	}
 	
 	@Override
-	public void place() {
+	public void choose() {
 		loop = Thread.currentThread();
 		try {
 			System.out.println("waiting for human player to choose...");

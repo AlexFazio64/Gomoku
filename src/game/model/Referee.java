@@ -1,7 +1,6 @@
 package game.model;
 
 import game.settings.GS;
-import javafx.geometry.Point2D;
 
 public class Referee {
 	private final GomokuLogic game;
@@ -15,8 +14,8 @@ public class Referee {
 		this.game = logic;
 		this.banned = new int[GS.GRIDSIZE - 1][GS.GRIDSIZE - 1];
 		
-		current = p2;
-		next = p1;
+		current = p1;
+		next = p2;
 		
 		for (int[] rows: banned) {
 			for (int col: rows) {
@@ -28,16 +27,21 @@ public class Referee {
 		banned[( GS.GRIDSIZE - 2 ) / 2][( GS.GRIDSIZE - 2 ) / 2] = 0;
 	}
 	
-	public Player getNextPlayer() {
+	public void switchPlayer() {
 		Player swap = current;
 		current = next;
 		next = swap;
-		return current;
 	}
 	
 	public int judgeMove(int row, int col) {
-		System.out.println("player wants this position: " + row + "," + col);
-		return -1;
+		if ( game.getCell(row, col) != 0 ) {
+			return -1;
+		} else if ( ThreeAndThree(row, col) ) {
+			return 3;
+		} else if ( FourAndFour(row, col) ) {
+			return 4;
+		}
+		return 0;
 	}
 	
 	//TODO implement rule checking
@@ -51,13 +55,5 @@ public class Referee {
 	
 	public Player getCurrentPlayer() {
 		return current;
-	}
-	
-	public boolean isWinningMove(int last_row, int last_col) {
-		return false;
-	}
-	
-	public Point2D[] getWinningLine() {
-		return null;
 	}
 }
