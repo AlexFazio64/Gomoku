@@ -1,6 +1,7 @@
 package game.model;
 
 import game.controller.GameController;
+import game.settings.GS;
 import javafx.concurrent.Task;
 import javafx.geometry.Point2D;
 import javafx.util.Pair;
@@ -52,7 +53,10 @@ public class GameLoop extends Task<Void> {
 				case 3:
 					//broke rule n3
 					System.out.println("rule 3 and 3");
-					break;
+					if ( GS.RULES.HANDICAP ) {
+						System.out.println("other player should place 2 pawns");
+					}
+					continue;
 				
 				case 4:
 					//broke rule n4
@@ -62,9 +66,9 @@ public class GameLoop extends Task<Void> {
 				default:
 					board.markSpot(row, col, p.color);
 					System.out.println("referee responded");
-					game.setCell(row, col, p.getId());
+					game.setCell(row, col, p.id);
 					referee.switchPlayer();
-					AI.Engine.getInstance().updateProgram(referee.getCurrentPlayer(), new Pawn(row, col, p.getId()));
+					AI.Engine.getInstance().updateProgram(referee.getCurrentPlayer(), new Pawn(row, col, p.id));
 			}
 			
 			if ( !game.hasEmptyCell() ) {
@@ -76,7 +80,7 @@ public class GameLoop extends Task<Void> {
 			lines.removeIf(Predicate.isEqual(null));
 			
 			if ( !lines.isEmpty() ) {
-				state = p.getId();
+				state = p.id;
 				board.markStroke(lines.get(0));
 				break;
 			}

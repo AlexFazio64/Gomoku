@@ -24,10 +24,10 @@ public final class GomokuLogic {
 	
 	public int getCell(int row, int col) {
 		if ( row < 0 || row >= GS.GRIDSIZE ) {
-			return 1;
+			return -1;
 		}
 		if ( col < 0 || col >= GS.GRIDSIZE ) {
-			return 1;
+			return -1;
 		}
 		
 		return game_table[row][col];

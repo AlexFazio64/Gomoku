@@ -11,7 +11,7 @@ public class Human extends Player {
 	public void choose() {
 		loop = Thread.currentThread();
 		try {
-			System.out.println("waiting for human player to choose...");
+			System.out.println("waiting...");
 			synchronized (loop) {
 				loop.wait();
 			}

@@ -15,10 +15,6 @@ public abstract class Player {
 	
 	public abstract void choose();
 	
-	public int getId() {
-		return id;
-	}
-	
 	public Pair<Integer, Integer> getChoice() {
 		return new Pair<>(r, c);
 	}

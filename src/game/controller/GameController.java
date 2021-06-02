@@ -106,12 +106,12 @@ public class GameController {
 				}
 				target = dr;
 				break;
-			default:
-				return;
 		}
 		
 		//no candidate position found, abort
 		if ( target == null ) {
+			//wake sleeping thread with unavailable position
+			( (Human) player ).setChoice(-1, -1);
 			return;
 		}
 		
