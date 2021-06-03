@@ -29,6 +29,10 @@ public class GameController {
 	private void initialize() {
 		//set fonts
 		turnLbl.setFont(GS.FONT);
+		p1Lbl.setText(Main.referee.getCurrentPlayer().getName());
+		Main.referee.switchPlayer();
+		p2Lbl.setText(Main.referee.getCurrentPlayer().getName());
+		Main.referee.switchPlayer();
 		p1Lbl.setFont(GS.FONT);
 		p2Lbl.setFont(GS.FONT);
 		

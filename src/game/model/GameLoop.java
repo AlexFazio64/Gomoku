@@ -28,9 +28,11 @@ public class GameLoop extends Task<Void> {
 		//TODO make it work?
 		int state = INTERRUPTED;
 		ArrayList<Point2D[]> lines;
+		Player p;
+		int penalty = 0;
 		
 		while (true) {
-			Player p = referee.getCurrentPlayer();
+			p = referee.getCurrentPlayer();
 			board.pass(p.id);
 			p.choose();
 			//player is choosing...
@@ -45,16 +47,16 @@ public class GameLoop extends Task<Void> {
 					System.out.println("not available, retry...");
 					continue;
 				
-				case 2:
-					//broke rule n2
-					System.out.println("rule 2");
-					break;
-				
 				case 3:
 					//broke rule n3
 					System.out.println("rule 3 and 3");
 					if ( GS.RULES.HANDICAP ) {
-						System.out.println("other player should place 2 pawns");
+						System.out.println("Other player should place 2 pawns");
+						penalty = 1;
+						referee.switchPlayer();
+						board.markSpot(row, col, p.color);
+						game.setCell(row, col, p.id);
+						AI.Engine.getInstance().updateProgram(referee.getCurrentPlayer(), new Pawn(row, col, p.id));
 					}
 					continue;
 				
@@ -67,7 +69,11 @@ public class GameLoop extends Task<Void> {
 					board.markSpot(row, col, p.color);
 					System.out.println("referee responded");
 					game.setCell(row, col, p.id);
-					referee.switchPlayer();
+					if ( penalty == 0 ) {
+						referee.switchPlayer();
+					} else {
+						--penalty;
+					}
 					AI.Engine.getInstance().updateProgram(referee.getCurrentPlayer(), new Pawn(row, col, p.id));
 			}
 			

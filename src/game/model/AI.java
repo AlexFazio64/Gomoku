@@ -14,7 +14,7 @@ public class AI extends Player {
 	private final Handler handler;
 	
 	public AI(int id, boolean pro) {
-		super(id);
+		super(id, Math.random() < .5 ? "Perri" : "❤ Zangari ❤");
 		this.r = this.c = 0;
 		handler = Engine.getInstance().getHandler(pro, id);
 	}

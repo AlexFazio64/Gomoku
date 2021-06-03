@@ -6,16 +6,11 @@ import javafx.geometry.Point2D;
 import java.util.ArrayList;
 
 public final class GomokuLogic {
-	//TODO separate logic with Referee?
 	private final int[][] game_table;
 	private int pawns = ( GS.GRIDSIZE - 1 ) * ( GS.GRIDSIZE - 1 );
 	
 	public GomokuLogic() {
 		this.game_table = new int[GS.GRIDSIZE - 1][GS.GRIDSIZE - 1];
-	}
-	
-	public int[][] getGame_Table() {
-		return game_table;
 	}
 	
 	public boolean hasEmptyCell() {

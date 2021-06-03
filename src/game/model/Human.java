@@ -4,7 +4,7 @@ public class Human extends Player {
 	private Thread loop;
 	
 	public Human(int id) {
-		super(id);
+		super(id, "Fazio");
 	}
 	
 	@Override

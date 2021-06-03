@@ -34,15 +34,15 @@ public class Referee {
 	public int judgeMove(int row, int col) {
 		if ( game.getCell(row, col) != 0 ) {
 			return -1;
-		} else if ( ThreeAndThree(row, col) ) {
+		} else if ( GS.RULES.THREE && lineDetection(row, col, 3) ) {
 			return 3;
-		} else if ( FourAndFour(row, col) ) {
+		} else if ( GS.RULES.THREE && lineDetection(row, col, 4) ) {
 			return 4;
 		}
 		return 0;
 	}
 	
-	private boolean ThreeAndThree(int r, int c) {
+	private boolean lineDetection(int r, int c, int SIZE) {
 		int id = current.id;
 		int grid_bound = GS.GRIDSIZE - 1;
 		
@@ -55,7 +55,7 @@ public class Referee {
 		// north check
 		cell = 1;
 		cnt = 1;
-		while (( r - cell ) >= 0 && cell < 3) {
+		while (( r - cell ) >= 0 && cell < SIZE) {
 			if ( game.getCell(r - cell, c) == id ) {
 				++cnt;
 			} else {
@@ -69,7 +69,7 @@ public class Referee {
 		//east check
 		cell = 1;
 		cnt = 1;
-		while (( c + cell ) < grid_bound && cell < 3) {
+		while (( c + cell ) < grid_bound && cell < SIZE) {
 			if ( game.getCell(r, c + cell) == id ) {
 				++cnt;
 			} else {
@@ -83,7 +83,7 @@ public class Referee {
 		//south check
 		cell = 1;
 		cnt = 1;
-		while (( r + cell ) < grid_bound && cell < 3) {
+		while (( r + cell ) < grid_bound && cell < SIZE) {
 			if ( game.getCell(r + cell, c) == id ) {
 				++cnt;
 			} else {
@@ -97,7 +97,7 @@ public class Referee {
 		// west check
 		cell = 1;
 		cnt = 1;
-		while (( c - cell ) >= 0 && cell < 3) {
+		while (( c - cell ) >= 0 && cell < SIZE) {
 			if ( game.getCell(r, c - cell) == id ) {
 				++cnt;
 			} else {
@@ -111,7 +111,7 @@ public class Referee {
 		// north-west check
 		cell = 1;
 		cnt = 1;
-		while (( r - cell ) >= 0 && ( c - cell ) >= 0 && cell < 3) {
+		while (( r - cell ) >= 0 && ( c - cell ) >= 0 && cell < SIZE) {
 			if ( game.getCell(r - cell, c - cell) == id ) {
 				++cnt;
 			} else {
@@ -125,7 +125,7 @@ public class Referee {
 		// north-east check
 		cell = 1;
 		cnt = 1;
-		while (( r - cell ) >= 0 && ( c + cell ) < grid_bound && cell < 3) {
+		while (( r - cell ) >= 0 && ( c + cell ) < grid_bound && cell < SIZE) {
 			if ( game.getCell(r - cell, c + cell) == id ) {
 				++cnt;
 			} else {
@@ -139,7 +139,7 @@ public class Referee {
 		// south-east check
 		cell = 1;
 		cnt = 1;
-		while (( r + cell ) < grid_bound && ( c + cell ) < grid_bound && cell < 3) {
+		while (( r + cell ) < grid_bound && ( c + cell ) < grid_bound && cell < SIZE) {
 			if ( game.getCell(r + cell, c + cell) == id ) {
 				++cnt;
 			} else {
@@ -153,7 +153,7 @@ public class Referee {
 		// south-west check
 		cell = 1;
 		cnt = 1;
-		while (( r + cell ) < grid_bound && ( c - cell ) >= 0 && cell < 3) {
+		while (( r + cell ) < grid_bound && ( c - cell ) >= 0 && cell < SIZE) {
 			if ( game.getCell(r + cell, c - cell) == id ) {
 				++cnt;
 			} else {
@@ -169,27 +169,22 @@ public class Referee {
 		System.out.println("M:" + m_cnt);
 		System.out.println("S:" + s_cnt);
 		
-		if ( v_cnt == 3 ) {
+		if ( v_cnt == SIZE ) {
 			++lines;
 		}
-		if ( h_cnt == 3 ) {
+		if ( h_cnt == SIZE ) {
 			++lines;
 		}
-		if ( m_cnt == 3 ) {
+		if ( m_cnt == SIZE ) {
 			++lines;
 		}
-		if ( s_cnt == 3 ) {
+		if ( s_cnt == SIZE ) {
 			++lines;
 		}
 		
-		System.out.println("3Lines: " + lines);
+		System.out.println(SIZE + "Lines: " + lines);
 		
-		return false;
-	}
-	
-	private boolean FourAndFour(int r, int c) {
-		int lines = 0;
-		return false;
+		return lines == 2;
 	}
 	
 	public Player getCurrentPlayer() {
