@@ -11,6 +11,8 @@ import javafx.geometry.Point2D;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Label;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 
@@ -181,5 +183,12 @@ public class GameController {
 	
 	private double distance(double x1, double x2) {
 		return Math.abs(x1 - x2);
+	}
+	
+	//TODO find a way to stop the game manually
+	public void stop(KeyEvent keyEvent) {
+		if ( keyEvent.getCode().equals(KeyCode.R) ) {
+			stopGame(GameLoop.INTERRUPTED);
+		}
 	}
 }

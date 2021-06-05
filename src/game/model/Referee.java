@@ -4,20 +4,20 @@ import game.settings.GS;
 
 public class Referee {
 	private final GomokuLogic game;
-	private final int[][] banned;
+	private int[][] banned;
 	private Player next;
 	private Player current;
 	
 	public Referee(GomokuLogic logic, Player p1, Player p2) {
 		this.game = logic;
-		this.banned = new int[GS.GRIDSIZE - 1][GS.GRIDSIZE - 1];
+		this.banned = new int[GS.GRIDSIZE - 2][GS.GRIDSIZE - 2];
 		
 		current = p1;
 		next = p2;
 		
-		for (int[] rows: banned) {
-			for (int col: rows) {
-				col = -1;
+		for (int i = 0; i < banned.length; i++) {
+			for (int j = 0; j < banned.length; j++) {
+				banned[i][j] = -1;
 			}
 		}
 		
@@ -32,7 +32,7 @@ public class Referee {
 	}
 	
 	public int judgeMove(int row, int col) {
-		if ( game.getCell(row, col) != 0 ) {
+		if ( game.getCell(row, col) != 0 || ( GS.RULES.PRO && banned[row][col] == -1 ) ) {
 			return -1;
 		} else if ( GS.RULES.THREE && lineDetection(row, col, 3) ) {
 			return 3;
@@ -191,4 +191,19 @@ public class Referee {
 		return current;
 	}
 	
+	public void updateBanned(int turn) {
+		if ( turn == 2 ) {
+			banned = new int[GS.GRIDSIZE - 2][GS.GRIDSIZE - 2];
+		} else if ( turn == 3 ) {
+			banned = new int[GS.GRIDSIZE - 2][GS.GRIDSIZE - 2];
+			
+			int mid = ( GS.GRIDSIZE - 2 ) / 2;
+			for (int i = mid - 3; i < mid + 3; ++i)
+				for (int j = mid - 3; j < mid + 3; ++j)
+					banned[i][j] = -1;
+			
+		} else if ( turn > 3 ) {
+			GS.RULES.PRO = false;
+		}
+	}
 }

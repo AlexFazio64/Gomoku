@@ -25,11 +25,11 @@ public class GameLoop extends Task<Void> {
 	
 	@Override
 	protected Void call() {
-		//TODO make it work?
-		int state = INTERRUPTED;
+		int state;
 		ArrayList<Point2D[]> lines;
 		Player p;
 		int penalty = 0;
+		int turn = 1;
 		
 		while (true) {
 			p = referee.getCurrentPlayer();
@@ -41,6 +41,7 @@ public class GameLoop extends Task<Void> {
 			int row = position.getKey();
 			int col = position.getValue();
 			
+			referee.updateBanned(turn);
 			switch (referee.judgeMove(row, col)) {
 				case -1:
 					//broke rule n1
@@ -69,6 +70,7 @@ public class GameLoop extends Task<Void> {
 					board.markSpot(row, col, p.color);
 					System.out.println("referee responded");
 					game.setCell(row, col, p.id);
+					++turn;
 					if ( penalty == 0 ) {
 						referee.switchPlayer();
 					} else {

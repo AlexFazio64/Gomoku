@@ -1,5 +1,5 @@
 <component name="ArtifactManager">
-  <artifact type="jar" name="Gomoku">
+  <artifact type="jar" build-on-make="true" name="Gomoku">
     <output-path>$PROJECT_DIR$/out/artifacts/Gomoku</output-path>
     <root id="archive" name="Gomoku.jar">
       <element id="module-output" name="Gomoku" />
