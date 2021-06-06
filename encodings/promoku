@@ -1,20 +1,6 @@
-%input
-%player(1).
-%size(10).
-
-%existing pawns
-
-%data
 lines(X):- size(Y), X=Y-2.
-lines(X):- lines(Y), X>0, X=Y-1.
+lines(X):- lines(Y), X>=0, X=Y-1.
 cross(X, Y):- lines(X), lines(Y).
-
-%guess
 placed(X,Y,P) | notPlaced(X,Y,P):- player(P), lines(X), lines(Y).
-
-%check
-% only one pawn per turn
 :- #count{X,Y,P: placed(X,Y,P)}!=1.
-
-%place if cross is free
 :- placed(X,Y,_), pawn(X,Y,_).
