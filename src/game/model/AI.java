@@ -16,28 +16,28 @@ public class AI extends Player {
 	public AI(int id, boolean pro) {
 		super(id, Math.random() < .5 ? "Perri" : "❤ Zangari ❤");
 		this.r = this.c = 0;
-		handler = Engine.getInstance().getHandler(pro, id);
-	}
-	
-	public Handler getHandler() {
-		return handler;
+		handler = Engine.getInstance().requestHandler(pro, id);
 	}
 	
 	@Override
 	public void choose() {
 		Placed move = Engine.getInstance().guessMove(handler);
 		r = move.getRow();
-		r = move.getCol();
+		c = move.getCol();
 	}
 	
 	public static class Engine {
 		private static Engine instance = null;
+		private static InputProgram shared;
+		private static InputProgram banned;
 		
 		private Engine() {
 			//register Beans for mapper
 			try {
 				ASPMapper.getInstance().registerClass(Pawn.class);
 				ASPMapper.getInstance().registerClass(Placed.class);
+				shared = new ASPInputProgram();
+				banned = new ASPInputProgram();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -50,49 +50,58 @@ public class AI extends Player {
 			return instance;
 		}
 		
-		public void updateProgram(Player p, Pawn last) {
-			if ( p instanceof AI ) {
-				try {
-					( (AI) p ).getHandler().addProgram(new ASPInputProgram(last));
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
+		public static void updateShared(Pawn last) {
+			try {
+				shared.addObjectInput(last);
+			} catch (Exception ignored) {
 			}
+		}
+		
+		public static void updateBanned(Pawn last) {
+			try {
+				banned.addObjectInput(last);
+			} catch (Exception ignored) {
+			}
+		}
+		
+		public static void clearBanned() {
+			banned.clearAll();
 		}
 		
 		public Placed guessMove(Handler handler) {
 			AnswerSets as = (AnswerSets) handler.startSync();
-			AnswerSet a = as.getAnswersets().get(0);
 			
 			try {
-				for (Object atom: a.getAtoms()) {
-					if ( ( atom instanceof Placed ) ) {
-						return (Placed) atom;
-					}
+				for (AnswerSet a: as.getAnswersets()) {
+					for (Object atom: a.getAtoms())
+						if ( ( atom instanceof Placed ) ) {
+							return (Placed) atom;
+						}
 				}
-			} catch (Exception ex) {
-				ex.printStackTrace();
+			} catch (Exception ignored) {
 			}
 			
-			Placed bho = new Placed();
-			bho.setRow(-1);
-			bho.setCol(-1);
-			bho.setVal(-1);
+			Placed afforza = new Placed();
+			afforza.setRow(-1);
+			afforza.setCol(-1);
+			afforza.setVal(-1);
 			
-			return bho;
+			return afforza;
 		}
 		
-		public Handler getHandler(boolean pro, int id) {
+		public Handler requestHandler(boolean pro, int id) {
 			Handler h;
 //			h = new DesktopHandler(new DLV2DesktopService("lib/dlv2.exe"));
 			h = new DesktopHandler(new DLV2DesktopService("lib/dlv2linux"));
 			
-			InputProgram fixed = new InputProgram();
+			InputProgram fixed = new ASPInputProgram();
 			fixed.addFilesPath(pro ? "encodings/promoku" : "encodings/gomoku");
+			fixed.addProgram(String.format("player(%d).", id));
+			fixed.addProgram(String.format("size(%d).", GS.GRIDSIZE));
 			
 			h.addProgram(fixed);
-			h.addProgram(new InputProgram("player(" + id + ")."));
-			h.addProgram(new InputProgram("size(" + GS.GRIDSIZE + ")."));
+			h.addProgram(shared);
+			h.addProgram(banned);
 			
 			return h;
 		}

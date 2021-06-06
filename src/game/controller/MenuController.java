@@ -84,6 +84,22 @@ public class MenuController {
 		Player p1, p2;
 		p1 = p2 = null;
 		
+		//Game customization
+		GS.RULES.THREE = three_and_three.isSelected();
+		GS.RULES.FOUR = four_and_four.isSelected();
+		GS.RULES.HANDICAP = handicap.isSelected();
+		GS.RULES.SWAP = swap.isSelected();
+		GS.RULES.PRO = g_pro.isSelected();
+		GS.RULES.FREESTYLE = freestyle.isSelected();
+		GS.RULES.RENJU = renju.isSelected();
+		GS.RULES.OMOK = omok.isSelected();
+		GS.RULES.PLUS = g_plus.isSelected();
+		
+		if ( GS.RULES.RENJU ) {
+			GS.GRIDSIZE = 16;
+			GS.DIM = GS.GRIDSIZE * GS.CELLSIZE;
+		}
+		
 		switch (p1option.getValue()) {
 			case "Human":
 				p1 = new Human(1);
@@ -106,22 +122,6 @@ public class MenuController {
 			case "AI (Hard)":
 				p2 = new AI(2, true);
 				break;
-		}
-		
-		//Game customization
-		GS.RULES.THREE = three_and_three.isSelected();
-		GS.RULES.FOUR = four_and_four.isSelected();
-		GS.RULES.HANDICAP = handicap.isSelected();
-		GS.RULES.SWAP = swap.isSelected();
-		GS.RULES.PRO = g_pro.isSelected();
-		GS.RULES.FREESTYLE = freestyle.isSelected();
-		GS.RULES.RENJU = renju.isSelected();
-		GS.RULES.OMOK = omok.isSelected();
-		GS.RULES.PLUS = g_plus.isSelected();
-		
-		if ( GS.RULES.RENJU ) {
-			GS.GRIDSIZE = 16;
-			GS.DIM = GS.GRIDSIZE * GS.CELLSIZE;
 		}
 		
 		Main.play(p1, p2);

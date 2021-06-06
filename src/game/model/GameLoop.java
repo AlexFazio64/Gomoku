@@ -57,7 +57,7 @@ public class GameLoop extends Task<Void> {
 						referee.switchPlayer();
 						board.markSpot(row, col, p.color);
 						game.setCell(row, col, p.id);
-						AI.Engine.getInstance().updateProgram(referee.getCurrentPlayer(), new Pawn(row, col, p.id));
+						AI.Engine.updateShared(new Pawn(row, col, p.id));
 					}
 					continue;
 				
@@ -70,14 +70,15 @@ public class GameLoop extends Task<Void> {
 					board.markSpot(row, col, p.color);
 					System.out.println("referee responded");
 					game.setCell(row, col, p.id);
-					++turn;
 					if ( penalty == 0 ) {
 						referee.switchPlayer();
 					} else {
 						--penalty;
 					}
-					AI.Engine.getInstance().updateProgram(referee.getCurrentPlayer(), new Pawn(row, col, p.id));
+					AI.Engine.updateShared(new Pawn(row, col, p.id));
 			}
+			
+			++turn;
 			
 			if ( !game.hasEmptyCell() ) {
 				state = STALLED;

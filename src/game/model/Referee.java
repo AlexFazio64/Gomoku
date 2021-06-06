@@ -10,7 +10,7 @@ public class Referee {
 	
 	public Referee(GomokuLogic logic, Player p1, Player p2) {
 		this.game = logic;
-		this.banned = new int[GS.GRIDSIZE - 2][GS.GRIDSIZE - 2];
+		this.banned = new int[GS.GRIDSIZE - 1][GS.GRIDSIZE - 1];
 		
 		current = p1;
 		next = p2;
@@ -21,8 +21,15 @@ public class Referee {
 			}
 		}
 		
-		//first move is always the center
+		//first move is always the center (PRO)
 		banned[( GS.GRIDSIZE - 2 ) / 2][( GS.GRIDSIZE - 2 ) / 2] = 0;
+		
+		AI.Engine.clearBanned();
+		for (int i = 0; i < banned.length; i++)
+			for (int j = 0; j < banned.length; j++)
+				if ( banned[i][j] != 0 ) {
+					AI.Engine.updateBanned(new Pawn(i, j, 3));
+				}
 	}
 	
 	public void switchPlayer() {
@@ -194,16 +201,22 @@ public class Referee {
 	public void updateBanned(int turn) {
 		if ( turn == 2 ) {
 			banned = new int[GS.GRIDSIZE - 2][GS.GRIDSIZE - 2];
+			AI.Engine.clearBanned();
 		} else if ( turn == 3 ) {
 			banned = new int[GS.GRIDSIZE - 2][GS.GRIDSIZE - 2];
+			AI.Engine.clearBanned();
 			
 			int mid = ( GS.GRIDSIZE - 2 ) / 2;
-			for (int i = mid - 3; i < mid + 3; ++i)
-				for (int j = mid - 3; j < mid + 3; ++j)
+			for (int i = mid - 3; i < mid + 3; ++i) {
+				for (int j = mid - 3; j < mid + 3; ++j) {
 					banned[i][j] = -1;
+					AI.Engine.updateBanned(new Pawn(i, j, 3));
+				}
+			}
 			
 		} else if ( turn > 3 ) {
 			GS.RULES.PRO = false;
+			AI.Engine.clearBanned();
 		}
 	}
 }
