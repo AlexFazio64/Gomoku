@@ -72,7 +72,15 @@ public class AI extends Player {
 			AnswerSets as = (AnswerSets) handler.startSync();
 			
 			try {
-				for (AnswerSet a: as.getAnswersets()) {
+				for (AnswerSet a: as.getOptimalAnswerSets()) {
+					System.out.println();
+					String[] strings = a.toString().split(",\\s");
+					for (String line: strings) {
+						if ( line.contains("\"") ) {
+							System.out.println(line);
+						}
+					}
+					
 					for (Object atom: a.getAtoms())
 						if ( ( atom instanceof Placed ) ) {
 							return (Placed) atom;
