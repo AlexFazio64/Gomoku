@@ -1,6 +1,41 @@
+% modeling
 lines(X):- size(Y), X=Y-2.
 lines(X):- lines(Y), X>=0, X=Y-1.
-cross(X, Y):- lines(X), lines(Y).
+
+% guess
 placed(X,Y,P) | notPlaced(X,Y,P):- player(P), lines(X), lines(Y).
+
+% check
+% choose only one position
 :- #count{X,Y,P: placed(X,Y,P)}!=1.
+
+% that position must be free
 :- placed(X,Y,_), pawn(X,Y,_).
+
+% pawn should be near other friendly pawns
+neigh(X, Y, ROW, COL) :- placed(X, Y, P), pawn(ROW, COL, P), ROW=X-1, COL=Y-1.
+neigh(X, Y, ROW, COL) :- placed(X, Y, P), pawn(ROW, COL, P), ROW=X-1, COL=Y+0.
+neigh(X, Y, ROW, COL) :- placed(X, Y, P), pawn(ROW, COL, P), ROW=X-1, COL=Y+1.
+neigh(X, Y, ROW, COL) :- placed(X, Y, P), pawn(ROW, COL, P), ROW=X+0, COL=Y-1.
+neigh(X, Y, ROW, COL) :- placed(X, Y, P), pawn(ROW, COL, P), ROW=X+0, COL=Y+1.
+neigh(X, Y, ROW, COL) :- placed(X, Y, P), pawn(ROW, COL, P), ROW=X+1, COL=Y-1.
+neigh(X, Y, ROW, COL) :- placed(X, Y, P), pawn(ROW, COL, P), ROW=X+1, COL=Y+0.
+neigh(X, Y, ROW, COL) :- placed(X, Y, P), pawn(ROW, COL, P), ROW=X+1, COL=Y+1.
+
+:~ #count{ROW, COL: neigh(_,_, ROW, COL)}=N, P=8-N. [P@3]
+
+% pawns should form a bigger row
+line2(X, Y, X2, Y2, "N->S")   :- pawn(X, Y, P), pawn(X2, Y2, P), player(P), X2=X+1, Y2=Y+0.
+line2(X, Y, X2, Y2, "W->E")   :- pawn(X, Y, P), pawn(X2, Y2, P), player(P), X2=X+0, Y2=Y+1.
+line2(X, Y, X2, Y2, "NW->SE") :- pawn(X, Y, P), pawn(X2, Y2, P), player(P), X2=X+1, Y2=Y+1.
+line2(X, Y, X2, Y2, "NE->SW") :- pawn(X, Y, P), pawn(X2, Y2, P), player(P), X2=X-1, Y2=Y+1.
+
+line3(X, Y, X2, Y2, "N->S")  :- line2(X1,Y1,X,Y,"N->S"),   pawn(X2, Y2, P), player(P), X2=X+1, Y2=Y+0.
+line3(X, Y, X2, Y2, "W->E")  :- line2(X1,Y1,X,Y,"W->E"),   pawn(X2, Y2, P), player(P), X2=X+0, Y2=Y+1.
+line3(X, Y, X2, Y2, "NW->SE"):- line2(X1,Y1,X,Y,"NW->SE"), pawn(X2, Y2, P), player(P), X2=X+1, Y2=Y+1.
+line3(X, Y, X2, Y2, "NE->SW"):- line2(X1,Y1,X,Y,"NE->SW"), pawn(X2, Y2, P), player(P), X2=X-1, Y2=Y+1.
+
+line4(X, Y, X2, Y2, "N->S")  :- line3(X1,Y1,X,Y,"N->S"),   pawn(X2, Y2, P), player(P), X2=X+1, Y2=Y+0.
+line4(X, Y, X2, Y2, "W->E")  :- line3(X1,Y1,X,Y,"W->E"),   pawn(X2, Y2, P), player(P), X2=X+0, Y2=Y+1.
+line4(X, Y, X2, Y2, "NW->SE"):- line3(X1,Y1,X,Y,"NW->SE"), pawn(X2, Y2, P), player(P), X2=X+1, Y2=Y+1.
+line4(X, Y, X2, Y2, "NE->SW"):- line3(X1,Y1,X,Y,"NE->SW"), pawn(X2, Y2, P), player(P), X2=X-1, Y2=Y+1.
