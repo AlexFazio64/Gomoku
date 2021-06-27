@@ -24,6 +24,8 @@ public class Referee {
 		//first move is always the center (PRO)
 		banned[( GS.GRIDSIZE - 2 ) / 2][( GS.GRIDSIZE - 2 ) / 2] = 0;
 		
+		//make sure they are initialized
+		AI.Engine.getInstance();
 		AI.Engine.clearBanned();
 		for (int i = 0; i < banned.length; i++)
 			for (int j = 0; j < banned.length; j++)

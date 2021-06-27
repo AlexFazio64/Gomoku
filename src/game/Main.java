@@ -1,5 +1,6 @@
 package game;
 
+import game.model.AI;
 import game.model.GomokuLogic;
 import game.model.Player;
 import game.model.Referee;
@@ -45,6 +46,7 @@ public class Main extends Application {
 		stage.setTitle("Gomoku narabe");
 		stage.setResizable(false);
 		
+		AI.Engine.stopAI();
 		Parent menu;
 		
 		try {
