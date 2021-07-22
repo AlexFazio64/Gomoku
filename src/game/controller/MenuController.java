@@ -11,6 +11,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.BackgroundRepeat;
@@ -30,8 +32,6 @@ public class MenuController {
 	@FXML
 	private CheckBox handicap;
 	@FXML
-	private CheckBox swap;
-	@FXML
 	private CheckBox g_pro;
 	@FXML
 	private CheckBox freestyle;
@@ -39,8 +39,6 @@ public class MenuController {
 	private CheckBox renju;
 	@FXML
 	private CheckBox omok;
-	@FXML
-	private CheckBox g_plus;
 	
 	@FXML
 	private void initialize() {
@@ -60,17 +58,15 @@ public class MenuController {
 		checker.submit(three_and_three, "size-omok");
 		checker.submit(four_and_four, "size");
 		checker.submit(handicap, "size");
-		checker.submit(swap, "advantage");
-		checker.submit(g_pro, "advantage");
-		checker.submit(freestyle, "style");
+		checker.submit(g_pro, "opening");
+		checker.submit(freestyle, "style-omok");
 		checker.submit(renju, "style");
 		checker.submit(omok, "style-omok");
-		checker.submit(g_plus, "style");
 		
 		checker.registerIncompatibility("size", three_and_three, four_and_four, handicap);
-		checker.registerIncompatibility("omok", three_and_three, omok);
-		checker.registerIncompatibility("advantage", swap, g_pro);
-		checker.registerIncompatibility("style", freestyle, renju, omok, g_plus);
+		checker.registerIncompatibility("omok", three_and_three, omok, freestyle);
+		checker.registerIncompatibility("style", freestyle, renju, omok);
+		checker.registerIncompatibility("opening", g_pro);
 	}
 	
 	@FXML
@@ -88,12 +84,10 @@ public class MenuController {
 		GS.RULES.THREE = three_and_three.isSelected();
 		GS.RULES.FOUR = four_and_four.isSelected();
 		GS.RULES.HANDICAP = handicap.isSelected();
-		GS.RULES.SWAP = swap.isSelected();
 		GS.RULES.PRO = g_pro.isSelected();
 		GS.RULES.FREESTYLE = freestyle.isSelected();
 		GS.RULES.RENJU = renju.isSelected();
 		GS.RULES.OMOK = omok.isSelected();
-		GS.RULES.PLUS = g_plus.isSelected();
 		
 		if ( GS.RULES.RENJU ) {
 			GS.GRIDSIZE = 16;
@@ -125,5 +119,12 @@ public class MenuController {
 		}
 		
 		Main.play(p1, p2);
+	}
+	
+	@FXML
+	public void exit(KeyEvent keyEvent) {
+		if ( keyEvent.getCode().equals(KeyCode.ESCAPE) ) {
+			Main.close();
+		}
 	}
 }

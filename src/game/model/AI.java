@@ -3,7 +3,6 @@ package game.model;
 import game.settings.GS;
 import it.unical.mat.embasp.base.Handler;
 import it.unical.mat.embasp.base.InputProgram;
-import it.unical.mat.embasp.base.OptionDescriptor;
 import it.unical.mat.embasp.languages.asp.ASPInputProgram;
 import it.unical.mat.embasp.languages.asp.ASPMapper;
 import it.unical.mat.embasp.languages.asp.AnswerSet;
@@ -88,7 +87,7 @@ public class AI extends Player {
 					System.out.println(a.getLevelWeight());
 					String[] strings = a.toString().split(",\\s");
 					for (String line: strings) {
-						if ( line.contains("\"") ) {
+						if ( line.contains("candidate") || line.contains("\"")) {
 							System.out.println(line);
 						}
 					}
@@ -111,12 +110,13 @@ public class AI extends Player {
 		
 		public Handler requestHandler(boolean pro, int id) {
 			Handler h;
-//			h = new DesktopHandler(new DLV2DesktopService("lib/dlv2.exe"));
-			h = new DesktopHandler(new DLV2DesktopService("lib/dlv2linux"));
+			h = new DesktopHandler(new DLV2DesktopService("lib/dlv2.exe"));
+//			h = new DesktopHandler(new DLV2DesktopService("lib/dlv2linux"));
 			
 			InputProgram fixed = new ASPInputProgram();
 			fixed.addFilesPath(pro ? "encodings/promoku" : "encodings/gomoku");
 			fixed.addProgram(String.format("player(%d).", id));
+			fixed.addProgram(String.format("enemy(%d).", ( id == 1 ) ? 2 : 1));
 			fixed.addProgram(String.format("size(%d).", GS.GRIDSIZE));
 			
 			h.addProgram(fixed);

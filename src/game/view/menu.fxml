@@ -6,16 +6,16 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.*?>
-<BorderPane fx:id="pane" prefHeight="450.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="game.controller.MenuController">
+<BorderPane fx:id="pane" focusTraversable="true" onKeyReleased="#exit" prefHeight="450.0" prefWidth="600.0"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="game.controller.MenuController">
 	<top>
-		<VBox alignment="CENTER" BorderPane.alignment="CENTER">
+		<VBox alignment="CENTER" focusTraversable="true" BorderPane.alignment="CENTER">
 			<Label text="五目並べ" textFill="WHITE">
 				<font>
 					<Font size="48.0"/>
 				</font>
 				<effect>
-					<DropShadow blurType="GAUSSIAN" height="51.01" radius="30.125" spread="0.7" width="71.49">
+					<DropShadow blurType="GAUSSIAN" height="46.95" radius="19.5775" spread="0.7" width="33.36">
 						<color>
 							<Color red="1.0"/>
 						</color>
@@ -28,7 +28,7 @@
 		</VBox>
 	</top>
 	<center>
-		<GridPane BorderPane.alignment="CENTER">
+		<GridPane focusTraversable="true" BorderPane.alignment="CENTER">
 			<columnConstraints>
 				<ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
 				<ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
@@ -38,18 +38,18 @@
 				<RowConstraints minHeight="10.0" percentHeight="85.0" valignment="CENTER" vgrow="ALWAYS"/>
 				<RowConstraints minHeight="10.0" valignment="CENTER" vgrow="ALWAYS"/>
 			</rowConstraints>
-			<VBox alignment="CENTER" fillWidth="false" prefWidth="175.0" spacing="15.0"
+			<VBox alignment="CENTER" fillWidth="false" focusTraversable="true" prefWidth="175.0" spacing="15.0"
 			      style="-fx-background-color: rgba(0,0,0,0.4); -fx-background-radius: 5px;" GridPane.valignment="TOP"
 			      GridPane.vgrow="ALWAYS">
 				<Label text="Player 1 is" textFill="WHITE">
 					<font>
-						<Font name="System Bold Italic" size="22.0"/>
+						<Font name="Segoe UI Italic" size="31.0"/>
 					</font>
 				</Label>
 				<ChoiceBox fx:id="p1option" prefWidth="150.0"/>
 				<Label text="Player 2 is" textFill="WHITE">
 					<font>
-						<Font name="System Bold Italic" size="22.0"/>
+						<Font name="Segoe UI Italic" size="31.0"/>
 					</font>
 				</Label>
 				<ChoiceBox fx:id="p2option" prefWidth="150.0"/>
@@ -57,13 +57,12 @@
 					<Insets left="20.0" right="5.0" top="40.0"/>
 				</GridPane.margin>
 			</VBox>
-			<BorderPane GridPane.columnIndex="1" GridPane.columnSpan="2">
+			<BorderPane focusTraversable="true" GridPane.columnIndex="1" GridPane.columnSpan="2">
 				<center>
-					<VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
-						<GridPane alignment="TOP_CENTER" VBox.vgrow="ALWAYS">
+					<VBox focusTraversable="true" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+						<GridPane alignment="CENTER" focusTraversable="true" VBox.vgrow="ALWAYS">
 							<columnConstraints>
-								<ColumnConstraints hgrow="SOMETIMES" maxWidth="346.0" minWidth="10.0"
-								                   prefWidth="340.0"/>
+								<ColumnConstraints hgrow="ALWAYS" maxWidth="346.0" minWidth="10.0" prefWidth="340.0"/>
 								<ColumnConstraints hgrow="SOMETIMES" maxWidth="262.0" minWidth="10.0" prefWidth="60.0"/>
 							</columnConstraints>
 							<rowConstraints>
@@ -75,10 +74,9 @@
 								<RowConstraints minHeight="30.0" prefHeight="30.0" vgrow="ALWAYS"/>
 								<RowConstraints minHeight="30.0" prefHeight="30.0" vgrow="ALWAYS"/>
 								<RowConstraints minHeight="30.0" prefHeight="30.0" vgrow="ALWAYS"/>
-								<RowConstraints minHeight="30.0" prefHeight="30.0" vgrow="ALWAYS"/>
-								<RowConstraints minHeight="30.0" vgrow="ALWAYS"/>
 							</rowConstraints>
-							<BorderPane style="-fx-background-color: rgba(0,0,0,0.4); -fx-background-radius: 5px;"
+							<BorderPane focusTraversable="true"
+							            style="-fx-background-color: rgba(0,0,0,0.4); -fx-background-radius: 5px;"
 							            GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="CENTER">
 								<GridPane.margin>
 									<Insets bottom="2.0" top="2.0"/>
@@ -86,7 +84,7 @@
 								<left>
 									<Label text="Three and Three" textFill="WHITE" BorderPane.alignment="CENTER">
 										<font>
-											<Font name="System Bold" size="16.0"/>
+											<Font name="System Bold" size="20.0"/>
 										</font>
 									</Label>
 								</left>
@@ -97,7 +95,8 @@
 							<CheckBox fx:id="three_and_three" mnemonicParsing="false" onAction="#ruleChange"
 							          GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1"
 							          GridPane.valignment="CENTER"/>
-							<BorderPane style="-fx-background-color: rgba(0,0,0,0.4); -fx-background-radius: 5px;"
+							<BorderPane focusTraversable="true"
+							            style="-fx-background-color: rgba(0,0,0,0.4); -fx-background-radius: 5px;"
 							            GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="CENTER">
 								<GridPane.margin>
 									<Insets bottom="2.0" top="2.0"/>
@@ -105,7 +104,7 @@
 								<left>
 									<Label text="Four and Four" textFill="WHITE" BorderPane.alignment="CENTER">
 										<font>
-											<Font name="System Bold" size="16.0"/>
+											<Font name="System Bold" size="20.0"/>
 										</font>
 									</Label>
 								</left>
@@ -116,7 +115,8 @@
 							<CheckBox fx:id="four_and_four" mnemonicParsing="false" onAction="#ruleChange"
 							          GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2"
 							          GridPane.valignment="CENTER"/>
-							<BorderPane style="-fx-background-color: rgba(0,0,0,0.4); -fx-background-radius: 5px;"
+							<BorderPane focusTraversable="true"
+							            style="-fx-background-color: rgba(0,0,0,0.4); -fx-background-radius: 5px;"
 							            GridPane.halignment="LEFT" GridPane.rowIndex="3" GridPane.valignment="CENTER">
 								<GridPane.margin>
 									<Insets bottom="2.0" top="2.0"/>
@@ -124,7 +124,7 @@
 								<left>
 									<Label text="Handicap" textFill="WHITE" BorderPane.alignment="CENTER">
 										<font>
-											<Font name="System Bold" size="16.0"/>
+											<Font name="System Bold" size="20.0"/>
 										</font>
 									</Label>
 								</left>
@@ -135,34 +135,16 @@
 							<CheckBox fx:id="handicap" mnemonicParsing="false" onAction="#ruleChange"
 							          GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3"
 							          GridPane.valignment="CENTER"/>
-							<BorderPane style="-fx-background-color: rgba(0,0,0,0.4); -fx-background-radius: 5px;"
+							<BorderPane focusTraversable="true"
+							            style="-fx-background-color: rgba(0,0,0,0.4); -fx-background-radius: 5px;"
 							            GridPane.halignment="LEFT" GridPane.rowIndex="4" GridPane.valignment="CENTER">
-								<GridPane.margin>
-									<Insets bottom="2.0" top="2.0"/>
-								</GridPane.margin>
-								<left>
-									<Label text="Swap2" textFill="WHITE" BorderPane.alignment="CENTER">
-										<font>
-											<Font name="System Bold" size="16.0"/>
-										</font>
-									</Label>
-								</left>
-								<padding>
-									<Insets left="30.0"/>
-								</padding>
-							</BorderPane>
-							<CheckBox fx:id="swap" mnemonicParsing="false" onAction="#ruleChange"
-							          GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="4"
-							          GridPane.valignment="CENTER"/>
-							<BorderPane style="-fx-background-color: rgba(0,0,0,0.4); -fx-background-radius: 5px;"
-							            GridPane.halignment="LEFT" GridPane.rowIndex="5" GridPane.valignment="CENTER">
 								<GridPane.margin>
 									<Insets bottom="2.0" top="2.0"/>
 								</GridPane.margin>
 								<left>
 									<Label text="Gomoku Pro" textFill="WHITE" BorderPane.alignment="CENTER">
 										<font>
-											<Font name="System Bold" size="16.0"/>
+											<Font name="System Bold" size="20.0"/>
 										</font>
 									</Label>
 								</left>
@@ -171,17 +153,18 @@
 								</padding>
 							</BorderPane>
 							<CheckBox fx:id="g_pro" mnemonicParsing="false" onAction="#ruleChange"
-							          GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="5"
+							          GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="4"
 							          GridPane.valignment="CENTER"/>
-							<BorderPane style="-fx-background-color: rgba(0,0,0,0.4); -fx-background-radius: 5px;"
-							            GridPane.halignment="LEFT" GridPane.rowIndex="6" GridPane.valignment="CENTER">
+							<BorderPane focusTraversable="true"
+							            style="-fx-background-color: rgba(0,0,0,0.4); -fx-background-radius: 5px;"
+							            GridPane.halignment="LEFT" GridPane.rowIndex="5" GridPane.valignment="CENTER">
 								<GridPane.margin>
 									<Insets bottom="2.0" top="2.0"/>
 								</GridPane.margin>
 								<left>
 									<Label text="Freestyle" textFill="WHITE" BorderPane.alignment="CENTER">
 										<font>
-											<Font name="System Bold" size="16.0"/>
+											<Font name="System Bold" size="20.0"/>
 										</font>
 									</Label>
 								</left>
@@ -190,17 +173,18 @@
 								</padding>
 							</BorderPane>
 							<CheckBox fx:id="freestyle" mnemonicParsing="false" onAction="#ruleChange"
-							          GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="6"
+							          GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="5"
 							          GridPane.valignment="CENTER"/>
-							<BorderPane style="-fx-background-color: rgba(0,0,0,0.4); -fx-background-radius: 5px;"
-							            GridPane.halignment="LEFT" GridPane.rowIndex="7" GridPane.valignment="CENTER">
+							<BorderPane focusTraversable="true"
+							            style="-fx-background-color: rgba(0,0,0,0.4); -fx-background-radius: 5px;"
+							            GridPane.halignment="LEFT" GridPane.rowIndex="6" GridPane.valignment="CENTER">
 								<GridPane.margin>
 									<Insets bottom="2.0" top="2.0"/>
 								</GridPane.margin>
 								<left>
 									<Label text="Renju" textFill="WHITE" BorderPane.alignment="CENTER">
 										<font>
-											<Font name="System Bold" size="16.0"/>
+											<Font name="System Bold" size="20.0"/>
 										</font>
 									</Label>
 								</left>
@@ -209,17 +193,18 @@
 								</padding>
 							</BorderPane>
 							<CheckBox fx:id="renju" mnemonicParsing="false" onAction="#ruleChange"
-							          GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="7"
+							          GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="6"
 							          GridPane.valignment="CENTER"/>
-							<BorderPane style="-fx-background-color: rgba(0,0,0,0.4); -fx-background-radius: 5px;"
-							            GridPane.halignment="LEFT" GridPane.rowIndex="8" GridPane.valignment="CENTER">
+							<BorderPane focusTraversable="true"
+							            style="-fx-background-color: rgba(0,0,0,0.4); -fx-background-radius: 5px;"
+							            GridPane.halignment="LEFT" GridPane.rowIndex="7" GridPane.valignment="CENTER">
 								<GridPane.margin>
 									<Insets bottom="2.0" top="2.0"/>
 								</GridPane.margin>
 								<left>
 									<Label text="Omok" textFill="WHITE" BorderPane.alignment="CENTER">
 										<font>
-											<Font name="System Bold" size="16.0"/>
+											<Font name="System Bold" size="20.0"/>
 										</font>
 									</Label>
 								</left>
@@ -228,30 +213,11 @@
 								</padding>
 							</BorderPane>
 							<CheckBox fx:id="omok" mnemonicParsing="false" onAction="#ruleChange"
-							          GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="8"
-							          GridPane.valignment="CENTER"/>
-							<BorderPane style="-fx-background-color: rgba(0,0,0,0.4); -fx-background-radius: 5px;"
-							            GridPane.halignment="LEFT" GridPane.rowIndex="9" GridPane.valignment="CENTER">
-								<GridPane.margin>
-									<Insets bottom="2.0" top="2.0"/>
-								</GridPane.margin>
-								<left>
-									<Label text="Gomoku+" textFill="WHITE" BorderPane.alignment="CENTER">
-										<font>
-											<Font name="System Bold" size="16.0"/>
-										</font>
-									</Label>
-								</left>
-								<padding>
-									<Insets left="30.0"/>
-								</padding>
-							</BorderPane>
-							<CheckBox fx:id="g_plus" mnemonicParsing="false" onAction="#ruleChange"
-							          GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="9"
+							          GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="7"
 							          GridPane.valignment="CENTER"/>
 							<Label text="Rules:" textFill="WHITE">
 								<font>
-									<Font name="System Bold" size="18.0"/>
+									<Font name="Segoe UI Bold" size="20.0"/>
 								</font>
 								<padding>
 									<Insets bottom="5.0" left="5.0" top="5.0"/>
@@ -264,10 +230,9 @@
 					</VBox>
 				</center>
 			</BorderPane>
-			<BorderPane GridPane.columnSpan="3" GridPane.rowIndex="1">
+			<BorderPane focusTraversable="true" GridPane.columnSpan="3" GridPane.rowIndex="1">
 				<center>
-					<Button mnemonicParsing="false" onAction="#play" prefHeight="30.0" prefWidth="110.0"
-					        text="Play">
+					<Button mnemonicParsing="false" onAction="#play" prefHeight="30.0" prefWidth="110.0" text="Play">
 						<font>
 							<Font size="16.0"/>
 						</font>

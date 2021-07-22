@@ -153,10 +153,11 @@ public class GameController {
 		String winner = "Player ";
 		
 		switch (state) {
+			case GameLoop.INTERRUPTED:
+				Main.restart();
+				break;
 			case GameLoop.STALLED:
 				winner = "Nobody";
-				break;
-			case GameLoop.INTERRUPTED:
 				break;
 			default:
 				winner += state;
@@ -165,7 +166,6 @@ public class GameController {
 		
 		String finalWinner = winner;
 		Platform.runLater(() -> turnLbl.setText(finalWinner + " won"));
-		System.out.println(winner);
 	}
 	
 	private int intersects(Point2D point, Point2D... intersections) {
@@ -185,9 +185,8 @@ public class GameController {
 		return Math.abs(x1 - x2);
 	}
 	
-	//TODO find a way to stop the game manually
 	public void stop(KeyEvent keyEvent) {
-		if ( keyEvent.getCode().equals(KeyCode.R) ) {
+		if ( keyEvent.getCode().equals(KeyCode.ESCAPE) ) {
 			stopGame(GameLoop.INTERRUPTED);
 		}
 	}

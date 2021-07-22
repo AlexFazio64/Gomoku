@@ -45,7 +45,7 @@ public class GameLoop extends Task<Void> {
 			switch (referee.judgeMove(row, col)) {
 				case -1:
 					//broke rule n1
-					System.out.println("not available, retry...");
+					System.out.println(row + "," + col + " not available, retry...");
 					continue;
 				
 				case 3:

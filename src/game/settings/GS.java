@@ -21,11 +21,9 @@ public abstract class GS {
 		public static boolean THREE = false;
 		public static boolean FOUR = false;
 		public static boolean HANDICAP = false;
-		public static boolean SWAP = false;
 		public static boolean PRO = false;
 		public static boolean FREESTYLE = false;
 		public static boolean RENJU = false;
 		public static boolean OMOK = false;
-		public static boolean PLUS = false;
 	}
 }

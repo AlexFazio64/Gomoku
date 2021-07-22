@@ -59,6 +59,10 @@ public class Main extends Application {
 		stage.show();
 	}
 	
+	public static void close() {
+		stage.close();
+	}
+	
 	public static String getRes(String s) {
 		return Main.class.getResource("resources/" + s).toString();
 	}
