@@ -27,6 +27,8 @@ public class GameController {
 	@FXML
 	private Label p2Lbl;
 	
+	private GameLoop loop;
+	
 	@FXML
 	private void initialize() {
 		//set fonts
@@ -51,7 +53,7 @@ public class GameController {
 			gc.strokeLine(0, i, GS.DIM, i);
 		}
 		
-		GameLoop loop = new GameLoop(this, Main.logic, Main.referee);
+		loop = new GameLoop(this, Main.logic, Main.referee);
 		Thread thread = new Thread(loop);
 		thread.setDaemon(true);
 		thread.start();
@@ -152,10 +154,12 @@ public class GameController {
 	public void stopGame(int state) {
 		String winner = "Player ";
 		
+		loop.stop();
+		
 		switch (state) {
 			case GameLoop.INTERRUPTED:
 				Main.restart();
-				break;
+				return;
 			case GameLoop.STALLED:
 				winner = "Nobody";
 				break;

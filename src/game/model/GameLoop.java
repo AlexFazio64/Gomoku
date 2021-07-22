@@ -13,6 +13,7 @@ public class GameLoop extends Task<Void> {
 	private final GameController board;
 	private final GomokuLogic game;
 	private final Referee referee;
+	private boolean playing = true;
 	
 	public static final int INTERRUPTED = -1;
 	public static final int STALLED = 0;
@@ -23,15 +24,19 @@ public class GameLoop extends Task<Void> {
 		this.referee = ref;
 	}
 	
+	public synchronized void stop() {
+		playing = false;
+	}
+	
 	@Override
 	protected Void call() {
-		int state;
+		int state = -2;
 		ArrayList<Point2D[]> lines;
 		Player p;
 		int penalty = 0;
 		int turn = 1;
 		
-		while (true) {
+		while (playing) {
 			p = referee.getCurrentPlayer();
 			board.pass(p.id);
 			p.choose();
