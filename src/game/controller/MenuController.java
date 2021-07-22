@@ -81,7 +81,7 @@ public class MenuController {
 		p1 = p2 = null;
 		
 		//Game customization
-		GS.RULES.THREE = three_and_three.isSelected();
+		GS.RULES.THREE = three_and_three.isSelected() || handicap.isSelected();
 		GS.RULES.FOUR = four_and_four.isSelected();
 		GS.RULES.HANDICAP = handicap.isSelected();
 		GS.RULES.PRO = g_pro.isSelected();

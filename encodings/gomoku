@@ -13,17 +13,15 @@ placed(X,Y,P) | notPlaced(X,Y,P) :- player(P), lines(X), lines(Y).
 mine(X,Y) :- pawn(X,Y,P), player(P).
 other(X,Y) :- pawn(X,Y,P), enemy(P).
 
-% occupied positions (not counting banned positions)
+% occupied positions
 any(X,Y) :- other(X,Y).
 any(X,Y) :- mine(X,Y).
 
-% check
 % choose only one position
 :- #count{X,Y: placed(X,Y,_)}!=1.
 
-% constraint
-% position must be free
-:- placed(X,Y,_), any(X,Y).
+% position must be free and legal
+:- placed(X,Y,_), pawn(X,Y,_).
 
 % pawn should be near friendly pawns
 :~ #count{ROW, COL: friend(_,_,ROW,COL)}=0. [1@2]

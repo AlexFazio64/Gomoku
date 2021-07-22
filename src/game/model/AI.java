@@ -85,12 +85,13 @@ public class AI extends Player {
 				for (AnswerSet a: as.getOptimalAnswerSets()) {
 					System.out.println();
 					System.out.println(a.getLevelWeight());
-					String[] strings = a.toString().split(",\\s");
-					for (String line: strings) {
-						if ( line.contains("candidate") || line.contains("\"")) {
-							System.out.println(line);
-						}
-					}
+//					String[] strings = a.toString().split(",\\s");
+//					for (String line: strings) {
+//						if ( line.contains("candidate") || line.contains("\"") ) {
+//							System.out.println(line);
+//						}
+//					}
+//					System.out.println(a);
 					
 					for (Object atom: a.getAtoms())
 						if ( ( atom instanceof Placed ) ) {

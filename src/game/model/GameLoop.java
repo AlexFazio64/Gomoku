@@ -64,7 +64,7 @@ public class GameLoop extends Task<Void> {
 						game.setCell(row, col, p.id);
 						AI.Engine.updateShared(new Pawn(row, col, p.id));
 					} else {
-						//TODO ban this position so that AI can't loop here
+						AI.Engine.updateBanned(new Pawn(row, col, 3));
 						continue;
 					}
 					continue;

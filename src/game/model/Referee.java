@@ -49,7 +49,7 @@ public class Referee {
 			return -1;
 		} else if ( GS.RULES.THREE && lineDetection(row, col, 3) ) {
 			return 3;
-		} else if ( GS.RULES.THREE && lineDetection(row, col, 4) ) {
+		} else if ( GS.RULES.FOUR && lineDetection(row, col, 4) ) {
 			return 4;
 		}
 		return 0;
@@ -182,22 +182,22 @@ public class Referee {
 		System.out.println("M:" + m_cnt);
 		System.out.println("S:" + s_cnt);
 		
-		if ( v_cnt == SIZE ) {
+		if ( v_cnt >= SIZE ) {
 			++lines;
 		}
-		if ( h_cnt == SIZE ) {
+		if ( h_cnt >= SIZE ) {
 			++lines;
 		}
-		if ( m_cnt == SIZE ) {
+		if ( m_cnt >= SIZE ) {
 			++lines;
 		}
-		if ( s_cnt == SIZE ) {
+		if ( s_cnt >= SIZE ) {
 			++lines;
 		}
 		
 		System.out.println(SIZE + "Lines: " + lines);
 		
-		return lines == 2;
+		return lines >= 2;
 	}
 	
 	public Player getCurrentPlayer() {
@@ -205,23 +205,25 @@ public class Referee {
 	}
 	
 	public void updateBanned(int turn) {
-		if ( turn == 2 ) {
+		if ( turn == 2 && GS.RULES.PRO ) {
 			banned = new int[GS.GRIDSIZE - 2][GS.GRIDSIZE - 2];
 			AI.Engine.clearBanned();
-		} else if ( turn == 3 ) {
+		} else if ( turn == 3 && GS.RULES.PRO ) {
 			banned = new int[GS.GRIDSIZE - 2][GS.GRIDSIZE - 2];
 			AI.Engine.clearBanned();
 			
 			int mid = ( GS.GRIDSIZE - 2 ) / 2;
-			for (int i = mid - 3; i < mid + 3; ++i) {
-				for (int j = mid - 3; j < mid + 3; ++j) {
+			for (int i = mid - 3; i < mid + 2; ++i) {
+				for (int j = mid - 3; j < mid + 2; ++j) {
 					banned[i][j] = -1;
 					AI.Engine.updateBanned(new Pawn(i, j, 3));
 				}
 			}
-			
-		} else if ( turn > 3 ) {
+		} else if ( turn > 3 && GS.RULES.PRO ) {
 			GS.RULES.PRO = false;
+			banned = new int[GS.GRIDSIZE - 2][GS.GRIDSIZE - 2];
+			AI.Engine.clearBanned();
+		} else {
 			AI.Engine.clearBanned();
 		}
 	}
