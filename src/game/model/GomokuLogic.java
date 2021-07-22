@@ -34,6 +34,7 @@ public final class GomokuLogic {
 	}
 	
 	public ArrayList<Point2D[]> checkVictory(int row, int col) {
+		//TODO check victory for Freestyle variant (overlines)
 		ArrayList<Point2D[]> result = new ArrayList<>();
 		result.add(getVerticalCount(row, col));
 		result.add(getHorizontalCount(row, col));

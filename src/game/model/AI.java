@@ -44,7 +44,10 @@ public class AI extends Player {
 		}
 		
 		public static void stopAI() {
+			clearBanned();
 			instance = null;
+			shared = null;
+			banned = null;
 			try {
 				ASPMapper.getInstance().unregisterClass(Pawn.class);
 				ASPMapper.getInstance().unregisterClass(Placed.class);
@@ -68,6 +71,7 @@ public class AI extends Player {
 		}
 		
 		public static void updateBanned(Pawn last) {
+			//TODO fix banned position sometimes not pushed if AI vs. AI
 			try {
 				banned.addObjectInput(last);
 			} catch (Exception ignored) {
@@ -82,6 +86,7 @@ public class AI extends Player {
 			AnswerSets as = (AnswerSets) handler.startSync();
 			
 			try {
+				//TODO generate more AS and randomly choose one to add unpredictability
 				for (AnswerSet a: as.getOptimalAnswerSets()) {
 					System.out.println();
 					System.out.println(a.getLevelWeight());
@@ -91,7 +96,7 @@ public class AI extends Player {
 //							System.out.println(line);
 //						}
 //					}
-//					System.out.println(a);
+					System.out.println(a);
 					
 					for (Object atom: a.getAtoms())
 						if ( ( atom instanceof Placed ) ) {
@@ -110,6 +115,7 @@ public class AI extends Player {
 		}
 		
 		public Handler requestHandler(boolean pro, int id) {
+			//TODO add options to slim answer set dimensions
 			Handler h;
 			h = new DesktopHandler(new DLV2DesktopService("lib/dlv2.exe"));
 //			h = new DesktopHandler(new DLV2DesktopService("lib/dlv2linux"));
