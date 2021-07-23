@@ -9,11 +9,19 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="Fixed minor game logic errors with rules">
+    <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="much better AI, and added TODOs&#10;identified a bug with banned positions for G-PRO&#10;approaching release 😊">
+      <change afterPath="$PROJECT_DIR$/src/game/model/GomokuBoard.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/encodings/gomoku" beforeDir="false" afterPath="$PROJECT_DIR$/encodings/gomoku" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Gomoku.iml" beforeDir="false" afterPath="$PROJECT_DIR$/Gomoku.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/dlv.exe" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/game/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/game/controller/GameController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/controller/GameController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/game/controller/MenuController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/controller/MenuController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/game/model/AI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/model/AI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/game/model/GomokuLogic.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/model/GomokuLogic.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/game/model/GameLoop.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/model/GameLoop.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/game/model/GomokuLogic.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/game/model/Referee.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/model/Referee.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/game/settings/GS.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/settings/GS.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -133,11 +141,11 @@
     <property name="extract.method.default.visibility" value="private" />
     <property name="full.screen.before.presentation.mode" value="false" />
     <property name="last.edited.regexp" value="line1(12, 12, 12, 12, &quot;adw&quot;)," />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/lib/antlr-4.9.2-complete.jar" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/lib/embASP.jar" />
     <property name="nodejs_package_manager_path" value="npm" />
-    <property name="project.structure.last.edited" value="Artifacts" />
+    <property name="project.structure.last.edited" value="Libraries" />
     <property name="project.structure.proportion" value="0.15" />
-    <property name="project.structure.side.proportion" value="0.2046285" />
+    <property name="project.structure.side.proportion" value="0.20114942" />
     <property name="recentsLimit" value="5" />
     <property name="restartRequiresConfirmation" value="false" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
@@ -188,6 +196,19 @@
     </configuration>
     <configuration default="true" type="Application" factoryName="Application">
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="ArquillianTestNG" factoryName="" nameIsGenerated="true">
+      <option name="arquillianRunConfiguration">
+        <value>
+          <option name="containerStateName" value="" />
+        </value>
+      </option>
+      <option name="TEST_OBJECT" value="CLASS" />
+      <properties />
+      <listeners />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -271,7 +292,9 @@
       <workItem from="1626812758274" duration="2295000" />
       <workItem from="1626939746954" duration="11945000" />
       <workItem from="1626962981706" duration="9195000" />
-      <workItem from="1626991377062" duration="1878000" />
+      <workItem from="1626991377062" duration="2055000" />
+      <workItem from="1627035144977" duration="1947000" />
+      <workItem from="1627038651279" duration="13554000" />
     </task>
     <task id="LOCAL-00001" summary="Debugging corrected, winning condition set">
       <created>1621104575336</created>
@@ -455,7 +478,14 @@
       <option name="project" value="LOCAL" />
       <updated>1626972218428</updated>
     </task>
-    <option name="localTasksCounter" value="27" />
+    <task id="LOCAL-00027" summary="much better AI, and added TODOs&#10;identified a bug with banned positions for G-PRO&#10;approaching release 😊">
+      <created>1626993416885</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1626993416885</updated>
+    </task>
+    <option name="localTasksCounter" value="28" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -476,7 +506,6 @@
   <component name="VcsManagerConfiguration">
     <option name="OFFER_MOVE_TO_ANOTHER_CHANGELIST_ON_PARTIAL_COMMIT" value="true" />
     <option name="INCLUDE_TEXT_INTO_SHELF" value="false" />
-    <MESSAGE value="Debugging corrected, winning condition set" />
     <MESSAGE value="Tied game handled, fixed mouse input, added dlv libs" />
     <MESSAGE value="DLV2 test run, updated dependencies" />
     <MESSAGE value="Linux dependency + artifact building for linux" />
@@ -501,7 +530,8 @@
     <MESSAGE value="Ai: switched to windows because wsl broke :(&#10;Views: cleaned up unused nodes &#10;Controllers: ability to stop application mid-game&#10;updated" />
     <MESSAGE value="stopped ai thread when game is interrupted manually" />
     <MESSAGE value="Fixed minor game logic errors with rules" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixed minor game logic errors with rules" />
+    <MESSAGE value="much better AI, and added TODOs&#10;identified a bug with banned positions for G-PRO&#10;approaching release " />
+    <option name="LAST_COMMIT_MESSAGE" value="much better AI, and added TODOs&#10;identified a bug with banned positions for G-PRO&#10;approaching release " />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

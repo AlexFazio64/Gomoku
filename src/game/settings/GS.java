@@ -13,8 +13,21 @@ public abstract class GS {
 	public static final double LINESIZE = 2;
 	public static final Font FONT = new Font("Arial", 22);
 	
-	public static Image getBOARD() {
-		return new Image(Main.getRes("board.jpg"), DIM, DIM, true, true);
+	private static Image image = null;
+	private static Image menu = null;
+	
+	public static Image getBG() {
+		if ( image == null ) {
+			image = new Image(Main.getRes("board.jpg"), DIM, DIM, true, true);
+		}
+		return image;
+	}
+	
+	public static Image getMenuBG() {
+		if ( menu == null ) {
+			menu = new Image(Main.getRes("bg_blur.jpg"), DIM, DIM, true, true);
+		}
+		return menu;
 	}
 	
 	public static class RULES {

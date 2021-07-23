@@ -45,7 +45,7 @@ public class GameController {
 		table.setWidth(GS.DIM);
 		table.setHeight(GS.DIM);
 		
-		gc.drawImage(GS.getBOARD(), 0, 0);
+		gc.drawImage(GS.getBG(), 0, 0);
 		gc.setLineWidth(GS.LINESIZE);
 		
 		for (int i = 0; i <= GS.DIM; i += GS.CELLSIZE) {
@@ -53,7 +53,7 @@ public class GameController {
 			gc.strokeLine(0, i, GS.DIM, i);
 		}
 		
-		loop = new GameLoop(this, Main.logic, Main.referee);
+		loop = new GameLoop(this, Main.board, Main.referee);
 		Thread thread = new Thread(loop);
 		thread.setDaemon(true);
 		thread.start();
@@ -148,6 +148,7 @@ public class GameController {
 		
 		//mark line
 		gc.setStroke(Color.RED);
+		gc.setLineWidth(GS.LINESIZE + 2);
 		gc.strokeLine(( startY + 1 ) * GS.CELLSIZE, ( startX + 1 ) * GS.CELLSIZE, ( endY + 1 ) * GS.CELLSIZE, ( endX + 1 ) * GS.CELLSIZE);
 	}
 	

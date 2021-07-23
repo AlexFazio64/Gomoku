@@ -7,18 +7,17 @@ import javafx.geometry.Point2D;
 import javafx.util.Pair;
 
 import java.util.ArrayList;
-import java.util.function.Predicate;
 
 public class GameLoop extends Task<Void> {
 	private final GameController board;
-	private final GomokuLogic game;
+	private final GomokuBoard game;
 	private final Referee referee;
 	private boolean playing = true;
 	
 	public static final int INTERRUPTED = -1;
 	public static final int STALLED = 0;
 	
-	public GameLoop(GameController ctrl, GomokuLogic logic, Referee ref) {
+	public GameLoop(GameController ctrl, GomokuBoard logic, Referee ref) {
 		this.board = ctrl;
 		this.game = logic;
 		this.referee = ref;
@@ -31,7 +30,6 @@ public class GameLoop extends Task<Void> {
 	@Override
 	protected Void call() {
 		int state = -2;
-		ArrayList<Point2D[]> lines;
 		Player p;
 		int penalty = 0;
 		int turn = 1;
@@ -46,8 +44,9 @@ public class GameLoop extends Task<Void> {
 			int row = position.getKey();
 			int col = position.getValue();
 			
+			//TODO move updating to avoid loops...
 			referee.updateBanned(turn);
-			switch (referee.judgeMove(row, col)) {
+			switch (referee.isLegalMove(row, col)) {
 				case -1:
 					//broke rule n1
 					System.out.println(row + "," + col + " not available, retry...");
@@ -70,7 +69,8 @@ public class GameLoop extends Task<Void> {
 					continue;
 				
 				case 4:
-					//broke rule n4
+					//broke rule n4, ban position
+					AI.Engine.updateBanned(new Pawn(row, col, 3));
 					System.out.println("rule 4 and 4");
 					continue;
 				
@@ -90,16 +90,15 @@ public class GameLoop extends Task<Void> {
 			
 			if ( !game.hasEmptyCell() ) {
 				state = STALLED;
-				break;
+				playing = false;
 			}
 			
-			lines = game.checkVictory(row, col);
-			lines.removeIf(Predicate.isEqual(null));
-			
-			if ( !lines.isEmpty() ) {
+			Point2D[] line = referee.isWinningMove(row, col, p.id);
+			if ( line != null ) {
+				//player has won
 				state = p.id;
-				board.markStroke(lines.get(0));
-				break;
+				board.markStroke(line);
+				playing = false;
 			}
 		}
 		

@@ -10,7 +10,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
-import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Background;
@@ -42,7 +41,7 @@ public class MenuController {
 	
 	@FXML
 	private void initialize() {
-		pane.setBackground(new Background(new BackgroundImage(new Image(Main.getRes("bg_blur.jpg")), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, null, null)));
+		pane.setBackground(new Background(new BackgroundImage(GS.getMenuBG(), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, null, null)));
 		
 		p1option.getItems().add("Human");
 		p1option.getItems().add("AI (Normal)");
@@ -81,11 +80,11 @@ public class MenuController {
 		p1 = p2 = null;
 		
 		//Game customization
-		GS.RULES.THREE = three_and_three.isSelected() || handicap.isSelected();
-		GS.RULES.FOUR = four_and_four.isSelected();
-		GS.RULES.HANDICAP = handicap.isSelected();
+		GS.RULES.THREE = three_and_three.isSelected() || handicap.isSelected() || omok.isSelected();
+		GS.RULES.FOUR = four_and_four.isSelected() && !GS.RULES.THREE;
+		GS.RULES.HANDICAP = handicap.isSelected() && !omok.isSelected();
 		GS.RULES.PRO = g_pro.isSelected();
-		GS.RULES.FREESTYLE = freestyle.isSelected();
+		GS.RULES.FREESTYLE = freestyle.isSelected() || omok.isSelected();
 		GS.RULES.RENJU = renju.isSelected();
 		GS.RULES.OMOK = omok.isSelected();
 		

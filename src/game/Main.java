@@ -1,7 +1,7 @@
 package game;
 
 import game.model.AI;
-import game.model.GomokuLogic;
+import game.model.GomokuBoard;
 import game.model.Player;
 import game.model.Referee;
 import javafx.application.Application;
@@ -13,7 +13,7 @@ import javafx.stage.Stage;
 public class Main extends Application {
 	private static Stage stage;
 	
-	public static GomokuLogic logic;
+	public static GomokuBoard board;
 	public static Referee referee;
 	
 	@Override
@@ -30,8 +30,8 @@ public class Main extends Application {
 	public static void play(Player p1, Player p2) {
 		stage.hide();
 		
-		logic = new GomokuLogic();
-		referee = new Referee(logic, p1, p2);
+		board = new GomokuBoard();
+		referee = new Referee(board, p1, p2);
 		
 		try {
 			Parent board = FXMLLoader.load(Main.class.getResource("view/board.fxml"));

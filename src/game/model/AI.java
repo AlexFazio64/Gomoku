@@ -3,6 +3,7 @@ package game.model;
 import game.settings.GS;
 import it.unical.mat.embasp.base.Handler;
 import it.unical.mat.embasp.base.InputProgram;
+import it.unical.mat.embasp.base.OptionDescriptor;
 import it.unical.mat.embasp.languages.asp.ASPInputProgram;
 import it.unical.mat.embasp.languages.asp.ASPMapper;
 import it.unical.mat.embasp.languages.asp.AnswerSet;
@@ -86,23 +87,21 @@ public class AI extends Player {
 			AnswerSets as = (AnswerSets) handler.startSync();
 			
 			try {
-				//TODO generate more AS and randomly choose one to add unpredictability
 				for (AnswerSet a: as.getOptimalAnswerSets()) {
 					System.out.println();
 					System.out.println(a.getLevelWeight());
-//					String[] strings = a.toString().split(",\\s");
-//					for (String line: strings) {
-//						if ( line.contains("candidate") || line.contains("\"") ) {
-//							System.out.println(line);
-//						}
-//					}
 					System.out.println(a);
-					
-					for (Object atom: a.getAtoms())
-						if ( ( atom instanceof Placed ) ) {
-							return (Placed) atom;
-						}
 				}
+				
+				int idx = (int) ( Math.random() % as.getOptimalAnswerSets().size() );
+				System.out.println(idx);
+				AnswerSet chosen = as.getOptimalAnswerSets().get(idx);
+				
+				for (Object atom: chosen.getAtoms())
+					if ( ( atom instanceof Placed ) ) {
+						return (Placed) atom;
+					}
+				
 			} catch (Exception ignored) {
 			}
 			
@@ -115,7 +114,6 @@ public class AI extends Player {
 		}
 		
 		public Handler requestHandler(boolean pro, int id) {
-			//TODO add options to slim answer set dimensions
 			Handler h;
 			h = new DesktopHandler(new DLV2DesktopService("lib/dlv2.exe"));
 //			h = new DesktopHandler(new DLV2DesktopService("lib/dlv2linux"));
@@ -129,6 +127,9 @@ public class AI extends Player {
 			h.addProgram(fixed);
 			h.addProgram(shared);
 			h.addProgram(banned);
+			
+			h.addOption(new OptionDescriptor("-n 3 "));
+			h.addOption(new OptionDescriptor("--filter=placed/3 "));
 			
 			return h;
 		}
