@@ -13,6 +13,9 @@ public abstract class GS {
 	public static final double LINESIZE = 2;
 	public static final Font FONT = new Font("Arial", 22);
 	
+	public static final String HUMAN = "Human";
+	public static final String AI = "AI";
+	
 	private static Image image = null;
 	private static Image menu = null;
 	

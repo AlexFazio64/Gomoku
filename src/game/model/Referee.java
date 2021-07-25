@@ -4,55 +4,39 @@ import game.settings.GS;
 import javafx.geometry.Point2D;
 
 public class Referee {
-	private final GomokuBoard game;
+	private final GomokuBoard board;
 	private int[][] banned;
 	private Player next;
 	private Player current;
+	private int turn = 1;
 	
 	public Referee(GomokuBoard logic, Player p1, Player p2) {
-		this.game = logic;
+		this.board = logic;
 		this.banned = new int[GS.GRIDSIZE - 1][GS.GRIDSIZE - 1];
-		
+		AI.Engine.getInstance();
 		current = p1;
 		next = p2;
-		
-		for (int i = 0; i < banned.length; i++) {
-			for (int j = 0; j < banned.length; j++) {
-				banned[i][j] = -1;
-			}
-		}
-		
-		AI.Engine.getInstance();
-		banned[( GS.GRIDSIZE - 2 ) / 2][( GS.GRIDSIZE - 2 ) / 2] = 0;
-		
-		if ( !GS.RULES.PRO ) {
-			return;
-		}
-		
-		//first move is always the center (PRO)
-		//make sure they are initialized
-		AI.Engine.clearBanned();
-		for (int i = 0; i < banned.length; i++)
-			for (int j = 0; j < banned.length; j++)
-				if ( banned[i][j] != 0 ) {
-					AI.Engine.updateBanned(new Pawn(i, j, 3));
-				}
 	}
 	
 	public void switchPlayer() {
 		Player swap = current;
 		current = next;
 		next = swap;
+		openingMoveCheck();
 	}
 	
 	public int isLegalMove(int row, int col) {
-		if ( game.getCell(row, col) != 0 || ( GS.RULES.PRO && banned[row][col] == -1 ) ) {
+		if ( board.getCell(row, col) != 0 || banned[row][col] == current.id ) {
 			return -1;
 		} else if ( GS.RULES.THREE && lineDetection(row, col, 3) ) {
+			updateBanned(row, col, current.id);
 			return 3;
 		} else if ( GS.RULES.FOUR && lineDetection(row, col, 4) ) {
+			updateBanned(row, col, current.id);
 			return 4;
 		}
+		++turn;
+		AI.Engine.clearBanned();
 		return 0;
 	}
 	
@@ -72,7 +56,7 @@ public class Referee {
 		cell = 1;
 		cnt = 1;
 		while (( r - cell ) >= 0) {
-			if ( game.getCell(r - cell, c) == id ) {
+			if ( board.getCell(r - cell, c) == id ) {
 				++cnt;
 			} else {
 				break;
@@ -88,7 +72,7 @@ public class Referee {
 		cell = 1;
 		cnt = 1;
 		while (( r + cell ) < grid_bound) {
-			if ( game.getCell(r + cell, c) == id ) {
+			if ( board.getCell(r + cell, c) == id ) {
 				++cnt;
 			} else {
 				break;
@@ -109,7 +93,7 @@ public class Referee {
 		cell = 1;
 		cnt = 1;
 		while (( c - cell ) >= 0) {
-			if ( game.getCell(r, c - cell) == id ) {
+			if ( board.getCell(r, c - cell) == id ) {
 				++cnt;
 			} else {
 				break;
@@ -125,7 +109,7 @@ public class Referee {
 		cell = 1;
 		cnt = 1;
 		while (( c + cell ) < grid_bound) {
-			if ( game.getCell(r, c + cell) == id ) {
+			if ( board.getCell(r, c + cell) == id ) {
 				++cnt;
 			} else {
 				break;
@@ -146,7 +130,7 @@ public class Referee {
 		cell = 1;
 		cnt = 1;
 		while (( r - cell ) >= 0 && ( c - cell ) >= 0) {
-			if ( game.getCell(r - cell, c - cell) == id ) {
+			if ( board.getCell(r - cell, c - cell) == id ) {
 				++cnt;
 			} else {
 				break;
@@ -163,7 +147,7 @@ public class Referee {
 		cell = 1;
 		cnt = 1;
 		while (( r + cell ) < grid_bound && ( c + cell ) < grid_bound) {
-			if ( game.getCell(r + cell, c + cell) == id ) {
+			if ( board.getCell(r + cell, c + cell) == id ) {
 				++cnt;
 			} else {
 				break;
@@ -184,7 +168,7 @@ public class Referee {
 		cell = 1;
 		cnt = 1;
 		while (( r - cell ) >= 0 && ( c + cell ) < grid_bound) {
-			if ( game.getCell(r - cell, c + cell) == id ) {
+			if ( board.getCell(r - cell, c + cell) == id ) {
 				++cnt;
 			} else {
 				break;
@@ -201,7 +185,7 @@ public class Referee {
 		cell = 1;
 		cnt = 1;
 		while (( r + cell ) < grid_bound && ( c - cell ) >= 0) {
-			if ( game.getCell(r + cell, c - cell) == id ) {
+			if ( board.getCell(r + cell, c - cell) == id ) {
 				++cnt;
 			} else {
 				break;
@@ -241,7 +225,7 @@ public class Referee {
 		cell = 1;
 		cnt = 1;
 		while (( r - cell ) >= 0 && cell < SIZE) {
-			if ( game.getCell(r - cell, c) == id ) {
+			if ( board.getCell(r - cell, c) == id ) {
 				++cnt;
 			} else {
 				break;
@@ -254,7 +238,7 @@ public class Referee {
 		cell = 1;
 		cnt = 1;
 		while (( c + cell ) < grid_bound && cell < SIZE) {
-			if ( game.getCell(r, c + cell) == id ) {
+			if ( board.getCell(r, c + cell) == id ) {
 				++cnt;
 			} else {
 				break;
@@ -267,7 +251,7 @@ public class Referee {
 		cell = 1;
 		cnt = 1;
 		while (( r + cell ) < grid_bound && cell < SIZE) {
-			if ( game.getCell(r + cell, c) == id ) {
+			if ( board.getCell(r + cell, c) == id ) {
 				++cnt;
 			} else {
 				break;
@@ -280,7 +264,7 @@ public class Referee {
 		cell = 1;
 		cnt = 1;
 		while (( c - cell ) >= 0 && cell < SIZE) {
-			if ( game.getCell(r, c - cell) == id ) {
+			if ( board.getCell(r, c - cell) == id ) {
 				++cnt;
 			} else {
 				break;
@@ -293,7 +277,7 @@ public class Referee {
 		cell = 1;
 		cnt = 1;
 		while (( r - cell ) >= 0 && ( c - cell ) >= 0 && cell < SIZE) {
-			if ( game.getCell(r - cell, c - cell) == id ) {
+			if ( board.getCell(r - cell, c - cell) == id ) {
 				++cnt;
 			} else {
 				break;
@@ -306,7 +290,7 @@ public class Referee {
 		cell = 1;
 		cnt = 1;
 		while (( r - cell ) >= 0 && ( c + cell ) < grid_bound && cell < SIZE) {
-			if ( game.getCell(r - cell, c + cell) == id ) {
+			if ( board.getCell(r - cell, c + cell) == id ) {
 				++cnt;
 			} else {
 				break;
@@ -319,7 +303,7 @@ public class Referee {
 		cell = 1;
 		cnt = 1;
 		while (( r + cell ) < grid_bound && ( c + cell ) < grid_bound && cell < SIZE) {
-			if ( game.getCell(r + cell, c + cell) == id ) {
+			if ( board.getCell(r + cell, c + cell) == id ) {
 				++cnt;
 			} else {
 				break;
@@ -332,7 +316,7 @@ public class Referee {
 		cell = 1;
 		cnt = 1;
 		while (( r + cell ) < grid_bound && ( c - cell ) >= 0 && cell < SIZE) {
-			if ( game.getCell(r + cell, c - cell) == id ) {
+			if ( board.getCell(r + cell, c - cell) == id ) {
 				++cnt;
 			} else {
 				break;
@@ -361,27 +345,54 @@ public class Referee {
 		return current;
 	}
 	
-	public void updateBanned(int turn) {
-		if ( turn == 2 && GS.RULES.PRO ) {
-			banned = new int[GS.GRIDSIZE - 2][GS.GRIDSIZE - 2];
-			AI.Engine.clearBanned();
-		} else if ( turn == 3 && GS.RULES.PRO ) {
-			banned = new int[GS.GRIDSIZE - 2][GS.GRIDSIZE - 2];
-			AI.Engine.clearBanned();
-			
-			int mid = ( GS.GRIDSIZE - 2 ) / 2;
-			for (int i = mid - 3; i < mid + 2; ++i) {
-				for (int j = mid - 3; j < mid + 2; ++j) {
-					banned[i][j] = -1;
+	public void openingMoveCheck() {
+		if ( GS.RULES.PRO ) {
+			if ( turn == 1 ) {
+				for (int i = 0; i < banned.length; i++) {
+					for (int j = 0; j < banned.length; j++) {
+						banned[i][j] = 1;
+					}
+				}
+				
+				AI.Engine.getInstance();
+				
+				//first move is always the center (PRO)
+				banned[( GS.GRIDSIZE - 2 ) / 2][( GS.GRIDSIZE - 2 ) / 2] = 0;
+				dumpBannedToAI();
+			} else if ( turn == 2 ) {
+				banned = new int[GS.GRIDSIZE - 1][GS.GRIDSIZE - 1];
+			} else if ( turn == 3 ) {
+				banned = new int[GS.GRIDSIZE - 1][GS.GRIDSIZE - 1];
+				
+				int mid = ( GS.GRIDSIZE - 2 ) / 2;
+				for (int i = mid - 3; i < mid + 3; ++i) {
+					for (int j = mid - 3; j < mid + 3; ++j) {
+						banned[i][j] = 1;
+						AI.Engine.updateBanned(new Pawn(i, j, 3));
+					}
+				}
+			} else if ( turn > 3 ) {
+				GS.RULES.PRO = false;
+				banned = new int[GS.GRIDSIZE - 1][GS.GRIDSIZE - 1];
+			}
+		} else {
+			dumpBannedToAI();
+		}
+	}
+	
+	private void dumpBannedToAI() {
+		int c = 0;
+		for (int i = 0; i < banned.length; i++) {
+			for (int j = 0; j < banned.length; j++) {
+				if ( banned[i][j] != 0 ) {
+					++c;
 					AI.Engine.updateBanned(new Pawn(i, j, 3));
 				}
 			}
-		} else if ( turn > 3 && GS.RULES.PRO ) {
-			GS.RULES.PRO = false;
-			banned = new int[GS.GRIDSIZE - 2][GS.GRIDSIZE - 2];
-			AI.Engine.clearBanned();
-		} else {
-			AI.Engine.clearBanned();
 		}
+	}
+	
+	public void updateBanned(int row, int col, int id) {
+		banned[row][col] = id;
 	}
 }

@@ -43,15 +43,13 @@ public class MenuController {
 	private void initialize() {
 		pane.setBackground(new Background(new BackgroundImage(GS.getMenuBG(), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, null, null)));
 		
-		p1option.getItems().add("Human");
-		p1option.getItems().add("AI (Normal)");
-		p1option.getItems().add("AI (Hard)");
-		p1option.setValue("Human");
+		p1option.getItems().add(GS.HUMAN);
+		p1option.getItems().add(GS.AI);
+		p1option.setValue(GS.HUMAN);
 		
-		p2option.getItems().add("Human");
-		p2option.getItems().add("AI (Normal)");
-		p2option.getItems().add("AI (Hard)");
-		p2option.setValue("Human");
+		p2option.getItems().add(GS.HUMAN);
+		p2option.getItems().add(GS.AI);
+		p2option.setValue(GS.AI);
 		
 		RuleChecker checker = RuleChecker.getInstance();
 		checker.submit(three_and_three, "size-omok");
@@ -94,26 +92,20 @@ public class MenuController {
 		}
 		
 		switch (p1option.getValue()) {
-			case "Human":
+			case GS.HUMAN:
 				p1 = new Human(1);
 				break;
-			case "AI (Normal)":
-				p1 = new AI(1, false);
-				break;
-			case "AI (Hard)":
-				p1 = new AI(1, true);
+			case GS.AI:
+				p1 = new AI(1);
 				break;
 		}
 		
 		switch (p2option.getValue()) {
-			case "Human":
+			case GS.HUMAN:
 				p2 = new Human(2);
 				break;
-			case "AI (Normal)":
-				p2 = new AI(2, false);
-				break;
-			case "AI (Hard)":
-				p2 = new AI(2, true);
+			case GS.AI:
+				p2 = new AI(2);
 				break;
 		}
 		

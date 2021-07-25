@@ -1,6 +1,0 @@
-lines(X):- size(Y), X=Y-2.
-lines(X):- lines(Y), X>=0, X=Y-1.
-cross(X, Y):- lines(X), lines(Y).
-placed(X,Y,P) | notPlaced(X,Y,P):- player(P), lines(X), lines(Y).
-:- #count{X,Y,P: placed(X,Y,P)}!=1.
-:- placed(X,Y,_), pawn(X,Y,_).

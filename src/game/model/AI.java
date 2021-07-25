@@ -14,10 +14,10 @@ import it.unical.mat.embasp.specializations.dlv2.desktop.DLV2DesktopService;
 public class AI extends Player {
 	private final Handler handler;
 	
-	public AI(int id, boolean pro) {
-		super(id, Math.random() < .5 ? "Perri" : "❤ Zangari ❤");
+	public AI(int id) {
+		super(id, "Terminator");
 		this.r = this.c = 0;
-		handler = Engine.getInstance().requestHandler(pro, id);
+		handler = Engine.getInstance().requestHandler(id);
 	}
 	
 	@Override
@@ -39,8 +39,7 @@ public class AI extends Player {
 				ASPMapper.getInstance().registerClass(Placed.class);
 				shared = new ASPInputProgram();
 				banned = new ASPInputProgram();
-			} catch (Exception e) {
-				e.printStackTrace();
+			} catch (Exception ignored) {
 			}
 		}
 		
@@ -52,8 +51,7 @@ public class AI extends Player {
 			try {
 				ASPMapper.getInstance().unregisterClass(Pawn.class);
 				ASPMapper.getInstance().unregisterClass(Placed.class);
-			} catch (Exception e) {
-				e.printStackTrace();
+			} catch (Exception ignored) {
 			}
 		}
 		
@@ -72,7 +70,6 @@ public class AI extends Player {
 		}
 		
 		public static void updateBanned(Pawn last) {
-			//TODO fix banned position sometimes not pushed if AI vs. AI
 			try {
 				banned.addObjectInput(last);
 			} catch (Exception ignored) {
@@ -93,8 +90,8 @@ public class AI extends Player {
 					System.out.println(a);
 				}
 				
-				int idx = (int) ( Math.random() % as.getOptimalAnswerSets().size() );
-				System.out.println(idx);
+				int idx = (int) ( Math.random() * 10 % as.getOptimalAnswerSets().size() );
+				System.out.println("chosen AS: "+idx);
 				AnswerSet chosen = as.getOptimalAnswerSets().get(idx);
 				
 				for (Object atom: chosen.getAtoms())
@@ -113,13 +110,12 @@ public class AI extends Player {
 			return afforza;
 		}
 		
-		public Handler requestHandler(boolean pro, int id) {
+		public Handler requestHandler(int id) {
 			Handler h;
 			h = new DesktopHandler(new DLV2DesktopService("lib/dlv2.exe"));
-//			h = new DesktopHandler(new DLV2DesktopService("lib/dlv2linux"));
 			
 			InputProgram fixed = new ASPInputProgram();
-			fixed.addFilesPath(pro ? "encodings/promoku" : "encodings/gomoku");
+			fixed.addFilesPath("encodings/gomoku");
 			fixed.addProgram(String.format("player(%d).", id));
 			fixed.addProgram(String.format("enemy(%d).", ( id == 1 ) ? 2 : 1));
 			fixed.addProgram(String.format("size(%d).", GS.GRIDSIZE));
@@ -127,8 +123,8 @@ public class AI extends Player {
 			h.addProgram(fixed);
 			h.addProgram(shared);
 			h.addProgram(banned);
-			
-			h.addOption(new OptionDescriptor("-n 3 "));
+
+//			h.addOption(new OptionDescriptor("-n 3 "));
 			h.addOption(new OptionDescriptor("--filter=placed/3 "));
 			
 			return h;

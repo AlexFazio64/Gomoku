@@ -6,8 +6,6 @@ import javafx.concurrent.Task;
 import javafx.geometry.Point2D;
 import javafx.util.Pair;
 
-import java.util.ArrayList;
-
 public class GameLoop extends Task<Void> {
 	private final GameController board;
 	private final GomokuBoard game;
@@ -32,7 +30,6 @@ public class GameLoop extends Task<Void> {
 		int state = -2;
 		Player p;
 		int penalty = 0;
-		int turn = 1;
 		
 		while (playing) {
 			p = referee.getCurrentPlayer();
@@ -44,8 +41,6 @@ public class GameLoop extends Task<Void> {
 			int row = position.getKey();
 			int col = position.getValue();
 			
-			//TODO move updating to avoid loops...
-			referee.updateBanned(turn);
 			switch (referee.isLegalMove(row, col)) {
 				case -1:
 					//broke rule n1
@@ -63,20 +58,19 @@ public class GameLoop extends Task<Void> {
 						game.setCell(row, col, p.id);
 						AI.Engine.updateShared(new Pawn(row, col, p.id));
 					} else {
-						AI.Engine.updateBanned(new Pawn(row, col, 3));
+						referee.updateBanned(row, col, 3);
 						continue;
 					}
 					continue;
 				
 				case 4:
 					//broke rule n4, ban position
-					AI.Engine.updateBanned(new Pawn(row, col, 3));
+					referee.updateBanned(row, col, p.id);
 					System.out.println("rule 4 and 4");
 					continue;
 				
 				default:
 					board.markSpot(row, col, p.color);
-					System.out.println("referee responded");
 					game.setCell(row, col, p.id);
 					if ( penalty == 0 ) {
 						referee.switchPlayer();
@@ -85,8 +79,6 @@ public class GameLoop extends Task<Void> {
 					}
 					AI.Engine.updateShared(new Pawn(row, col, p.id));
 			}
-			
-			++turn;
 			
 			if ( !game.hasEmptyCell() ) {
 				state = STALLED;

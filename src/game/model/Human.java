@@ -1,22 +1,21 @@
 package game.model;
 
+@SuppressWarnings("SynchronizeOnNonFinalField")
 public class Human extends Player {
 	private Thread loop;
 	
 	public Human(int id) {
-		super(id, "Fazio");
+		super(id, "John Connor");
 	}
 	
 	@Override
 	public void choose() {
 		loop = Thread.currentThread();
 		try {
-			System.out.println("waiting...");
 			synchronized (loop) {
 				loop.wait();
 			}
-		} catch (InterruptedException e) {
-			e.printStackTrace();
+		} catch (InterruptedException ignored) {
 		}
 	}
 	
