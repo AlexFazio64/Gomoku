@@ -24,6 +24,7 @@ friend(X, Y, ROW, COL) :- placed(X, Y, P), mine(ROW, COL), ROW=X+0, COL=Y+1.
 friend(X, Y, ROW, COL) :- placed(X, Y, P), mine(ROW, COL), ROW=X+1, COL=Y-1.
 friend(X, Y, ROW, COL) :- placed(X, Y, P), mine(ROW, COL), ROW=X+1, COL=Y+0.
 friend(X, Y, ROW, COL) :- placed(X, Y, P), mine(ROW, COL), ROW=X+1, COL=Y+1.
+foe(X, Y, ROW, COL) :- placed(X, Y, P), other(ROW, COL), ROW=X-1, COL=Y-1.
 foe(X, Y, ROW, COL) :- placed(X, Y, P), other(ROW, COL), ROW=X-1, COL=Y+0.
 foe(X, Y, ROW, COL) :- placed(X, Y, P), other(ROW, COL), ROW=X-1, COL=Y+1.
 foe(X, Y, ROW, COL) :- placed(X, Y, P), other(ROW, COL), ROW=X+0, COL=Y-1.
@@ -60,23 +61,23 @@ candidate(CX,CY,3) :- line2(X1,Y1,X2,Y2,"D1"), not any(CX,CY), CX=X2+1, CY=Y2+1,
 candidate(CX,CY,3) :- line2(X1,Y1,X2,Y2,"D2"), not any(CX,CY), CX=X1-1, CY=Y1+1, lines(CX), lines(CY), not placed(CX,CY,P), player(P).
 candidate(CX,CY,3) :- line2(X1,Y1,X2,Y2,"D2"), not any(CX,CY), CX=X2+1, CY=Y2-1, lines(CX), lines(CY), not placed(CX,CY,P), player(P).
 
-candidate(CX,CY,4) :- line3(X1,Y1,X2,Y2,"V"), not any(CX,CY), CX=X1-1, CY=Y1+0, lines(CX), lines(CY), not placed(CX,CY,P), player(P).
-candidate(CX,CY,4) :- line3(X1,Y1,X2,Y2,"V"), not any(CX,CY), CX=X2+1, CY=Y1+0, lines(CX), lines(CY), not placed(CX,CY,P), player(P).
-candidate(CX,CY,4) :- line3(X1,Y1,X2,Y2,"H"), not any(CX,CY), CX=X1+0, CY=Y1-1, lines(CX), lines(CY), not placed(CX,CY,P), player(P).
-candidate(CX,CY,4) :- line3(X1,Y1,X2,Y2,"H"), not any(CX,CY), CX=X1+0, CY=Y2+1, lines(CX), lines(CY), not placed(CX,CY,P), player(P).
-candidate(CX,CY,4) :- line3(X1,Y1,X2,Y2,"D1"), not any(CX,CY), CX=X1-1, CY=Y1-1, lines(CX), lines(CY), not placed(CX,CY,P), player(P).
-candidate(CX,CY,4) :- line3(X1,Y1,X2,Y2,"D1"), not any(CX,CY), CX=X2+1, CY=Y2+1, lines(CX), lines(CY), not placed(CX,CY,P), player(P).
-candidate(CX,CY,4) :- line3(X1,Y1,X2,Y2,"D2"), not any(CX,CY), CX=X1-1, CY=Y1+1, lines(CX), lines(CY), not placed(CX,CY,P), player(P).
-candidate(CX,CY,4) :- line3(X1,Y1,X2,Y2,"D2"), not any(CX,CY), CX=X2+1, CY=Y2-1, lines(CX), lines(CY), not placed(CX,CY,P), player(P).
+candidate(CX,CY,2) :- line3(X1,Y1,X2,Y2,"V"), not any(CX,CY), CX=X1-1, CY=Y1+0, lines(CX), lines(CY), not placed(CX,CY,P), player(P).
+candidate(CX,CY,2) :- line3(X1,Y1,X2,Y2,"V"), not any(CX,CY), CX=X2+1, CY=Y1+0, lines(CX), lines(CY), not placed(CX,CY,P), player(P).
+candidate(CX,CY,2) :- line3(X1,Y1,X2,Y2,"H"), not any(CX,CY), CX=X1+0, CY=Y1-1, lines(CX), lines(CY), not placed(CX,CY,P), player(P).
+candidate(CX,CY,2) :- line3(X1,Y1,X2,Y2,"H"), not any(CX,CY), CX=X1+0, CY=Y2+1, lines(CX), lines(CY), not placed(CX,CY,P), player(P).
+candidate(CX,CY,2) :- line3(X1,Y1,X2,Y2,"D1"), not any(CX,CY), CX=X1-1, CY=Y1-1, lines(CX), lines(CY), not placed(CX,CY,P), player(P).
+candidate(CX,CY,2) :- line3(X1,Y1,X2,Y2,"D1"), not any(CX,CY), CX=X2+1, CY=Y2+1, lines(CX), lines(CY), not placed(CX,CY,P), player(P).
+candidate(CX,CY,2) :- line3(X1,Y1,X2,Y2,"D2"), not any(CX,CY), CX=X1-1, CY=Y1+1, lines(CX), lines(CY), not placed(CX,CY,P), player(P).
+candidate(CX,CY,2) :- line3(X1,Y1,X2,Y2,"D2"), not any(CX,CY), CX=X2+1, CY=Y2-1, lines(CX), lines(CY), not placed(CX,CY,P), player(P).
 
-candidate(CX,CY,5) :- line4(X1,Y1,X2,Y2,"V"), not any(CX,CY), CX=X1-1, CY=Y1+0, lines(CX), lines(CY), not placed(CX,CY,P), player(P).
-candidate(CX,CY,5) :- line4(X1,Y1,X2,Y2,"V"), not any(CX,CY), CX=X2+1, CY=Y1+0, lines(CX), lines(CY), not placed(CX,CY,P), player(P).
-candidate(CX,CY,5) :- line4(X1,Y1,X2,Y2,"H"), not any(CX,CY), CX=X1+0, CY=Y1-1, lines(CX), lines(CY), not placed(CX,CY,P), player(P).
-candidate(CX,CY,5) :- line4(X1,Y1,X2,Y2,"H"), not any(CX,CY), CX=X1+0, CY=Y2+1, lines(CX), lines(CY), not placed(CX,CY,P), player(P).
-candidate(CX,CY,5) :- line4(X1,Y1,X2,Y2,"D1"), not any(CX,CY), CX=X1-1, CY=Y1-1, lines(CX), lines(CY), not placed(CX,CY,P), player(P).
-candidate(CX,CY,5) :- line4(X1,Y1,X2,Y2,"D1"), not any(CX,CY), CX=X2+1, CY=Y2+1, lines(CX), lines(CY), not placed(CX,CY,P), player(P).
-candidate(CX,CY,5) :- line4(X1,Y1,X2,Y2,"D2"), not any(CX,CY), CX=X1-1, CY=Y1+1, lines(CX), lines(CY), not placed(CX,CY,P), player(P).
-candidate(CX,CY,5) :- line4(X1,Y1,X2,Y2,"D2"), not any(CX,CY), CX=X2+1, CY=Y2-1, lines(CX), lines(CY), not placed(CX,CY,P), player(P).
+candidate(CX,CY,1) :- line4(X1,Y1,X2,Y2,"V"), not any(CX,CY), CX=X1-1, CY=Y1+0, lines(CX), lines(CY), not placed(CX,CY,P), player(P).
+candidate(CX,CY,1) :- line4(X1,Y1,X2,Y2,"V"), not any(CX,CY), CX=X2+1, CY=Y1+0, lines(CX), lines(CY), not placed(CX,CY,P), player(P).
+candidate(CX,CY,1) :- line4(X1,Y1,X2,Y2,"H"), not any(CX,CY), CX=X1+0, CY=Y1-1, lines(CX), lines(CY), not placed(CX,CY,P), player(P).
+candidate(CX,CY,1) :- line4(X1,Y1,X2,Y2,"H"), not any(CX,CY), CX=X1+0, CY=Y2+1, lines(CX), lines(CY), not placed(CX,CY,P), player(P).
+candidate(CX,CY,1) :- line4(X1,Y1,X2,Y2,"D1"), not any(CX,CY), CX=X1-1, CY=Y1-1, lines(CX), lines(CY), not placed(CX,CY,P), player(P).
+candidate(CX,CY,1) :- line4(X1,Y1,X2,Y2,"D1"), not any(CX,CY), CX=X2+1, CY=Y2+1, lines(CX), lines(CY), not placed(CX,CY,P), player(P).
+candidate(CX,CY,1) :- line4(X1,Y1,X2,Y2,"D2"), not any(CX,CY), CX=X1-1, CY=Y1+1, lines(CX), lines(CY), not placed(CX,CY,P), player(P).
+candidate(CX,CY,1) :- line4(X1,Y1,X2,Y2,"D2"), not any(CX,CY), CX=X2+1, CY=Y2-1, lines(CX), lines(CY), not placed(CX,CY,P), player(P).
 
 % same thing for enemy lines
 e_line4(SX,SY,EX,SY,"V") 	:- 	other(SX,SY), other(SX+1,SY), other(SX+2,SY), other(EX,SY), EX=SX+3.
@@ -96,32 +97,32 @@ e_line2(SX,SY,EX,EY,"D2") 	:- 	other(SX,SY), other(EX,EY), EX=SX+1, EY=SY-1, not
 
 % those are positions designed to block enemy lines...
 % they have varying degrees of priority
-obstacole(CX,CY,4) :- e_line2(X1,Y1,X2,Y2,"V"), not any(CX,CY), CX=X1-1, CY=Y1+0, lines(CX), lines(CY), not placed(CX,CY,P), player(P).
-obstacole(CX,CY,4) :- e_line2(X1,Y1,X2,Y2,"V"), not any(CX,CY), CX=X2+1, CY=Y1+0, lines(CX), lines(CY), not placed(CX,CY,P), player(P).
-obstacole(CX,CY,4) :- e_line2(X1,Y1,X2,Y2,"H"), not any(CX,CY), CX=X1+0, CY=Y1-1, lines(CX), lines(CY), not placed(CX,CY,P), player(P).
-obstacole(CX,CY,4) :- e_line2(X1,Y1,X2,Y2,"H"), not any(CX,CY), CX=X1+0, CY=Y2+1, lines(CX), lines(CY), not placed(CX,CY,P), player(P).
-obstacole(CX,CY,4) :- e_line2(X1,Y1,X2,Y2,"D1"), not any(CX,CY), CX=X1-1, CY=Y1-1, lines(CX), lines(CY), not placed(CX,CY,P), player(P).
-obstacole(CX,CY,4) :- e_line2(X1,Y1,X2,Y2,"D1"), not any(CX,CY), CX=X2+1, CY=Y2+1, lines(CX), lines(CY), not placed(CX,CY,P), player(P).
-obstacole(CX,CY,4) :- e_line2(X1,Y1,X2,Y2,"D2"), not any(CX,CY), CX=X1-1, CY=Y1+1, lines(CX), lines(CY), not placed(CX,CY,P), player(P).
-obstacole(CX,CY,4) :- e_line2(X1,Y1,X2,Y2,"D2"), not any(CX,CY), CX=X2+1, CY=Y2-1, lines(CX), lines(CY), not placed(CX,CY,P), player(P).
+obstacole(CX,CY,3) :- e_line2(X1,Y1,X2,Y2,"V"), not any(CX,CY), CX=X1-1, CY=Y1+0, lines(CX), lines(CY), not placed(CX,CY,P), player(P).
+obstacole(CX,CY,3) :- e_line2(X1,Y1,X2,Y2,"V"), not any(CX,CY), CX=X2+1, CY=Y1+0, lines(CX), lines(CY), not placed(CX,CY,P), player(P).
+obstacole(CX,CY,3) :- e_line2(X1,Y1,X2,Y2,"H"), not any(CX,CY), CX=X1+0, CY=Y1-1, lines(CX), lines(CY), not placed(CX,CY,P), player(P).
+obstacole(CX,CY,3) :- e_line2(X1,Y1,X2,Y2,"H"), not any(CX,CY), CX=X1+0, CY=Y2+1, lines(CX), lines(CY), not placed(CX,CY,P), player(P).
+obstacole(CX,CY,3) :- e_line2(X1,Y1,X2,Y2,"D1"), not any(CX,CY), CX=X1-1, CY=Y1-1, lines(CX), lines(CY), not placed(CX,CY,P), player(P).
+obstacole(CX,CY,3) :- e_line2(X1,Y1,X2,Y2,"D1"), not any(CX,CY), CX=X2+1, CY=Y2+1, lines(CX), lines(CY), not placed(CX,CY,P), player(P).
+obstacole(CX,CY,3) :- e_line2(X1,Y1,X2,Y2,"D2"), not any(CX,CY), CX=X1-1, CY=Y1+1, lines(CX), lines(CY), not placed(CX,CY,P), player(P).
+obstacole(CX,CY,3) :- e_line2(X1,Y1,X2,Y2,"D2"), not any(CX,CY), CX=X2+1, CY=Y2-1, lines(CX), lines(CY), not placed(CX,CY,P), player(P).
 
-obstacole(CX,CY,5) :- e_line3(X1,Y1,X2,Y2,"V"), not any(CX,CY), CX=X1-1, CY=Y1+0, lines(CX), lines(CY), not placed(CX,CY,P), player(P).
-obstacole(CX,CY,5) :- e_line3(X1,Y1,X2,Y2,"V"), not any(CX,CY), CX=X2+1, CY=Y1+0, lines(CX), lines(CY), not placed(CX,CY,P), player(P).
-obstacole(CX,CY,5) :- e_line3(X1,Y1,X2,Y2,"H"), not any(CX,CY), CX=X1+0, CY=Y1-1, lines(CX), lines(CY), not placed(CX,CY,P), player(P).
-obstacole(CX,CY,5) :- e_line3(X1,Y1,X2,Y2,"H"), not any(CX,CY), CX=X1+0, CY=Y2+1, lines(CX), lines(CY), not placed(CX,CY,P), player(P).
-obstacole(CX,CY,5) :- e_line3(X1,Y1,X2,Y2,"D1"), not any(CX,CY), CX=X1-1, CY=Y1-1, lines(CX), lines(CY), not placed(CX,CY,P), player(P).
-obstacole(CX,CY,5) :- e_line3(X1,Y1,X2,Y2,"D1"), not any(CX,CY), CX=X2+1, CY=Y2+1, lines(CX), lines(CY), not placed(CX,CY,P), player(P).
-obstacole(CX,CY,5) :- e_line3(X1,Y1,X2,Y2,"D2"), not any(CX,CY), CX=X1-1, CY=Y1+1, lines(CX), lines(CY), not placed(CX,CY,P), player(P).
-obstacole(CX,CY,5) :- e_line3(X1,Y1,X2,Y2,"D2"), not any(CX,CY), CX=X2+1, CY=Y2-1, lines(CX), lines(CY), not placed(CX,CY,P), player(P).
+obstacole(CX,CY,2) :- e_line3(X1,Y1,X2,Y2,"V"), not any(CX,CY), CX=X1-1, CY=Y1+0, lines(CX), lines(CY), not placed(CX,CY,P), player(P).
+obstacole(CX,CY,2) :- e_line3(X1,Y1,X2,Y2,"V"), not any(CX,CY), CX=X2+1, CY=Y1+0, lines(CX), lines(CY), not placed(CX,CY,P), player(P).
+obstacole(CX,CY,2) :- e_line3(X1,Y1,X2,Y2,"H"), not any(CX,CY), CX=X1+0, CY=Y1-1, lines(CX), lines(CY), not placed(CX,CY,P), player(P).
+obstacole(CX,CY,2) :- e_line3(X1,Y1,X2,Y2,"H"), not any(CX,CY), CX=X1+0, CY=Y2+1, lines(CX), lines(CY), not placed(CX,CY,P), player(P).
+obstacole(CX,CY,2) :- e_line3(X1,Y1,X2,Y2,"D1"), not any(CX,CY), CX=X1-1, CY=Y1-1, lines(CX), lines(CY), not placed(CX,CY,P), player(P).
+obstacole(CX,CY,2) :- e_line3(X1,Y1,X2,Y2,"D1"), not any(CX,CY), CX=X2+1, CY=Y2+1, lines(CX), lines(CY), not placed(CX,CY,P), player(P).
+obstacole(CX,CY,2) :- e_line3(X1,Y1,X2,Y2,"D2"), not any(CX,CY), CX=X1-1, CY=Y1+1, lines(CX), lines(CY), not placed(CX,CY,P), player(P).
+obstacole(CX,CY,2) :- e_line3(X1,Y1,X2,Y2,"D2"), not any(CX,CY), CX=X2+1, CY=Y2-1, lines(CX), lines(CY), not placed(CX,CY,P), player(P).
 
-obstacole(CX,CY,5) :- e_line4(X1,Y1,X2,Y2,"V"), not any(CX,CY), CX=X1-1, CY=Y1+0, lines(CX), lines(CY), not placed(CX,CY,P), player(P).
-obstacole(CX,CY,5) :- e_line4(X1,Y1,X2,Y2,"V"), not any(CX,CY), CX=X2+1, CY=Y1+0, lines(CX), lines(CY), not placed(CX,CY,P), player(P).
-obstacole(CX,CY,5) :- e_line4(X1,Y1,X2,Y2,"H"), not any(CX,CY), CX=X1+0, CY=Y1-1, lines(CX), lines(CY), not placed(CX,CY,P), player(P).
-obstacole(CX,CY,5) :- e_line4(X1,Y1,X2,Y2,"H"), not any(CX,CY), CX=X1+0, CY=Y2+1, lines(CX), lines(CY), not placed(CX,CY,P), player(P).
-obstacole(CX,CY,5) :- e_line4(X1,Y1,X2,Y2,"D1"), not any(CX,CY), CX=X1-1, CY=Y1-1, lines(CX), lines(CY), not placed(CX,CY,P), player(P).
-obstacole(CX,CY,5) :- e_line4(X1,Y1,X2,Y2,"D1"), not any(CX,CY), CX=X2+1, CY=Y2+1, lines(CX), lines(CY), not placed(CX,CY,P), player(P).
-obstacole(CX,CY,5) :- e_line4(X1,Y1,X2,Y2,"D2"), not any(CX,CY), CX=X1-1, CY=Y1+1, lines(CX), lines(CY), not placed(CX,CY,P), player(P).
-obstacole(CX,CY,5) :- e_line4(X1,Y1,X2,Y2,"D2"), not any(CX,CY), CX=X2+1, CY=Y2-1, lines(CX), lines(CY), not placed(CX,CY,P), player(P).
+obstacole(CX,CY,1) :- e_line4(X1,Y1,X2,Y2,"V"), not any(CX,CY), CX=X1-1, CY=Y1+0, lines(CX), lines(CY), not placed(CX,CY,P), player(P).
+obstacole(CX,CY,1) :- e_line4(X1,Y1,X2,Y2,"V"), not any(CX,CY), CX=X2+1, CY=Y1+0, lines(CX), lines(CY), not placed(CX,CY,P), player(P).
+obstacole(CX,CY,1) :- e_line4(X1,Y1,X2,Y2,"H"), not any(CX,CY), CX=X1+0, CY=Y1-1, lines(CX), lines(CY), not placed(CX,CY,P), player(P).
+obstacole(CX,CY,1) :- e_line4(X1,Y1,X2,Y2,"H"), not any(CX,CY), CX=X1+0, CY=Y2+1, lines(CX), lines(CY), not placed(CX,CY,P), player(P).
+obstacole(CX,CY,1) :- e_line4(X1,Y1,X2,Y2,"D1"), not any(CX,CY), CX=X1-1, CY=Y1-1, lines(CX), lines(CY), not placed(CX,CY,P), player(P).
+obstacole(CX,CY,1) :- e_line4(X1,Y1,X2,Y2,"D1"), not any(CX,CY), CX=X2+1, CY=Y2+1, lines(CX), lines(CY), not placed(CX,CY,P), player(P).
+obstacole(CX,CY,1) :- e_line4(X1,Y1,X2,Y2,"D2"), not any(CX,CY), CX=X1-1, CY=Y1+1, lines(CX), lines(CY), not placed(CX,CY,P), player(P).
+obstacole(CX,CY,1) :- e_line4(X1,Y1,X2,Y2,"D2"), not any(CX,CY), CX=X2+1, CY=Y2-1, lines(CX), lines(CY), not placed(CX,CY,P), player(P).
 
 % guess a position
 placed(X,Y,P) | notPlaced(X,Y,P) :- player(P), lines(X), lines(Y).
@@ -133,13 +134,13 @@ placed(X,Y,P) | notPlaced(X,Y,P) :- player(P), lines(X), lines(Y).
 :- placed(X,Y,_), pawn(X,Y,_).
 
 % it should be near friendly pawns preferrably
-:~ #count{ROW, COL: friend(_,_,ROW,COL)}=0. [2@2]
+:~ #count{ROW, COL: friend(_,_,ROW,COL)}=0. [1@5]
 
 % otherwise near enemy pawns if possible
-:~ #count{ROW, COL: foe(_,_,ROW,COL)}=0. [1@2]
+:~ #count{ROW, COL: foe(_,_,ROW,COL)}=0. [1@5]
 
 % said position should yield an advantage
-:~ candidate(X,Y,W). [1@W, X,Y,W]
+:~ candidate(X,Y,W). [1@W, X,Y]
 
 % or a disadvantage for the enemy
-:~ obstacole(X,Y,W). [2@W, X,Y,W]
+:~ obstacole(X,Y,W). [1@W, X,Y]
