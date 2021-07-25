@@ -159,7 +159,7 @@ public class Referee {
 		
 		if ( m_cnt >= 5 ) {
 			r_end = r + cell;
-			c_end = r + cell;
+			c_end = c + cell;
 			
 			return makeCoords(r_start, r_end, c_start, c_end, m_cnt);
 		}

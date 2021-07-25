@@ -1,0 +1,13 @@
+<component name="ArtifactManager">
+  <artifact build-on-make="true" name="res">
+    <output-path>$PROJECT_DIR$/out/artifacts/Gomoku</output-path>
+    <root id="root">
+      <element id="directory" name="encodings">
+        <element id="dir-copy" path="$PROJECT_DIR$/encodings" />
+      </element>
+      <element id="directory" name="lib">
+        <element id="file-copy" path="$PROJECT_DIR$/lib/dlv2.exe" />
+      </element>
+    </root>
+  </artifact>
+</component>
