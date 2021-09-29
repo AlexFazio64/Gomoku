@@ -22,7 +22,7 @@ many variations of the standard rules that can be decided before starting the ga
 - ### Pro
     1. Player 1 must place his first pawn in the center of the board,
     2. Player 2 can place his pawn anywhere in the board
-    3. Player 1 now must place his second pawn three spaces away from the center
+    3. Player 1 now must place his second pawn three intersections away from the center
     4. the game continues normally from here
 - #### many others...
 

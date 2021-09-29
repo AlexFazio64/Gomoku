@@ -10,12 +10,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="Removed unused code&#10;polished pro opening move&#10;removed prints">
-      <change afterPath="$PROJECT_DIR$/.idea/artifacts/res.xml" afterDir="false" />
+    <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="fixed graphical bug">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/encodings/gomoku" beforeDir="false" afterPath="$PROJECT_DIR$/encodings/gomoku" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/dlv2linux" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/game/model/Referee.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/model/Referee.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -277,7 +273,8 @@
       <workItem from="1627035144977" duration="1947000" />
       <workItem from="1627038651279" duration="13780000" />
       <workItem from="1627198589537" duration="17731000" />
-      <workItem from="1627232213832" duration="73000" />
+      <workItem from="1627232213832" duration="237000" />
+      <workItem from="1628191313675" duration="5087000" />
     </task>
     <task id="LOCAL-00001" summary="Debugging corrected, winning condition set">
       <created>1621104575336</created>
@@ -482,7 +479,14 @@
       <option name="project" value="LOCAL" />
       <updated>1627228725950</updated>
     </task>
-    <option name="localTasksCounter" value="30" />
+    <task id="LOCAL-00030" summary="fixed graphical bug">
+      <created>1627232424808</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1627232424808</updated>
+    </task>
+    <option name="localTasksCounter" value="31" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -503,7 +507,6 @@
   <component name="VcsManagerConfiguration">
     <option name="OFFER_MOVE_TO_ANOTHER_CHANGELIST_ON_PARTIAL_COMMIT" value="true" />
     <option name="INCLUDE_TEXT_INTO_SHELF" value="false" />
-    <MESSAGE value="Linux dependency + artifact building for linux" />
     <MESSAGE value="Implemented DLV2 JavaBeans&#10;Initial writeup of ASP gomoku" />
     <MESSAGE value="Fixed wrong coordinates used in drawing the pawns on canvas" />
     <MESSAGE value="Fixed wrong coordinates used in drawing the pawns on canvas&#10;fixed overflow in ASP program" />
@@ -528,7 +531,8 @@
     <MESSAGE value="much better AI, and added TODOs&#10;identified a bug with banned positions for G-PRO&#10;approaching release " />
     <MESSAGE value="Added options to handlers to slim AS&#10;Generation of more positions to make it more unpredictable&#10;Graphical changes to winning moves&#10;Winning move detection changed&#10;GomokuLogic.java is now only a Board&#10;Image loading optimized" />
     <MESSAGE value="Removed unused code&#10;polished pro opening move&#10;removed prints" />
-    <option name="LAST_COMMIT_MESSAGE" value="Removed unused code&#10;polished pro opening move&#10;removed prints" />
+    <MESSAGE value="fixed graphical bug" />
+    <option name="LAST_COMMIT_MESSAGE" value="fixed graphical bug" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
