@@ -38,7 +38,7 @@ line2(SX,SY,EX,EY,"D2") :- mine(SX,SY), mine(EX,EY), EX=SX+1, EY=SY-1, not mine(
 % for each line there can be two good positions...
 % before the line, or after the line, so that the line becomes longer
 
-candidate(7..11, 7..11, 1) :- #count{X,Y : any(X,Y)}<3. 	% internal ring as a fallback
+candidate(7..11, 7..11, 1) :- #count{X,Y : any(X,Y)}<2. 	% internal ring as a fallback
 
 candidate(CX,CY,2) :- mine(X,Y), not any(CX,CY), lines(CX), lines(CY), CX=X-1, CY=Y+0.
 candidate(CX,CY,2) :- mine(X,Y), not any(CX,CY), lines(CX), lines(CY), CX=X+1, CY=Y+0.
@@ -120,9 +120,13 @@ obstacole(CX,CY,5) :- e_line4(X1,Y1,X2,Y2,"D1"), not any(CX,CY), lines(CX), line
 obstacole(CX,CY,5) :- e_line4(X1,Y1,X2,Y2,"D2"), not any(CX,CY), lines(CX), lines(CY), CX=X1-1, CY=Y1+1.
 obstacole(CX,CY,5) :- e_line4(X1,Y1,X2,Y2,"D2"), not any(CX,CY), lines(CX), lines(CY), CX=X2+1, CY=Y2-1.
 
+% possible positions
+pos(A,B,C) :- candidate(A,B,C).
+pos(A,B,C) :- obstacole(A,B,C).
+
 % guess a position
-placed(X,Y,P) | notPlaced(X,Y,P) :- player(P), candidate(X,Y,_).
-placed(X,Y,P) | notPlaced(X,Y,P) :- player(P), obstacole(X,Y,_).
+notMax(X,Y,L) :- pos(X,Y,L), pos(X1,Y1,L1), L<L1.
+placed(X,Y,P) | notPlaced(X,Y,P) :- pos(X,Y,L), not notMax(X,Y,L), player(P).
 
 % choose only one position
 :- #count{X,Y: placed(X,Y,_)}!=1.
@@ -130,22 +134,14 @@ placed(X,Y,P) | notPlaced(X,Y,P) :- player(P), obstacole(X,Y,_).
 % it must be free and legal
 :- placed(X,Y,_), pawn(X,Y,_).
 
-:~ size(-1). [1@1] % for reasons...
-
-:~ placed(X,Y,_), candidate(X1,Y1,L), X!=X1, Y!=Y1. [1@L, X1,Y1]
-:~ placed(X,Y,_), obstacole(X1,Y1,L), X!=X1, Y!=Y1. [1@L, X1,Y1]
+:~ placed(X,Y,_), pos(X1,Y1,L), X!=X1, Y!=Y1. [1@L]
 
 % count the candidates and the obstacoles and evaluate
-%penalty(D,1):- #count{X ,Y : candidate(X, Y, 1)}=C, D=C.
-penalty(D,2):- #count{XC,YC : candidate(XC,YC,2)}=C, D=C.
-penalty(D,3):- #count{XC,YC : candidate(XC,YC,3)}=C, #count{XO,YO : obstacole(XO,YO,3)}=O, D=O-C.
-penalty(D,4):- #count{XC,YC : candidate(XC,YC,4)}=C, #count{XO,YO : obstacole(XO,YO,4)}=O, D=O-C.
-penalty(D,5):- #count{XC,YC : candidate(XC,YC,5)}=C, #count{XO,YO : obstacole(XO,YO,5)}=O, D=O-C.
+% penalty(D,2):- #count{XC,YC : candidate(XC,YC,2)}=D.
+% penalty(D,3):- #count{XC,YC,EX,EY : e_line2(XC,YC,EX,EY,_)}=C, #count{XO,YO,EX,EY : line2(XO,YO,EX,EY,_)}=O, D=O-C.
+% penalty(D,4):- #count{XC,YC,EX,EY : e_line3(XC,YC,EX,EY,_)}=C, #count{XO,YO,EX,EY : line3(XO,YO,EX,EY,_)}=O, D=O-C.
+% penalty(D,5):- #count{XC,YC,EX,EY : e_line4(XC,YC,EX,EY,_)}=C, #count{XO,YO,EX,EY : line4(XO,YO,EX,EY,_)}=O, D=O-C.
 
-:~ penalty(D,L), D>0. [D@L]
+%:~ penalty(D,L), D>0. [D@L]
 
-% ---------------------------------------
-% said position should yield an advantage
-%:~ candidate(X,Y,W). [1@W, X,Y]
-% or a disadvantage for the enemy
-%:~ obstacole(X,Y,W). [1@W, X,Y]
+%%%%%%% give priority to longest possible position

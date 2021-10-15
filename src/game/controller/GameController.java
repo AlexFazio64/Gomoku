@@ -15,6 +15,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 
 public class GameController {
 	@FXML
@@ -47,10 +48,15 @@ public class GameController {
 
 		gc.drawImage(GS.getBG(), 0, 0);
 		gc.setLineWidth(GS.LINESIZE);
+		gc.setFont(new Font(16.0));
 
 		for (int i = 0; i <= GS.DIM; i += GS.CELLSIZE) {
 			gc.strokeLine(i, 0, i, GS.DIM);
 			gc.strokeLine(0, i, GS.DIM, i);
+			if (i != GS.DIM)
+				gc.fillText((i - 1) / GS.CELLSIZE + "", GS.LINESIZE, i - GS.LINESIZE);
+			if (i != 0)
+				gc.fillText((i - 1) / GS.CELLSIZE + "", i + GS.LINESIZE, GS.CELLSIZE - GS.LINESIZE);
 		}
 
 		loop = new GameLoop(this, Main.board, Main.referee);

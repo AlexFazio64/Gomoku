@@ -38,19 +38,20 @@ public class MenuController {
 	private CheckBox renju;
 	@FXML
 	private CheckBox omok;
-	
+
 	@FXML
 	private void initialize() {
-		pane.setBackground(new Background(new BackgroundImage(GS.getMenuBG(), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, null, null)));
-		
+		pane.setBackground(new Background(new BackgroundImage(GS.getMenuBG(), BackgroundRepeat.NO_REPEAT,
+				BackgroundRepeat.NO_REPEAT, null, null)));
+
 		p1option.getItems().add(GS.HUMAN);
 		p1option.getItems().add(GS.AI);
 		p1option.setValue(GS.HUMAN);
-		
+
 		p2option.getItems().add(GS.HUMAN);
 		p2option.getItems().add(GS.AI);
 		p2option.setValue(GS.AI);
-		
+
 		RuleChecker checker = RuleChecker.getInstance();
 		checker.submit(three_and_three, "size-omok");
 		checker.submit(four_and_four, "size");
@@ -59,25 +60,25 @@ public class MenuController {
 		checker.submit(freestyle, "style-omok");
 		checker.submit(renju, "style");
 		checker.submit(omok, "style-omok");
-		
+
 		checker.registerIncompatibility("size", three_and_three, four_and_four, handicap);
 		checker.registerIncompatibility("omok", three_and_three, omok, freestyle);
 		checker.registerIncompatibility("style", freestyle, renju, omok);
 		checker.registerIncompatibility("opening", g_pro);
 	}
-	
+
 	@FXML
 	private void ruleChange(ActionEvent actionEvent) {
 		CheckBox rule = (CheckBox) actionEvent.getSource();
 		RuleChecker.getInstance().update(rule);
 	}
-	
+
 	@FXML
 	private void play(ActionEvent actionEvent) {
 		Player p1, p2;
 		p1 = p2 = null;
-		
-		//Game customization
+
+		// Game customization
 		GS.RULES.THREE = three_and_three.isSelected() || handicap.isSelected() || omok.isSelected();
 		GS.RULES.FOUR = four_and_four.isSelected() && !GS.RULES.THREE;
 		GS.RULES.HANDICAP = handicap.isSelected() && !omok.isSelected();
@@ -85,12 +86,15 @@ public class MenuController {
 		GS.RULES.FREESTYLE = freestyle.isSelected() || omok.isSelected();
 		GS.RULES.RENJU = renju.isSelected();
 		GS.RULES.OMOK = omok.isSelected();
-		
-		if ( GS.RULES.RENJU ) {
+
+		if (GS.RULES.RENJU) {
 			GS.GRIDSIZE = 16;
-			GS.DIM = GS.GRIDSIZE * GS.CELLSIZE;
+		} else {
+			GS.GRIDSIZE = 20;
 		}
-		
+
+		GS.DIM = GS.GRIDSIZE * GS.CELLSIZE;
+
 		switch (p1option.getValue()) {
 			case GS.HUMAN:
 				p1 = new Human(1);
@@ -99,7 +103,7 @@ public class MenuController {
 				p1 = new AI(1);
 				break;
 		}
-		
+
 		switch (p2option.getValue()) {
 			case GS.HUMAN:
 				p2 = new Human(2);
@@ -108,13 +112,13 @@ public class MenuController {
 				p2 = new AI(2);
 				break;
 		}
-		
+
 		Main.play(p1, p2);
 	}
-	
+
 	@FXML
 	public void exit(KeyEvent keyEvent) {
-		if ( keyEvent.getCode().equals(KeyCode.ESCAPE) ) {
+		if (keyEvent.getCode().equals(KeyCode.ESCAPE)) {
 			Main.close();
 		}
 	}
