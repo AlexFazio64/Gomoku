@@ -128,9 +128,10 @@ public class AI extends Player {
 			h.addProgram(shared);
 			h.addProgram(banned);
 
+			OptionDescriptor filter = new OptionDescriptor(
+					"--filter=placed/3,advantage/0,disadvantage/0,bestmove/0,pos/3");
 			// h.addOption(new OptionDescriptor("-n 3 "));
-			h.addOption(new OptionDescriptor(
-					"--filter=placed/3,e_line2/5,e_line3/5,e_line4/5,e_line5/5,line2/5,line3/5,line4/5,line5/5,penalty/2,candidate/3,obstacole/3"));
+			h.addOption(filter);
 
 			return h;
 		}

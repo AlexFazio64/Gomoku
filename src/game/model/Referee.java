@@ -365,8 +365,8 @@ public class Referee {
 				banned = new int[GS.GRIDSIZE - 1][GS.GRIDSIZE - 1];
 
 				int mid = (GS.GRIDSIZE - 2) / 2;
-				for (int i = mid - 2; i < mid + 2; ++i) {
-					for (int j = mid - 2; j < mid + 2; ++j) {
+				for (int i = mid - 2; i < mid + 3; ++i) {
+					for (int j = mid - 2; j < mid + 3; ++j) {
 						banned[i][j] = 1;
 						AI.Engine.updateBanned(new Pawn(i, j, 3));
 					}

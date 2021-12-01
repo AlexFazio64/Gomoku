@@ -96,30 +96,30 @@ public class GameController {
 		Point2D target = null;
 
 		switch (intersects(p, ul, dl, ur, dr)) {
-			case 0:
-				if (nx == 0 || ny == 0) {
-					break;
-				}
-				target = ul;
+		case 0:
+			if (nx == 0 || ny == 0) {
 				break;
-			case 1:
-				if (ny == GS.GRIDSIZE - 1 || nx == 0) {
-					break;
-				}
-				target = dl;
+			}
+			target = ul;
+			break;
+		case 1:
+			if (ny == GS.GRIDSIZE - 1 || nx == 0) {
 				break;
-			case 2:
-				if (ny == 0 || nx == GS.GRIDSIZE - 1) {
-					break;
-				}
-				target = ur;
+			}
+			target = dl;
+			break;
+		case 2:
+			if (ny == 0 || nx == GS.GRIDSIZE - 1) {
 				break;
-			case 3:
-				if (ny == GS.GRIDSIZE - 1 || nx == GS.GRIDSIZE - 1) {
-					break;
-				}
-				target = dr;
+			}
+			target = ur;
+			break;
+		case 3:
+			if (ny == GS.GRIDSIZE - 1 || nx == GS.GRIDSIZE - 1) {
 				break;
+			}
+			target = dr;
+			break;
 		}
 
 		// no candidate position found, abort
@@ -166,14 +166,14 @@ public class GameController {
 		loop.stop();
 
 		switch (state) {
-			case GameLoop.INTERRUPTED:
-				Main.restart();
-				return;
-			case GameLoop.STALLED:
-				winner = "Nobody";
-				break;
-			default:
-				winner += state;
+		case GameLoop.INTERRUPTED:
+			Main.restart();
+			return;
+		case GameLoop.STALLED:
+			winner = "Nobody";
+			break;
+		default:
+			winner += state;
 		}
 		table.setOnMouseClicked(event -> Main.restart());
 
@@ -201,6 +201,10 @@ public class GameController {
 	public void stop(KeyEvent keyEvent) {
 		if (keyEvent.getCode().equals(KeyCode.ESCAPE)) {
 			stopGame(GameLoop.INTERRUPTED);
+		} else if (keyEvent.getCode().equals(KeyCode.BACK_SPACE)) {
+			System.out.println("-----------SAVESTATE-----------\n");
+			Main.board.printState().forEach(a -> System.out.println(a));
+			System.out.println("\n-----------SAVESTATE-----------");
 		}
 	}
 }

@@ -47,6 +47,6 @@ public class Pawn {
 	
 	@Override
 	public String toString() {
-		return "pawn(" + row + "," + col + "," + val + ')';
+		return "pawn(" + row + "," + col + "," + val + ").";
 	}
 }

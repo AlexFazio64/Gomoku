@@ -1,6 +1,6 @@
 % board definition
 lines(X) :- size(Y), X=Y-2.
-lines(X) :- lines(Y), X>=0, X=Y-1.
+lines(X) :- lines(Y), X>=0, X=Y-1. % 0 .. 18
 
 % additional predicates are added via embasp
 %size(S).
@@ -16,132 +16,187 @@ any(X,Y) :- other(X,Y).
 any(X,Y) :- mine(X,Y).
 
 % a line is a group of contiguous pawns that follow a direction
-% V: 	N -> S
-% H: 	W -> E
-% D1: 	NW -> SE
-% D2: 	NE -> SW
-line4(SX,SY,EX,SY,"V") 	:- mine(SX,SY), mine(SX+1,SY), mine(SX+2,SY), mine(EX,SY), EX=SX+3.
-line4(SX,SY,SX,EY,"H") 	:- mine(SX,SY), mine(SX,SY+1), mine(SX,SY+2), mine(SX,EY), EY=SY+3.
+% V: 	N -> S 		|	% H: 	W -> E
+% D1: 	NW -> SE	| 	% D2: 	NE -> SW
+line4(SX,SY,EX,SY, "V") :- mine(SX,SY), mine(SX+1,SY), mine(SX+2,SY), mine(EX,SY), EX=SX+3.
+line4(SX,SY,SX,EY, "H") :- mine(SX,SY), mine(SX,SY+1), mine(SX,SY+2), mine(SX,EY), EY=SY+3.
 line4(SX,SY,EX,EY,"D1") :- mine(SX,SY), mine(SX+1,SY+1), mine(SX+2,SY+2), mine(EX,EY), EX=SX+3, EY=SY+3.
 line4(SX,SY,EX,EY,"D2") :- mine(SX,SY), mine(SX+1,SY-1), mine(SX+2,SY-2), mine(EX,EY), EX=SX+3, EY=SY-3.
 
-line3(SX,SY,EX,SY,"V")	:- mine(SX,SY), mine(SX+1,SY), mine(EX,SY), EX=SX+2, not mine(SX-1,SY), not mine(EX+1,SY).
-line3(SX,SY,SX,EY,"H")	:- mine(SX,SY), mine(SX,SY+1), mine(SX,EY), EY=SY+2, not mine(SX,SY-1), not mine(SX,EY+1).
+line3(SX,SY,EX,SY, "V")	:- mine(SX,SY), mine(SX+1,SY), mine(EX,SY), EX=SX+2, not mine(SX-1,SY), not mine(EX+1,SY).
+line3(SX,SY,SX,EY, "H")	:- mine(SX,SY), mine(SX,SY+1), mine(SX,EY), EY=SY+2, not mine(SX,SY-1), not mine(SX,EY+1).
 line3(SX,SY,EX,EY,"D1") :- mine(SX,SY), mine(SX+1,SY+1), mine(EX,EY), EX=SX+2, EY=SY+2, not mine(SX-1,SY-1), not mine(EX+1,EY+1).
 line3(SX,SY,EX,EY,"D2") :- mine(SX,SY), mine(SX+1,SY-1), mine(EX,EY), EX=SX+2, EY=SY-2, not mine(SX-1,SY+1), not mine(EX+1,EY-1).
 
-line2(SX,SY,EX,SY,"V") 	:- mine(SX,SY), mine(EX,SY), EX=SX+1, not mine(SX-1,SY), not mine(EX+1,SY).
-line2(SX,SY,SX,EY,"H") 	:- mine(SX,SY), mine(SX,EY), EY=SY+1, not mine(SX,SY-1), not mine(SX,EY+1).
+line2(SX,SY,EX,SY, "V") :- mine(SX,SY), mine(EX,SY), EX=SX+1, not mine(SX-1,SY), not mine(EX+1,SY).
+line2(SX,SY,SX,EY, "H") :- mine(SX,SY), mine(SX,EY), EY=SY+1, not mine(SX,SY-1), not mine(SX,EY+1).
 line2(SX,SY,EX,EY,"D1") :- mine(SX,SY), mine(EX,EY), EX=SX+1, EY=SY+1, not mine(SX-1,SY-1), not mine(EX+1,EY+1).
 line2(SX,SY,EX,EY,"D2") :- mine(SX,SY), mine(EX,EY), EX=SX+1, EY=SY-1, not mine(SX-1,SY+1), not mine(EX+1,EY-1).
 
+broken_line(SX,SY, "V") :- mine(SX-1,   SY), not any(SX, SY), mine(SX+1,   SY), lines(SX), lines(SY).
+broken_line(SX,SY, "H") :- mine(SX,   SY-1), not any(SX, SY), mine(SX,   SY+1), lines(SX), lines(SY).
+broken_line(SX,SY,"D1") :- mine(SX-1, SY-1), not any(SX, SY), mine(SX+1, SY+1), lines(SX), lines(SY).
+broken_line(SX,SY,"D2") :- mine(SX-1, SY+1), not any(SX, SY), mine(SX+1, SY-1), lines(SX), lines(SY).
+
 % for each line there can be two good positions...
 % before the line, or after the line, so that the line becomes longer
+candidate(CX,CY,1,"↑",X,Y) :- mine(X,Y), not any(CX,CY), lines(CX), lines(CY), CX=X-1, CY=Y+0, lines(OX), lines(OY), OX=X+1, OY=Y+0, not mine(OX,OY).
+candidate(CX,CY,1,"↓",X,Y) :- mine(X,Y), not any(CX,CY), lines(CX), lines(CY), CX=X+1, CY=Y+0, lines(OX), lines(OY), OX=X-1, OY=Y+0, not mine(OX,OY).
+candidate(CX,CY,1,"←",X,Y) :- mine(X,Y), not any(CX,CY), lines(CX), lines(CY), CX=X+0, CY=Y-1, lines(OX), lines(OY), OX=X+0, OY=Y+1, not mine(OX,OY).
+candidate(CX,CY,1,"→",X,Y) :- mine(X,Y), not any(CX,CY), lines(CX), lines(CY), CX=X+0, CY=Y+1, lines(OX), lines(OY), OX=X+0, OY=Y-1, not mine(OX,OY).
+candidate(CX,CY,1,"↖",X,Y) :- mine(X,Y), not any(CX,CY), lines(CX), lines(CY), CX=X-1, CY=Y-1, lines(OX), lines(OY), OX=X+1, OY=Y+1, not mine(OX,OY).
+candidate(CX,CY,1,"↘",X,Y) :- mine(X,Y), not any(CX,CY), lines(CX), lines(CY), CX=X+1, CY=Y+1, lines(OX), lines(OY), OX=X-1, OY=Y-1, not mine(OX,OY).
+candidate(CX,CY,1,"↗",X,Y) :- mine(X,Y), not any(CX,CY), lines(CX), lines(CY), CX=X-1, CY=Y+1, lines(OX), lines(OY), OX=X+1, OY=Y-1, not mine(OX,OY).
+candidate(CX,CY,1,"↙",X,Y) :- mine(X,Y), not any(CX,CY), lines(CX), lines(CY), CX=X+1, CY=Y-1, lines(OX), lines(OY), OX=X-1, OY=Y+1, not mine(OX,OY).
 
-candidate(7..11, 7..11, 1) :- #count{X,Y : any(X,Y)}<2. 	% internal ring as a fallback
+candidate(CX,CY,2,"↑",X1,Y1) :- line2(X1,Y1,X2,Y2, "V"), not any(CX,CY), lines(CX), lines(CY), CX=X1-1, CY=Y1+0.
+candidate(CX,CY,2,"↓",X1,Y1) :- line2(X1,Y1,X2,Y2, "V"), not any(CX,CY), lines(CX), lines(CY), CX=X2+1, CY=Y1+0.
+candidate(CX,CY,2,"←",X1,Y1) :- line2(X1,Y1,X2,Y2, "H"), not any(CX,CY), lines(CX), lines(CY), CX=X1+0, CY=Y1-1.
+candidate(CX,CY,2,"→",X1,Y1) :- line2(X1,Y1,X2,Y2, "H"), not any(CX,CY), lines(CX), lines(CY), CX=X1+0, CY=Y2+1.
+candidate(CX,CY,2,"↖",X1,Y1) :- line2(X1,Y1,X2,Y2,"D1"), not any(CX,CY), lines(CX), lines(CY), CX=X1-1, CY=Y1-1.
+candidate(CX,CY,2,"↘",X1,Y1) :- line2(X1,Y1,X2,Y2,"D1"), not any(CX,CY), lines(CX), lines(CY), CX=X2+1, CY=Y2+1.
+candidate(CX,CY,2,"↗",X1,Y1) :- line2(X1,Y1,X2,Y2,"D2"), not any(CX,CY), lines(CX), lines(CY), CX=X1-1, CY=Y1+1.
+candidate(CX,CY,2,"↙",X1,Y1) :- line2(X1,Y1,X2,Y2,"D2"), not any(CX,CY), lines(CX), lines(CY), CX=X2+1, CY=Y2-1.
 
-candidate(CX,CY,2) :- mine(X,Y), not any(CX,CY), lines(CX), lines(CY), CX=X-1, CY=Y+0.
-candidate(CX,CY,2) :- mine(X,Y), not any(CX,CY), lines(CX), lines(CY), CX=X+1, CY=Y+0.
-candidate(CX,CY,2) :- mine(X,Y), not any(CX,CY), lines(CX), lines(CY), CX=X+0, CY=Y-1.
-candidate(CX,CY,2) :- mine(X,Y), not any(CX,CY), lines(CX), lines(CY), CX=X+0, CY=Y+1.
-candidate(CX,CY,2) :- mine(X,Y), not any(CX,CY), lines(CX), lines(CY), CX=X-1, CY=Y-1.
-candidate(CX,CY,2) :- mine(X,Y), not any(CX,CY), lines(CX), lines(CY), CX=X+1, CY=Y+1.
-candidate(CX,CY,2) :- mine(X,Y), not any(CX,CY), lines(CX), lines(CY), CX=X-1, CY=Y+1.
-candidate(CX,CY,2) :- mine(X,Y), not any(CX,CY), lines(CX), lines(CY), CX=X+1, CY=Y-1.
+candidate(CX,CY,3,"↑",X1,Y1) :- line3(X1,Y1,X2,Y2, "V"), not any(CX,CY), lines(CX), lines(CY), CX=X1-1, CY=Y1+0.
+candidate(CX,CY,3,"↓",X1,Y1) :- line3(X1,Y1,X2,Y2, "V"), not any(CX,CY), lines(CX), lines(CY), CX=X2+1, CY=Y1+0.
+candidate(CX,CY,3,"←",X1,Y1) :- line3(X1,Y1,X2,Y2, "H"), not any(CX,CY), lines(CX), lines(CY), CX=X1+0, CY=Y1-1.
+candidate(CX,CY,3,"→",X1,Y1) :- line3(X1,Y1,X2,Y2, "H"), not any(CX,CY), lines(CX), lines(CY), CX=X1+0, CY=Y2+1.
+candidate(CX,CY,3,"↖",X1,Y1) :- line3(X1,Y1,X2,Y2,"D1"), not any(CX,CY), lines(CX), lines(CY), CX=X1-1, CY=Y1-1.
+candidate(CX,CY,3,"↘",X1,Y1) :- line3(X1,Y1,X2,Y2,"D1"), not any(CX,CY), lines(CX), lines(CY), CX=X2+1, CY=Y2+1.
+candidate(CX,CY,3,"↗",X1,Y1) :- line3(X1,Y1,X2,Y2,"D2"), not any(CX,CY), lines(CX), lines(CY), CX=X1-1, CY=Y1+1.
+candidate(CX,CY,3,"↙",X1,Y1) :- line3(X1,Y1,X2,Y2,"D2"), not any(CX,CY), lines(CX), lines(CY), CX=X2+1, CY=Y2-1.
 
-candidate(CX,CY,3) :- line2(X1,Y1,X2,Y2, "V"), not any(CX,CY), lines(CX), lines(CY), CX=X1-1, CY=Y1+0.
-candidate(CX,CY,3) :- line2(X1,Y1,X2,Y2, "V"), not any(CX,CY), lines(CX), lines(CY), CX=X2+1, CY=Y1+0.
-candidate(CX,CY,3) :- line2(X1,Y1,X2,Y2, "H"), not any(CX,CY), lines(CX), lines(CY), CX=X1+0, CY=Y1-1.
-candidate(CX,CY,3) :- line2(X1,Y1,X2,Y2, "H"), not any(CX,CY), lines(CX), lines(CY), CX=X1+0, CY=Y2+1.
-candidate(CX,CY,3) :- line2(X1,Y1,X2,Y2,"D1"), not any(CX,CY), lines(CX), lines(CY), CX=X1-1, CY=Y1-1.
-candidate(CX,CY,3) :- line2(X1,Y1,X2,Y2,"D1"), not any(CX,CY), lines(CX), lines(CY), CX=X2+1, CY=Y2+1.
-candidate(CX,CY,3) :- line2(X1,Y1,X2,Y2,"D2"), not any(CX,CY), lines(CX), lines(CY), CX=X1-1, CY=Y1+1.
-candidate(CX,CY,3) :- line2(X1,Y1,X2,Y2,"D2"), not any(CX,CY), lines(CX), lines(CY), CX=X2+1, CY=Y2-1.
-
-candidate(CX,CY,4) :- line3(X1,Y1,X2,Y2, "V"), not any(CX,CY), lines(CX), lines(CY), CX=X1-1, CY=Y1+0.
-candidate(CX,CY,4) :- line3(X1,Y1,X2,Y2, "V"), not any(CX,CY), lines(CX), lines(CY), CX=X2+1, CY=Y1+0.
-candidate(CX,CY,4) :- line3(X1,Y1,X2,Y2, "H"), not any(CX,CY), lines(CX), lines(CY), CX=X1+0, CY=Y1-1.
-candidate(CX,CY,4) :- line3(X1,Y1,X2,Y2, "H"), not any(CX,CY), lines(CX), lines(CY), CX=X1+0, CY=Y2+1.
-candidate(CX,CY,4) :- line3(X1,Y1,X2,Y2,"D1"), not any(CX,CY), lines(CX), lines(CY), CX=X1-1, CY=Y1-1.
-candidate(CX,CY,4) :- line3(X1,Y1,X2,Y2,"D1"), not any(CX,CY), lines(CX), lines(CY), CX=X2+1, CY=Y2+1.
-candidate(CX,CY,4) :- line3(X1,Y1,X2,Y2,"D2"), not any(CX,CY), lines(CX), lines(CY), CX=X1-1, CY=Y1+1.
-candidate(CX,CY,4) :- line3(X1,Y1,X2,Y2,"D2"), not any(CX,CY), lines(CX), lines(CY), CX=X2+1, CY=Y2-1.
-
-candidate(CX,CY,5) :- line4(X1,Y1,X2,Y2, "V"), not any(CX,CY), lines(CX), lines(CY), CX=X1-1, CY=Y1+0.
-candidate(CX,CY,5) :- line4(X1,Y1,X2,Y2, "V"), not any(CX,CY), lines(CX), lines(CY), CX=X2+1, CY=Y1+0.
-candidate(CX,CY,5) :- line4(X1,Y1,X2,Y2, "H"), not any(CX,CY), lines(CX), lines(CY), CX=X1+0, CY=Y1-1.
-candidate(CX,CY,5) :- line4(X1,Y1,X2,Y2, "H"), not any(CX,CY), lines(CX), lines(CY), CX=X1+0, CY=Y2+1.
-candidate(CX,CY,5) :- line4(X1,Y1,X2,Y2,"D1"), not any(CX,CY), lines(CX), lines(CY), CX=X1-1, CY=Y1-1.
-candidate(CX,CY,5) :- line4(X1,Y1,X2,Y2,"D1"), not any(CX,CY), lines(CX), lines(CY), CX=X2+1, CY=Y2+1.
-candidate(CX,CY,5) :- line4(X1,Y1,X2,Y2,"D2"), not any(CX,CY), lines(CX), lines(CY), CX=X1-1, CY=Y1+1.
-candidate(CX,CY,5) :- line4(X1,Y1,X2,Y2,"D2"), not any(CX,CY), lines(CX), lines(CY), CX=X2+1, CY=Y2-1.
+candidate(CX,CY,4,"↑",X1,Y1) :- line4(X1,Y1,X2,Y2, "V"), not any(CX,CY), lines(CX), lines(CY), CX=X1-1, CY=Y1+0.
+candidate(CX,CY,4,"↓",X1,Y1) :- line4(X1,Y1,X2,Y2, "V"), not any(CX,CY), lines(CX), lines(CY), CX=X2+1, CY=Y1+0.
+candidate(CX,CY,4,"←",X1,Y1) :- line4(X1,Y1,X2,Y2, "H"), not any(CX,CY), lines(CX), lines(CY), CX=X1+0, CY=Y1-1.
+candidate(CX,CY,4,"→",X1,Y1) :- line4(X1,Y1,X2,Y2, "H"), not any(CX,CY), lines(CX), lines(CY), CX=X1+0, CY=Y2+1.
+candidate(CX,CY,4,"↖",X1,Y1) :- line4(X1,Y1,X2,Y2,"D1"), not any(CX,CY), lines(CX), lines(CY), CX=X1-1, CY=Y1-1.
+candidate(CX,CY,4,"↘",X1,Y1) :- line4(X1,Y1,X2,Y2,"D1"), not any(CX,CY), lines(CX), lines(CY), CX=X2+1, CY=Y2+1.
+candidate(CX,CY,4,"↗",X1,Y1) :- line4(X1,Y1,X2,Y2,"D2"), not any(CX,CY), lines(CX), lines(CY), CX=X1-1, CY=Y1+1.
+candidate(CX,CY,4,"↙",X1,Y1) :- line4(X1,Y1,X2,Y2,"D2"), not any(CX,CY), lines(CX), lines(CY), CX=X2+1, CY=Y2-1.
 
 % same thing for enemy lines
-e_line4(SX,SY,EX,SY,"V") 	:- other(SX,SY), other(SX+1,SY), other(SX+2,SY), other(EX,SY), EX=SX+3.
-e_line4(SX,SY,SX,EY,"H") 	:- other(SX,SY), other(SX,SY+1), other(SX,SY+2), other(SX,EY), EY=SY+3.
-e_line4(SX,SY,EX,EY,"D1") 	:- other(SX,SY), other(SX+1,SY+1), other(SX+2,SY+2), other(EX,EY), EX=SX+3, EY=SY+3.
-e_line4(SX,SY,EX,EY,"D2") 	:- other(SX,SY), other(SX+1,SY-1), other(SX+2,SY-2), other(EX,EY), EX=SX+3, EY=SY-3.
+e_line4(SX,SY,EX,SY, "V") :- other(SX,SY), other(SX+1,  SY), other(SX+2,SY), other(EX,SY), EX=SX+3.
+e_line4(SX,SY,SX,EY, "H") :- other(SX,SY), other(SX,  SY+1), other(SX,SY+2), other(SX,EY), EY=SY+3.
+e_line4(SX,SY,EX,EY,"D1") :- other(SX,SY), other(SX+1,SY+1), other(SX+2,SY+2), other(EX,EY), EX=SX+3, EY=SY+3.
+e_line4(SX,SY,EX,EY,"D2") :- other(SX,SY), other(SX+1,SY-1), other(SX+2,SY-2), other(EX,EY), EX=SX+3, EY=SY-3.
 
-e_line3(SX,SY,EX,SY,"V")	:- other(SX,SY), other(SX+1,SY), other(EX,SY), EX=SX+2, not other(SX-1,SY), not other(EX+1,SY).
-e_line3(SX,SY,SX,EY,"H")	:- other(SX,SY), other(SX,SY+1), other(SX,EY), EY=SY+2, not other(SX,SY-1), not other(SX,EY+1).
-e_line3(SX,SY,EX,EY,"D1") 	:- other(SX,SY), other(SX+1,SY+1), other(EX,EY), EX=SX+2, EY=SY+2, not other(SX-1,SY-1), not other(EX+1,EY+1).
-e_line3(SX,SY,EX,EY,"D2") 	:- other(SX,SY), other(SX+1,SY-1), other(EX,EY), EX=SX+2, EY=SY-2, not other(SX-1,SY+1), not other(EX+1,EY-1).
+e_line3(SX,SY,EX,SY, "V") :- other(SX,SY), other(SX+1,  SY), other(EX,SY), EX=SX+2, not other(SX-1,SY), not other(EX+1,SY).
+e_line3(SX,SY,SX,EY, "H") :- other(SX,SY), other(SX,  SY+1), other(SX,EY), EY=SY+2, not other(SX,SY-1), not other(SX,EY+1).
+e_line3(SX,SY,EX,EY,"D1") :- other(SX,SY), other(SX+1,SY+1), other(EX,EY), EX=SX+2, EY=SY+2, not other(SX-1,SY-1), not other(EX+1,EY+1).
+e_line3(SX,SY,EX,EY,"D2") :- other(SX,SY), other(SX+1,SY-1), other(EX,EY), EX=SX+2, EY=SY-2, not other(SX-1,SY+1), not other(EX+1,EY-1).
 
-e_line2(SX,SY,EX,SY,"V") 	:- other(SX,SY), other(EX,SY), EX=SX+1, not other(SX-1,SY), not other(EX+1,SY).
-e_line2(SX,SY,SX,EY,"H") 	:- other(SX,SY), other(SX,EY), EY=SY+1, not other(SX,SY-1), not other(SX,EY+1).
-e_line2(SX,SY,EX,EY,"D1")	:- other(SX,SY), other(EX,EY), EX=SX+1, EY=SY+1, not other(SX-1,SY-1), not other(EX+1,EY+1).
-e_line2(SX,SY,EX,EY,"D2")	:- other(SX,SY), other(EX,EY), EX=SX+1, EY=SY-1, not other(SX-1,SY+1), not other(EX+1,EY-1).
+e_line2(SX,SY,EX,SY, "V") :- other(SX,SY), other(EX,SY), EX=SX+1, not other(SX-1,SY), not other(EX+1,SY).
+e_line2(SX,SY,SX,EY, "H") :- other(SX,SY), other(SX,EY), EY=SY+1, not other(SX,SY-1), not other(SX,EY+1).
+e_line2(SX,SY,EX,EY,"D1") :- other(SX,SY), other(EX,EY), EX=SX+1, EY=SY+1, not other(SX-1,SY-1), not other(EX+1,EY+1).
+e_line2(SX,SY,EX,EY,"D2") :- other(SX,SY), other(EX,EY), EX=SX+1, EY=SY-1, not other(SX-1,SY+1), not other(EX+1,EY-1).
+
+e_broken_line(SX,SY, "V") :- other(SX-1,   SY), not any(SX, SY), other(SX+1, SY), lines(SX), lines(SY).
+e_broken_line(SX,SY, "H") :- other(SX,   SY-1), not any(SX, SY), other(SX, SY+1), lines(SX), lines(SY).
+e_broken_line(SX,SY,"D1") :- other(SX-1, SY-1), not any(SX, SY), other(SX+1, SY+1), lines(SX), lines(SY).
+e_broken_line(SX,SY,"D2") :- other(SX-1, SY+1), not any(SX, SY), other(SX+1, SY-1), lines(SX), lines(SY).
 
 % those are positions designed to block enemy lines...
-obstacole(CX,CY,3) :- e_line2(X1,Y1,X2,Y2, "V"), not any(CX,CY), lines(CX), lines(CY), CX=X1-1, CY=Y1+0.
-obstacole(CX,CY,3) :- e_line2(X1,Y1,X2,Y2, "V"), not any(CX,CY), lines(CX), lines(CY), CX=X2+1, CY=Y1+0.
-obstacole(CX,CY,3) :- e_line2(X1,Y1,X2,Y2, "H"), not any(CX,CY), lines(CX), lines(CY), CX=X1+0, CY=Y1-1.
-obstacole(CX,CY,3) :- e_line2(X1,Y1,X2,Y2, "H"), not any(CX,CY), lines(CX), lines(CY), CX=X1+0, CY=Y2+1.
-obstacole(CX,CY,3) :- e_line2(X1,Y1,X2,Y2,"D1"), not any(CX,CY), lines(CX), lines(CY), CX=X1-1, CY=Y1-1.
-obstacole(CX,CY,3) :- e_line2(X1,Y1,X2,Y2,"D1"), not any(CX,CY), lines(CX), lines(CY), CX=X2+1, CY=Y2+1.
-obstacole(CX,CY,3) :- e_line2(X1,Y1,X2,Y2,"D2"), not any(CX,CY), lines(CX), lines(CY), CX=X1-1, CY=Y1+1.
-obstacole(CX,CY,3) :- e_line2(X1,Y1,X2,Y2,"D2"), not any(CX,CY), lines(CX), lines(CY), CX=X2+1, CY=Y2-1.
+start :- #count{X,Y: any(X,Y)}<3.
+obstacole(CX,CY,1,"↑",X,Y) :- other(X,Y), not any(CX,CY), lines(CX), lines(CY), CX=X-1, CY=Y+0, start.
+obstacole(CX,CY,1,"↓",X,Y) :- other(X,Y), not any(CX,CY), lines(CX), lines(CY), CX=X+1, CY=Y+0, start.
+obstacole(CX,CY,1,"←",X,Y) :- other(X,Y), not any(CX,CY), lines(CX), lines(CY), CX=X+0, CY=Y-1, start.
+obstacole(CX,CY,1,"→",X,Y) :- other(X,Y), not any(CX,CY), lines(CX), lines(CY), CX=X+0, CY=Y+1, start.
+obstacole(CX,CY,1,"↖",X,Y) :- other(X,Y), not any(CX,CY), lines(CX), lines(CY), CX=X-1, CY=Y-1, start.
+obstacole(CX,CY,1,"↘",X,Y) :- other(X,Y), not any(CX,CY), lines(CX), lines(CY), CX=X+1, CY=Y+1, start.
+obstacole(CX,CY,1,"↗",X,Y) :- other(X,Y), not any(CX,CY), lines(CX), lines(CY), CX=X-1, CY=Y+1, start.
+obstacole(CX,CY,1,"↙",X,Y) :- other(X,Y), not any(CX,CY), lines(CX), lines(CY), CX=X+1, CY=Y-1, start.
 
-obstacole(CX,CY,4) :- e_line3(X1,Y1,X2,Y2, "V"), not any(CX,CY), lines(CX), lines(CY), CX=X1-1, CY=Y1+0.
-obstacole(CX,CY,4) :- e_line3(X1,Y1,X2,Y2, "V"), not any(CX,CY), lines(CX), lines(CY), CX=X2+1, CY=Y1+0.
-obstacole(CX,CY,4) :- e_line3(X1,Y1,X2,Y2, "H"), not any(CX,CY), lines(CX), lines(CY), CX=X1+0, CY=Y1-1.
-obstacole(CX,CY,4) :- e_line3(X1,Y1,X2,Y2, "H"), not any(CX,CY), lines(CX), lines(CY), CX=X1+0, CY=Y2+1.
-obstacole(CX,CY,4) :- e_line3(X1,Y1,X2,Y2,"D1"), not any(CX,CY), lines(CX), lines(CY), CX=X1-1, CY=Y1-1.
-obstacole(CX,CY,4) :- e_line3(X1,Y1,X2,Y2,"D1"), not any(CX,CY), lines(CX), lines(CY), CX=X2+1, CY=Y2+1.
-obstacole(CX,CY,4) :- e_line3(X1,Y1,X2,Y2,"D2"), not any(CX,CY), lines(CX), lines(CY), CX=X1-1, CY=Y1+1.
-obstacole(CX,CY,4) :- e_line3(X1,Y1,X2,Y2,"D2"), not any(CX,CY), lines(CX), lines(CY), CX=X2+1, CY=Y2-1.
+obstacole(CX,CY,2,"↑",X1,Y1) :- e_line2(X1,Y1,X2,Y2, "V"), not any(CX,CY), lines(CX), lines(CY), CX=X1-1, CY=Y1+0.
+obstacole(CX,CY,2,"↓",X1,Y1) :- e_line2(X1,Y1,X2,Y2, "V"), not any(CX,CY), lines(CX), lines(CY), CX=X2+1, CY=Y1+0.
+obstacole(CX,CY,2,"←",X1,Y1) :- e_line2(X1,Y1,X2,Y2, "H"), not any(CX,CY), lines(CX), lines(CY), CX=X1+0, CY=Y1-1.
+obstacole(CX,CY,2,"→",X1,Y1) :- e_line2(X1,Y1,X2,Y2, "H"), not any(CX,CY), lines(CX), lines(CY), CX=X1+0, CY=Y2+1.
+obstacole(CX,CY,2,"↖",X1,Y1) :- e_line2(X1,Y1,X2,Y2,"D1"), not any(CX,CY), lines(CX), lines(CY), CX=X1-1, CY=Y1-1.
+obstacole(CX,CY,2,"↘",X1,Y1) :- e_line2(X1,Y1,X2,Y2,"D1"), not any(CX,CY), lines(CX), lines(CY), CX=X2+1, CY=Y2+1.
+obstacole(CX,CY,2,"↗",X1,Y1) :- e_line2(X1,Y1,X2,Y2,"D2"), not any(CX,CY), lines(CX), lines(CY), CX=X1-1, CY=Y1+1.
+obstacole(CX,CY,2,"↙",X1,Y1) :- e_line2(X1,Y1,X2,Y2,"D2"), not any(CX,CY), lines(CX), lines(CY), CX=X2+1, CY=Y2-1.
 
-obstacole(CX,CY,5) :- e_line4(X1,Y1,X2,Y2, "V"), not any(CX,CY), lines(CX), lines(CY), CX=X1-1, CY=Y1+0.
-obstacole(CX,CY,5) :- e_line4(X1,Y1,X2,Y2, "V"), not any(CX,CY), lines(CX), lines(CY), CX=X2+1, CY=Y1+0.
-obstacole(CX,CY,5) :- e_line4(X1,Y1,X2,Y2, "H"), not any(CX,CY), lines(CX), lines(CY), CX=X1+0, CY=Y1-1.
-obstacole(CX,CY,5) :- e_line4(X1,Y1,X2,Y2, "H"), not any(CX,CY), lines(CX), lines(CY), CX=X1+0, CY=Y2+1.
-obstacole(CX,CY,5) :- e_line4(X1,Y1,X2,Y2,"D1"), not any(CX,CY), lines(CX), lines(CY), CX=X1-1, CY=Y1-1.
-obstacole(CX,CY,5) :- e_line4(X1,Y1,X2,Y2,"D1"), not any(CX,CY), lines(CX), lines(CY), CX=X2+1, CY=Y2+1.
-obstacole(CX,CY,5) :- e_line4(X1,Y1,X2,Y2,"D2"), not any(CX,CY), lines(CX), lines(CY), CX=X1-1, CY=Y1+1.
-obstacole(CX,CY,5) :- e_line4(X1,Y1,X2,Y2,"D2"), not any(CX,CY), lines(CX), lines(CY), CX=X2+1, CY=Y2-1.
+obstacole(CX,CY,3,"↑",X1,Y1) :- e_line3(X1,Y1,X2,Y2, "V"), not any(CX,CY), lines(CX), lines(CY), CX=X1-1, CY=Y1+0.
+obstacole(CX,CY,3,"↓",X1,Y1) :- e_line3(X1,Y1,X2,Y2, "V"), not any(CX,CY), lines(CX), lines(CY), CX=X2+1, CY=Y1+0.
+obstacole(CX,CY,3,"←",X1,Y1) :- e_line3(X1,Y1,X2,Y2, "H"), not any(CX,CY), lines(CX), lines(CY), CX=X1+0, CY=Y1-1.
+obstacole(CX,CY,3,"→",X1,Y1) :- e_line3(X1,Y1,X2,Y2, "H"), not any(CX,CY), lines(CX), lines(CY), CX=X1+0, CY=Y2+1.
+obstacole(CX,CY,3,"↖",X1,Y1) :- e_line3(X1,Y1,X2,Y2,"D1"), not any(CX,CY), lines(CX), lines(CY), CX=X1-1, CY=Y1-1.
+obstacole(CX,CY,3,"↘",X1,Y1) :- e_line3(X1,Y1,X2,Y2,"D1"), not any(CX,CY), lines(CX), lines(CY), CX=X2+1, CY=Y2+1.
+obstacole(CX,CY,3,"↗",X1,Y1) :- e_line3(X1,Y1,X2,Y2,"D2"), not any(CX,CY), lines(CX), lines(CY), CX=X1-1, CY=Y1+1.
+obstacole(CX,CY,3,"↙",X1,Y1) :- e_line3(X1,Y1,X2,Y2,"D2"), not any(CX,CY), lines(CX), lines(CY), CX=X2+1, CY=Y2-1.
 
-% possible positions
-pos(A,B,C) :- candidate(A,B,C).
-pos(A,B,C) :- obstacole(A,B,C).
+obstacole(CX,CY,4,"↑",X1,Y1) :- e_line4(X1,Y1,X2,Y2, "V"), not any(CX,CY), lines(CX), lines(CY), CX=X1-1, CY=Y1+0.
+obstacole(CX,CY,4,"↓",X1,Y1) :- e_line4(X1,Y1,X2,Y2, "V"), not any(CX,CY), lines(CX), lines(CY), CX=X2+1, CY=Y1+0.
+obstacole(CX,CY,4,"←",X1,Y1) :- e_line4(X1,Y1,X2,Y2, "H"), not any(CX,CY), lines(CX), lines(CY), CX=X1+0, CY=Y1-1.
+obstacole(CX,CY,4,"→",X1,Y1) :- e_line4(X1,Y1,X2,Y2, "H"), not any(CX,CY), lines(CX), lines(CY), CX=X1+0, CY=Y2+1.
+obstacole(CX,CY,4,"↖",X1,Y1) :- e_line4(X1,Y1,X2,Y2,"D1"), not any(CX,CY), lines(CX), lines(CY), CX=X1-1, CY=Y1-1.
+obstacole(CX,CY,4,"↘",X1,Y1) :- e_line4(X1,Y1,X2,Y2,"D1"), not any(CX,CY), lines(CX), lines(CY), CX=X2+1, CY=Y2+1.
+obstacole(CX,CY,4,"↗",X1,Y1) :- e_line4(X1,Y1,X2,Y2,"D2"), not any(CX,CY), lines(CX), lines(CY), CX=X1-1, CY=Y1+1.
+obstacole(CX,CY,4,"↙",X1,Y1) :- e_line4(X1,Y1,X2,Y2,"D2"), not any(CX,CY), lines(CX), lines(CY), CX=X2+1, CY=Y2-1.
 
-% guess a position
-notMax(X,Y,L) :- pos(X,Y,L), pos(X1,Y1,L1), L<L1.
-placed(X,Y,P) | notPlaced(X,Y,P) :- pos(X,Y,L), not notMax(X,Y,L), player(P).
+% compute weights for every position
+weights(A,B,WT) :- candidate(A,B,_,_,_,_), #sum{W,X,Y: candidate(A,B,W,D,X,Y)}=C, #count{A,B,W1: broken_line(A,B,W1)}=BL, WT=BL+C.
+e_weights(A,B,WT) :- obstacole(A,B,_,_,_,_), #sum{W,X,Y: obstacole(A,B,W,D,X,Y)}=O, #count{A,B,W1: e_broken_line(A,B,W1)}=EBL, WT=EBL+O.
 
-% choose only one position
+pos(A,B,C) :- candidate(A,B,_,_,_,_), #sum{W : weights(A,B,W)}=H1, #sum{W1 : e_weights(A,B,W1)}=H2, C=H1+H2.
+pos(A,B,C) :- obstacole(A,B,_,_,_,_), #sum{W : weights(A,B,W)}=H1, #sum{W1 : e_weights(A,B,W1)}=H2, C=H1+H2.
+
+pos(X,X,1):- start, size(S), X=(S/2)-1.
+
+% java optimal AS fallback
+:~ size(X). [1@1]
+
+dir("↑","V"). dir("↓","V").
+dir("←","H"). dir("→","H").
+dir("↖","D1"). dir("↘","D1").
+dir("↗","D2"). dir("↙","D2").
+
+longest(X) :- candidate(_,_,X,_,_,_).
+longest_line(N) :- #max{X: longest(X)}=N.
+
+e_longest(X) :- obstacole(_,_,X,_,_,_).
+e_longest_line(N) :- #max{X: e_longest(X)}=N.
+
+% assert who is the favoured player in the current round
+advantage :- longest_line(N), e_longest_line(M), N>=M.
+disadvantage :- longest_line(N), e_longest_line(M), N<M.
+
+% GUESS A POSITION
+placed(X,Y,P) | notPlaced(X,Y,P) :- pos(X,Y,L), player(P).
+
+% choose only one place
 :- #count{X,Y: placed(X,Y,_)}!=1.
 
 % it must be free and legal
 :- placed(X,Y,_), pawn(X,Y,_).
 
-:~ placed(X,Y,_), pos(X1,Y1,L), X!=X1, Y!=Y1. [1@L]
+% choose the most valued position if you can
+:~ placed(X,Y,_), pos(X,Y,W), pos(X1,Y1,W1), W1>W, size(Size), S=Size-1, X*S+Y<>X1*S+Y1. [1@1]
+:~ placed(X,Y,_), pos(X,Y,W), pos(X1,Y1,W1), e_broken_line(X1,Y1,_), W1>=W, size(Size), S=Size-1, X*S+Y<>X1*S+Y1.[1@6]
 
-% count the candidates and the obstacoles and evaluate
-% penalty(D,2):- #count{XC,YC : candidate(XC,YC,2)}=D.
-% penalty(D,3):- #count{XC,YC,EX,EY : e_line2(XC,YC,EX,EY,_)}=C, #count{XO,YO,EX,EY : line2(XO,YO,EX,EY,_)}=O, D=O-C.
-% penalty(D,4):- #count{XC,YC,EX,EY : e_line3(XC,YC,EX,EY,_)}=C, #count{XO,YO,EX,EY : line3(XO,YO,EX,EY,_)}=O, D=O-C.
-% penalty(D,5):- #count{XC,YC,EX,EY : e_line4(XC,YC,EX,EY,_)}=C, #count{XO,YO,EX,EY : line4(XO,YO,EX,EY,_)}=O, D=O-C.
+% privilege positions that make longer lines
+:~ placed(X,Y,_), pos(X1,Y1,_), size(Size), S=Size-1, X*S+Y<>X1*S+Y1, candidate(X1,Y1,4,F,L1,L2), line4(L1,L2,_,_,D), dir(F,D). [1@2, L1,L2]
+:~ placed(X,Y,_), pos(X1,Y1,_), size(Size), S=Size-1, X*S+Y<>X1*S+Y1, candidate(X1,Y1,_,F,L1,L2), line3(L1,L2,_,_,D), dir(F,D). [1@3, L1,L2]
+:~ placed(X,Y,_), pos(X1,Y1,_), size(Size), S=Size-1, X*S+Y<>X1*S+Y1, candidate(X1,Y1,_,F,L1,L2), line2(L1,L2,_,_,D), dir(F,D). [1@4, L1,L2]
 
-%:~ penalty(D,L), D>0. [D@L]
+:~ placed(X,Y,_), pos(X,Y,_), pos(X1,Y1,_), size(Size), S=Size-1, X*S+Y<>X1*S+Y1, candidate(X1,Y1,4,_,_,_). [1@7, X1,Y1]
+:~ placed(X,Y,_), pos(X,Y,_), pos(X1,Y1,_), size(Size), S=Size-1, X*S+Y<>X1*S+Y1, obstacole(X1,Y1,4,_,_,_). [1@7, X1,Y1]
 
-%%%%%%% give priority to longest possible position
+% privilege positions that hinder enemy lines
+:~ placed(X,Y,_), pos(X1,Y1,_), size(Size), S=Size-1, X*S+Y<>X1*S+Y1, obstacole(X1,Y1,_,F,L1,L2), e_line4(L1,L2,_,_,D), dir(F,D). [1@2, L1,L2]
+:~ placed(X,Y,_), pos(X1,Y1,_), size(Size), S=Size-1, X*S+Y<>X1*S+Y1, obstacole(X1,Y1,_,F,L1,L2), e_line3(L1,L2,_,_,D), dir(F,D). [1@3, L1,L2]
+:~ placed(X,Y,_), pos(X1,Y1,_), size(Size), S=Size-1, X*S+Y<>X1*S+Y1, obstacole(X1,Y1,_,F,L1,L2), e_line2(L1,L2,_,_,D), dir(F,D). [1@4, L1,L2]
+
+% problem here with broken_line...
+% choose a position that benefits you if you have an advantage
+bestmove :- advantage, placed(X,Y,_), candidate(X,Y,4,F,L1,L2), line4(L1,L2,_,_,D), longest_line(4), dir(F,D).
+bestmove :- advantage, placed(X,Y,_), candidate(X,Y,3,F,L1,L2), line3(L1,L2,_,_,D), longest_line(3), dir(F,D).
+bestmove :- advantage, placed(X,Y,_), candidate(X,Y,2,F,L1,L2), line2(L1,L2,_,_,D), longest_line(2), dir(F,D).
+
+% choose a position that obstructs the enemy if they have an advantage
+bestmove :- disadvantage, placed(X,Y,_), obstacole(X,Y,4,F,L1,L2), e_line4(L1,L2,_,_,D), e_longest_line(4), dir(F,D).
+bestmove :- disadvantage, placed(X,Y,_), obstacole(X,Y,3,F,L1,L2), e_line3(L1,L2,_,_,D), e_longest_line(3), dir(F,D).
+bestmove :- disadvantage, placed(X,Y,_), obstacole(X,Y,2,F,L1,L2), e_line2(L1,L2,_,_,D), e_longest_line(2), dir(F,D).
+
+:~ not bestmove. [1@5]
