@@ -99,48 +99,48 @@ e_broken_line(SX,SY,"D2") :- other(SX-1, SY+1), not any(SX, SY), other(SX+1, SY-
 
 % those are positions designed to block enemy lines...
 start :- #count{X,Y: any(X,Y)}<3.
-obstacole(CX,CY,1,"↑",X,Y) :- other(X,Y), not any(CX,CY), lines(CX), lines(CY), CX=X-1, CY=Y+0, start.
-obstacole(CX,CY,1,"↓",X,Y) :- other(X,Y), not any(CX,CY), lines(CX), lines(CY), CX=X+1, CY=Y+0, start.
-obstacole(CX,CY,1,"←",X,Y) :- other(X,Y), not any(CX,CY), lines(CX), lines(CY), CX=X+0, CY=Y-1, start.
-obstacole(CX,CY,1,"→",X,Y) :- other(X,Y), not any(CX,CY), lines(CX), lines(CY), CX=X+0, CY=Y+1, start.
-obstacole(CX,CY,1,"↖",X,Y) :- other(X,Y), not any(CX,CY), lines(CX), lines(CY), CX=X-1, CY=Y-1, start.
-obstacole(CX,CY,1,"↘",X,Y) :- other(X,Y), not any(CX,CY), lines(CX), lines(CY), CX=X+1, CY=Y+1, start.
-obstacole(CX,CY,1,"↗",X,Y) :- other(X,Y), not any(CX,CY), lines(CX), lines(CY), CX=X-1, CY=Y+1, start.
-obstacole(CX,CY,1,"↙",X,Y) :- other(X,Y), not any(CX,CY), lines(CX), lines(CY), CX=X+1, CY=Y-1, start.
+obstacle(CX,CY,1,"↑",X,Y) :- other(X,Y), not any(CX,CY), lines(CX), lines(CY), CX=X-1, CY=Y+0, start.
+obstacle(CX,CY,1,"↓",X,Y) :- other(X,Y), not any(CX,CY), lines(CX), lines(CY), CX=X+1, CY=Y+0, start.
+obstacle(CX,CY,1,"←",X,Y) :- other(X,Y), not any(CX,CY), lines(CX), lines(CY), CX=X+0, CY=Y-1, start.
+obstacle(CX,CY,1,"→",X,Y) :- other(X,Y), not any(CX,CY), lines(CX), lines(CY), CX=X+0, CY=Y+1, start.
+obstacle(CX,CY,1,"↖",X,Y) :- other(X,Y), not any(CX,CY), lines(CX), lines(CY), CX=X-1, CY=Y-1, start.
+obstacle(CX,CY,1,"↘",X,Y) :- other(X,Y), not any(CX,CY), lines(CX), lines(CY), CX=X+1, CY=Y+1, start.
+obstacle(CX,CY,1,"↗",X,Y) :- other(X,Y), not any(CX,CY), lines(CX), lines(CY), CX=X-1, CY=Y+1, start.
+obstacle(CX,CY,1,"↙",X,Y) :- other(X,Y), not any(CX,CY), lines(CX), lines(CY), CX=X+1, CY=Y-1, start.
 
-obstacole(CX,CY,2,"↑",X1,Y1) :- e_line2(X1,Y1,X2,Y2, "V"), not any(CX,CY), lines(CX), lines(CY), CX=X1-1, CY=Y1+0.
-obstacole(CX,CY,2,"↓",X1,Y1) :- e_line2(X1,Y1,X2,Y2, "V"), not any(CX,CY), lines(CX), lines(CY), CX=X2+1, CY=Y1+0.
-obstacole(CX,CY,2,"←",X1,Y1) :- e_line2(X1,Y1,X2,Y2, "H"), not any(CX,CY), lines(CX), lines(CY), CX=X1+0, CY=Y1-1.
-obstacole(CX,CY,2,"→",X1,Y1) :- e_line2(X1,Y1,X2,Y2, "H"), not any(CX,CY), lines(CX), lines(CY), CX=X1+0, CY=Y2+1.
-obstacole(CX,CY,2,"↖",X1,Y1) :- e_line2(X1,Y1,X2,Y2,"D1"), not any(CX,CY), lines(CX), lines(CY), CX=X1-1, CY=Y1-1.
-obstacole(CX,CY,2,"↘",X1,Y1) :- e_line2(X1,Y1,X2,Y2,"D1"), not any(CX,CY), lines(CX), lines(CY), CX=X2+1, CY=Y2+1.
-obstacole(CX,CY,2,"↗",X1,Y1) :- e_line2(X1,Y1,X2,Y2,"D2"), not any(CX,CY), lines(CX), lines(CY), CX=X1-1, CY=Y1+1.
-obstacole(CX,CY,2,"↙",X1,Y1) :- e_line2(X1,Y1,X2,Y2,"D2"), not any(CX,CY), lines(CX), lines(CY), CX=X2+1, CY=Y2-1.
+obstacle(CX,CY,2,"↑",X1,Y1) :- e_line2(X1,Y1,X2,Y2, "V"), not any(CX,CY), lines(CX), lines(CY), CX=X1-1, CY=Y1+0.
+obstacle(CX,CY,2,"↓",X1,Y1) :- e_line2(X1,Y1,X2,Y2, "V"), not any(CX,CY), lines(CX), lines(CY), CX=X2+1, CY=Y1+0.
+obstacle(CX,CY,2,"←",X1,Y1) :- e_line2(X1,Y1,X2,Y2, "H"), not any(CX,CY), lines(CX), lines(CY), CX=X1+0, CY=Y1-1.
+obstacle(CX,CY,2,"→",X1,Y1) :- e_line2(X1,Y1,X2,Y2, "H"), not any(CX,CY), lines(CX), lines(CY), CX=X1+0, CY=Y2+1.
+obstacle(CX,CY,2,"↖",X1,Y1) :- e_line2(X1,Y1,X2,Y2,"D1"), not any(CX,CY), lines(CX), lines(CY), CX=X1-1, CY=Y1-1.
+obstacle(CX,CY,2,"↘",X1,Y1) :- e_line2(X1,Y1,X2,Y2,"D1"), not any(CX,CY), lines(CX), lines(CY), CX=X2+1, CY=Y2+1.
+obstacle(CX,CY,2,"↗",X1,Y1) :- e_line2(X1,Y1,X2,Y2,"D2"), not any(CX,CY), lines(CX), lines(CY), CX=X1-1, CY=Y1+1.
+obstacle(CX,CY,2,"↙",X1,Y1) :- e_line2(X1,Y1,X2,Y2,"D2"), not any(CX,CY), lines(CX), lines(CY), CX=X2+1, CY=Y2-1.
 
-obstacole(CX,CY,3,"↑",X1,Y1) :- e_line3(X1,Y1,X2,Y2, "V"), not any(CX,CY), lines(CX), lines(CY), CX=X1-1, CY=Y1+0.
-obstacole(CX,CY,3,"↓",X1,Y1) :- e_line3(X1,Y1,X2,Y2, "V"), not any(CX,CY), lines(CX), lines(CY), CX=X2+1, CY=Y1+0.
-obstacole(CX,CY,3,"←",X1,Y1) :- e_line3(X1,Y1,X2,Y2, "H"), not any(CX,CY), lines(CX), lines(CY), CX=X1+0, CY=Y1-1.
-obstacole(CX,CY,3,"→",X1,Y1) :- e_line3(X1,Y1,X2,Y2, "H"), not any(CX,CY), lines(CX), lines(CY), CX=X1+0, CY=Y2+1.
-obstacole(CX,CY,3,"↖",X1,Y1) :- e_line3(X1,Y1,X2,Y2,"D1"), not any(CX,CY), lines(CX), lines(CY), CX=X1-1, CY=Y1-1.
-obstacole(CX,CY,3,"↘",X1,Y1) :- e_line3(X1,Y1,X2,Y2,"D1"), not any(CX,CY), lines(CX), lines(CY), CX=X2+1, CY=Y2+1.
-obstacole(CX,CY,3,"↗",X1,Y1) :- e_line3(X1,Y1,X2,Y2,"D2"), not any(CX,CY), lines(CX), lines(CY), CX=X1-1, CY=Y1+1.
-obstacole(CX,CY,3,"↙",X1,Y1) :- e_line3(X1,Y1,X2,Y2,"D2"), not any(CX,CY), lines(CX), lines(CY), CX=X2+1, CY=Y2-1.
+obstacle(CX,CY,3,"↑",X1,Y1) :- e_line3(X1,Y1,X2,Y2, "V"), not any(CX,CY), lines(CX), lines(CY), CX=X1-1, CY=Y1+0.
+obstacle(CX,CY,3,"↓",X1,Y1) :- e_line3(X1,Y1,X2,Y2, "V"), not any(CX,CY), lines(CX), lines(CY), CX=X2+1, CY=Y1+0.
+obstacle(CX,CY,3,"←",X1,Y1) :- e_line3(X1,Y1,X2,Y2, "H"), not any(CX,CY), lines(CX), lines(CY), CX=X1+0, CY=Y1-1.
+obstacle(CX,CY,3,"→",X1,Y1) :- e_line3(X1,Y1,X2,Y2, "H"), not any(CX,CY), lines(CX), lines(CY), CX=X1+0, CY=Y2+1.
+obstacle(CX,CY,3,"↖",X1,Y1) :- e_line3(X1,Y1,X2,Y2,"D1"), not any(CX,CY), lines(CX), lines(CY), CX=X1-1, CY=Y1-1.
+obstacle(CX,CY,3,"↘",X1,Y1) :- e_line3(X1,Y1,X2,Y2,"D1"), not any(CX,CY), lines(CX), lines(CY), CX=X2+1, CY=Y2+1.
+obstacle(CX,CY,3,"↗",X1,Y1) :- e_line3(X1,Y1,X2,Y2,"D2"), not any(CX,CY), lines(CX), lines(CY), CX=X1-1, CY=Y1+1.
+obstacle(CX,CY,3,"↙",X1,Y1) :- e_line3(X1,Y1,X2,Y2,"D2"), not any(CX,CY), lines(CX), lines(CY), CX=X2+1, CY=Y2-1.
 
-obstacole(CX,CY,4,"↑",X1,Y1) :- e_line4(X1,Y1,X2,Y2, "V"), not any(CX,CY), lines(CX), lines(CY), CX=X1-1, CY=Y1+0.
-obstacole(CX,CY,4,"↓",X1,Y1) :- e_line4(X1,Y1,X2,Y2, "V"), not any(CX,CY), lines(CX), lines(CY), CX=X2+1, CY=Y1+0.
-obstacole(CX,CY,4,"←",X1,Y1) :- e_line4(X1,Y1,X2,Y2, "H"), not any(CX,CY), lines(CX), lines(CY), CX=X1+0, CY=Y1-1.
-obstacole(CX,CY,4,"→",X1,Y1) :- e_line4(X1,Y1,X2,Y2, "H"), not any(CX,CY), lines(CX), lines(CY), CX=X1+0, CY=Y2+1.
-obstacole(CX,CY,4,"↖",X1,Y1) :- e_line4(X1,Y1,X2,Y2,"D1"), not any(CX,CY), lines(CX), lines(CY), CX=X1-1, CY=Y1-1.
-obstacole(CX,CY,4,"↘",X1,Y1) :- e_line4(X1,Y1,X2,Y2,"D1"), not any(CX,CY), lines(CX), lines(CY), CX=X2+1, CY=Y2+1.
-obstacole(CX,CY,4,"↗",X1,Y1) :- e_line4(X1,Y1,X2,Y2,"D2"), not any(CX,CY), lines(CX), lines(CY), CX=X1-1, CY=Y1+1.
-obstacole(CX,CY,4,"↙",X1,Y1) :- e_line4(X1,Y1,X2,Y2,"D2"), not any(CX,CY), lines(CX), lines(CY), CX=X2+1, CY=Y2-1.
+obstacle(CX,CY,4,"↑",X1,Y1) :- e_line4(X1,Y1,X2,Y2, "V"), not any(CX,CY), lines(CX), lines(CY), CX=X1-1, CY=Y1+0.
+obstacle(CX,CY,4,"↓",X1,Y1) :- e_line4(X1,Y1,X2,Y2, "V"), not any(CX,CY), lines(CX), lines(CY), CX=X2+1, CY=Y1+0.
+obstacle(CX,CY,4,"←",X1,Y1) :- e_line4(X1,Y1,X2,Y2, "H"), not any(CX,CY), lines(CX), lines(CY), CX=X1+0, CY=Y1-1.
+obstacle(CX,CY,4,"→",X1,Y1) :- e_line4(X1,Y1,X2,Y2, "H"), not any(CX,CY), lines(CX), lines(CY), CX=X1+0, CY=Y2+1.
+obstacle(CX,CY,4,"↖",X1,Y1) :- e_line4(X1,Y1,X2,Y2,"D1"), not any(CX,CY), lines(CX), lines(CY), CX=X1-1, CY=Y1-1.
+obstacle(CX,CY,4,"↘",X1,Y1) :- e_line4(X1,Y1,X2,Y2,"D1"), not any(CX,CY), lines(CX), lines(CY), CX=X2+1, CY=Y2+1.
+obstacle(CX,CY,4,"↗",X1,Y1) :- e_line4(X1,Y1,X2,Y2,"D2"), not any(CX,CY), lines(CX), lines(CY), CX=X1-1, CY=Y1+1.
+obstacle(CX,CY,4,"↙",X1,Y1) :- e_line4(X1,Y1,X2,Y2,"D2"), not any(CX,CY), lines(CX), lines(CY), CX=X2+1, CY=Y2-1.
 
 % compute weights for every position
 weights(A,B,WT) :- candidate(A,B,_,_,_,_), #sum{W,X,Y: candidate(A,B,W,D,X,Y)}=C, #count{A,B,W1: broken_line(A,B,W1)}=BL, WT=BL+C.
-e_weights(A,B,WT) :- obstacole(A,B,_,_,_,_), #sum{W,X,Y: obstacole(A,B,W,D,X,Y)}=O, #count{A,B,W1: e_broken_line(A,B,W1)}=EBL, WT=EBL+O.
+e_weights(A,B,WT) :- obstacle(A,B,_,_,_,_), #sum{W,X,Y: obstacle(A,B,W,D,X,Y)}=O, #count{A,B,W1: e_broken_line(A,B,W1)}=EBL, WT=EBL+O.
 
 pos(A,B,C) :- candidate(A,B,_,_,_,_), #sum{W : weights(A,B,W)}=H1, #sum{W1 : e_weights(A,B,W1)}=H2, C=H1+H2.
-pos(A,B,C) :- obstacole(A,B,_,_,_,_), #sum{W : weights(A,B,W)}=H1, #sum{W1 : e_weights(A,B,W1)}=H2, C=H1+H2.
+pos(A,B,C) :- obstacle(A,B,_,_,_,_), #sum{W : weights(A,B,W)}=H1, #sum{W1 : e_weights(A,B,W1)}=H2, C=H1+H2.
 
 pos(X,X,1):- start, size(S), X=(S/2)-1.
 
@@ -155,7 +155,7 @@ dir("↗","D2"). dir("↙","D2").
 longest(X) :- candidate(_,_,X,_,_,_).
 longest_line(N) :- #max{X: longest(X)}=N.
 
-e_longest(X) :- obstacole(_,_,X,_,_,_).
+e_longest(X) :- obstacle(_,_,X,_,_,_).
 e_longest_line(N) :- #max{X: e_longest(X)}=N.
 
 % assert who is the favoured player in the current round
@@ -181,12 +181,12 @@ placed(X,Y,P) | notPlaced(X,Y,P) :- pos(X,Y,L), player(P).
 :~ placed(X,Y,_), pos(X1,Y1,_), size(Size), S=Size-1, X*S+Y<>X1*S+Y1, candidate(X1,Y1,_,F,L1,L2), line2(L1,L2,_,_,D), dir(F,D). [1@4, L1,L2]
 
 :~ placed(X,Y,_), pos(X,Y,_), pos(X1,Y1,_), size(Size), S=Size-1, X*S+Y<>X1*S+Y1, candidate(X1,Y1,4,_,_,_). [1@7, X1,Y1]
-:~ placed(X,Y,_), pos(X,Y,_), pos(X1,Y1,_), size(Size), S=Size-1, X*S+Y<>X1*S+Y1, obstacole(X1,Y1,4,_,_,_). [1@7, X1,Y1]
+:~ placed(X,Y,_), pos(X,Y,_), pos(X1,Y1,_), size(Size), S=Size-1, X*S+Y<>X1*S+Y1, obstacle(X1,Y1,4,_,_,_). [1@7, X1,Y1]
 
 % privilege positions that hinder enemy lines
-:~ placed(X,Y,_), pos(X1,Y1,_), size(Size), S=Size-1, X*S+Y<>X1*S+Y1, obstacole(X1,Y1,_,F,L1,L2), e_line4(L1,L2,_,_,D), dir(F,D). [1@2, L1,L2]
-:~ placed(X,Y,_), pos(X1,Y1,_), size(Size), S=Size-1, X*S+Y<>X1*S+Y1, obstacole(X1,Y1,_,F,L1,L2), e_line3(L1,L2,_,_,D), dir(F,D). [1@3, L1,L2]
-:~ placed(X,Y,_), pos(X1,Y1,_), size(Size), S=Size-1, X*S+Y<>X1*S+Y1, obstacole(X1,Y1,_,F,L1,L2), e_line2(L1,L2,_,_,D), dir(F,D). [1@4, L1,L2]
+:~ placed(X,Y,_), pos(X1,Y1,_), size(Size), S=Size-1, X*S+Y<>X1*S+Y1, obstacle(X1,Y1,_,F,L1,L2), e_line4(L1,L2,_,_,D), dir(F,D). [1@2, L1,L2]
+:~ placed(X,Y,_), pos(X1,Y1,_), size(Size), S=Size-1, X*S+Y<>X1*S+Y1, obstacle(X1,Y1,_,F,L1,L2), e_line3(L1,L2,_,_,D), dir(F,D). [1@3, L1,L2]
+:~ placed(X,Y,_), pos(X1,Y1,_), size(Size), S=Size-1, X*S+Y<>X1*S+Y1, obstacle(X1,Y1,_,F,L1,L2), e_line2(L1,L2,_,_,D), dir(F,D). [1@4, L1,L2]
 
 % problem here with broken_line...
 % choose a position that benefits you if you have an advantage
@@ -195,8 +195,8 @@ bestmove :- advantage, placed(X,Y,_), candidate(X,Y,3,F,L1,L2), line3(L1,L2,_,_,
 bestmove :- advantage, placed(X,Y,_), candidate(X,Y,2,F,L1,L2), line2(L1,L2,_,_,D), longest_line(2), dir(F,D).
 
 % choose a position that obstructs the enemy if they have an advantage
-bestmove :- disadvantage, placed(X,Y,_), obstacole(X,Y,4,F,L1,L2), e_line4(L1,L2,_,_,D), e_longest_line(4), dir(F,D).
-bestmove :- disadvantage, placed(X,Y,_), obstacole(X,Y,3,F,L1,L2), e_line3(L1,L2,_,_,D), e_longest_line(3), dir(F,D).
-bestmove :- disadvantage, placed(X,Y,_), obstacole(X,Y,2,F,L1,L2), e_line2(L1,L2,_,_,D), e_longest_line(2), dir(F,D).
+bestmove :- disadvantage, placed(X,Y,_), obstacle(X,Y,4,F,L1,L2), e_line4(L1,L2,_,_,D), e_longest_line(4), dir(F,D).
+bestmove :- disadvantage, placed(X,Y,_), obstacle(X,Y,3,F,L1,L2), e_line3(L1,L2,_,_,D), e_longest_line(3), dir(F,D).
+bestmove :- disadvantage, placed(X,Y,_), obstacle(X,Y,2,F,L1,L2), e_line2(L1,L2,_,_,D), e_longest_line(2), dir(F,D).
 
 :~ not bestmove. [1@5]
